@@ -1,0 +1,25 @@
+{% load static %}
+
+{% block nav-style %}
+
+
+             <!--Profil-->
+            <li>
+            <a href="{% url 'musicians:profile' %}">
+                <i  class="material-icons tooltipped  " data-tooltip="Profil" >settings </i>
+            </a></li>
+
+            <!--Deconnexion-->
+            <li>
+            <a href="{% url 'authentication:logout' %}">
+                <i  class=" material-icons tooltipped custom_icons" data-tooltip="Deconnexion" >eject</i>
+            </a></li>
+
+
+<script>
+      $(document).ready(function(){
+    $('.tooltipped').tooltip();
+  });
+</script>
+
+{% endblock %}

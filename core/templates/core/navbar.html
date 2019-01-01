@@ -1,0 +1,41 @@
+
+{% load static %}
+{% block nav-style %}
+  <nav class=" nav-custom">
+    <div class="nav-wrapper grey darken-1 z-depth-4">
+        <div class="row">
+      <a href="#!" class="brand-logo">
+          <img alt = "logo" style = 'margin: 20px' class='responsive-img' src="{% static 'core/img/logo_brand3.png' %}">
+      </a>
+
+        </div>
+      <ul style = 'margin: 10px' class=" right hide-on-med-and-down ">
+        <li><a href=""><i class="material-icons ">search</i></a></li>
+
+            {% if user.is_authenticated %}
+            {% include "core/navbar_connected.html" %}
+            {% else %}
+            <li>
+                <a href="{% url 'authentication:login' %}">
+                <i style='font-size: 40px' class=" material-icons  tooltipped " data-tooltip="Se connecter" >loop </i>
+            </a>
+
+            </li>
+            <li>
+            <a href="{% url 'authentication:signup' %}">
+                <i style='font-size: 40px' class=" material-icons  tooltipped " data-tooltip="Créer un compte" >account_box </i>
+            </a></li>
+          {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+<script>
+  $(document).ready(function(){
+    $('.tooltipped').tooltip();
+  });
+</script>
+
+
+
+{% endblock %}

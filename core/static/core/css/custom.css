@@ -9,6 +9,7 @@
     background-color: bisque;
 }
 
-p{
-    background-color: blue;
+.material-icons {
+    font-size: 100px;
+    color: #fdca5a;
 }

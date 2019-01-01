@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'authentification',
+    'authentication',
+    'musicians',
     'core',
 ]
 
@@ -109,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # User substitution
 # https://docs.djangoproject.com/en/1.11/topics/auth/customizing/#auth-custom-user
 
-AUTH_USER_MODEL = 'authentification.User'
+AUTH_USER_MODEL = 'authentication.User'
 
 
 
@@ -132,3 +133,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'core/static'),
+    os.path.join(BASE_DIR, 'authentication/static'),
+    os.path.join(BASE_DIR, 'musicians/static'),
+]
+LOGIN_REDIRECT_URL = '/core/'
+LOGOUT_REDIRECT_URL = '/core/'

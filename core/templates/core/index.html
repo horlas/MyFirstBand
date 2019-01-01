@@ -4,24 +4,9 @@
 
 {% block content %}
 
-  <nav class=" nav-custom">
-    <div class="nav-wrapper grey darken-1 z-depth-4">
-        <div class="row">
-      <a href="#!" class="brand-logo">
-          <img alt = "logo" style = 'margin: 20px' class='responsive-img' src="{% static 'core/img/logo_brand3.png' %}">
-      </a>
+            {% include "core/navbar.html" %}
 
-        </div>
-      <ul style = 'margin: 10px' class=" right hide-on-med-and-down ">
-        <li><a href="sass.html"><i class="material-icons ">search</i></a></li>
-        <li>
-            <a href="{% url 'authentification:signup' %}">
-                <i style='font-size: 40px' class=" material-icons  tooltipped " data-tooltip="Créer un compte" >account_box </i>
-            </a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+            <div id="title">[[title]]</div>
 
 <script>
 new Vue({
@@ -34,10 +19,6 @@ new Vue({
 })
 
 
-
-  $(document).ready(function(){
-    $('.tooltipped').tooltip();
-  });
 </script>
 
 

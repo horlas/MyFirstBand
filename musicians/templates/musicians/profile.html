@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include "core/navbar.html" %}
+
+<h2>Profil de {{user.id}}</h2>
+<h2>email :{{user.email}}</h2>
+
+<a href="{% url 'musicians:update_profile' %}" class="waves-effect waves-light btn">button</a>
+{% endblock %}
