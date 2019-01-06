@@ -35,7 +35,7 @@ class UserProfile(models.Model):
     dept = models.CharField(max_length=5, blank=True)
     town = models.CharField(max_length=60, blank=True)
     birth_year = YearField(null=True, blank=True)
-    avatar = models.ImageField(null=True, blank=True, upload_to='user_avatar/', storage=fs)
+    avatar = models.ImageField(null=True, blank=True, upload_to='user_avatar/')
     gender = models.CharField('gender' , max_length=1 , choices=GENDER_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -76,7 +76,7 @@ class UserProfile(models.Model):
             output = BytesIO()
             img.save(output, format='JPEG', quality=100)
             output.seek(0)
-            new_avatar = InMemoryUploadedFile(output,
+            self.avatar = InMemoryUploadedFile(output,
                                               'ImageField',
                                               avatar_name,
                                               'image/jpeg',
@@ -84,5 +84,4 @@ class UserProfile(models.Model):
                                               None)
 
 
-            self.avatar.save(avatar_name, new_avatar)
-        # super().save(*args, **kwargs)
+            super(UserProfile, self).save()
