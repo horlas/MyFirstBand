@@ -11,6 +11,8 @@ from model_utils import FieldTracker
 from io import BytesIO, StringIO
 from django.core.files.uploadedfile import SimpleUploadedFile, InMemoryUploadedFile
 import sys
+import os
+from django.conf import settings
 
 from core.utils import create_avatar_pict
 # Create your models here.
@@ -85,3 +87,8 @@ class UserProfile(models.Model):
 
 
             super(UserProfile, self).save()
+
+            # delete old image file
+            if self.tracker.previous('avatar'):
+                old_avatar = '{}{}'.format(settings.MEDIA_ROOT, self.tracker.previous('avatar'))
+                os.remove(old_avatar)
