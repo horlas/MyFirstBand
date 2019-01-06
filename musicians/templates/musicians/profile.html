@@ -2,11 +2,19 @@
 {% load static %}
 
 {% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col s12  ">
 
-{% include "core/navbar.html" %}
-
-<h2>Profil de {{user.id}}</h2>
+<h2>Profil de {{user.userprofile.username}}</h2>
 <h2>email :{{user.email}}</h2>
+<h4>Bio : {{user.userprofile.bio}}</h4>
+ <img src="{{ user.userprofile.avatar.url }}" />
+
 
 <a href="{% url 'musicians:update_profile' %}" class="waves-effect waves-light btn">button</a>
+</div>
+        </div>
+</div>
+
 {% endblock %}

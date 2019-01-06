@@ -4,16 +4,28 @@
 
 {% block content %}
 
-            {% include "core/navbar.html" %}
 
-            <div id="title">[[title]]</div>
+<div class="container">
+    <div class="row">
+        <div class="col s12  ">
+
+            <h4 id="title">[[title]] {{user.userprofile.username}}</h4>
+
+
+
+</div>
+    </div>
+</div>
+
+
 
 <script>
 new Vue({
   delimiters: ['[[', ']]'],
   el: '#title',
   data: {
-    title: 'Bienvenue sur My First Band',
+    title: 'Bienvenue sur My First Band ',
+
 
   }
 })

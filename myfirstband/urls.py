@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
 # from authentication import views
 from core import views as core_views
+from django.conf.urls.static import static
 from musicians import views as musicians_views
 
 urlpatterns = [
@@ -27,3 +29,6 @@ urlpatterns = [
     path('', core_views.accueil),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
