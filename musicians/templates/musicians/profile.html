@@ -2,25 +2,66 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
+<div class="container" >
+    <div class="row"></div>
     <div class="row">
-        <div class="col s12  ">
+      <div class="col s12  ">
 
-<h2>Profil de {{user.userprofile.username}}</h2>
-<h2>email :{{user.email}}</h2>
-<h4>Bio : {{user.userprofile.bio}}</h4>
-<p>Localisation : {{user.userprofile.town}}, {{user.userprofile.dept}}</p>
+          <div class="row valign-wrapper">
+            <div class="col s4">
+             {% if user.userprofile.avatar %}
+             <img alt="Avatar" class="circle responsive-img" src="{{ user.userprofile.avatar.url }}" />
+            {% else %}
+            <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" />
+            {% endif %}
+            </div>
+            <div class="col s6">
+              <h4 class="black-text">
+                {{user.userprofile.username}}
+              </h4>
+            </div>
+              <div class="col s2">
+                  <a href="{% url 'musicians:update_profile' %}">
+                  <i style='color: black' class=" material-icons  tooltipped " data-tooltip="Edition du profil" >edit</i>
+                  </a>
+              </div>
+          </div>
 
- {% if user.userprofile.avatar %}
-  <img src="{{ user.userprofile.avatar.url }}" />
- {% else %}
-     <img src="{% static 'core/img/0.jpg' %}" />
- {% endif %}
+          <div class="row">
+      <div class='col s8 offset-s4'>
 
+ {% csrf_token %}
+            <span > {{age}} ans </span>
 
-<a href="{% url 'musicians:update_profile' %}" class="waves-effect waves-light btn">button</a>
+            <h4>{{user.email}}</h4>
+          <span>{{user.userprofile.bio}}</span></br>
+            <span>{{user.userprofile.town}}, {{user.userprofile.dept}}</span>
+      </div>
+    </div>
+
+      </div>
+    </div>
 </div>
-        </div>
-</div>
+
+
+
+
+
+<script>
+  $(document).ready(function(){
+    $('.tooltipped').tooltip();
+  });
+
+new Vue({
+  delimiters: ['[[', ']]'],
+  el: '#age',
+
+})
+
+
+
+
+</script>
 
 {% endblock %}
+

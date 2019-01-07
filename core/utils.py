@@ -1,7 +1,7 @@
 from PIL import Image
-from resizeimage import resizeimage
 from io import BytesIO
 from django.core.files.uploadedfile import SimpleUploadedFile
+
 # Some  useful function
 
 
@@ -39,3 +39,8 @@ def create_avatar_pict(img):
     output.seek(0)
     # return the new uploaded file
     return SimpleUploadedFile('temp', output.read())
+
+def get_age(birth_year):
+    import datetime
+    this_year = datetime.date.today().year
+    return this_year - birth_year

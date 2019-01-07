@@ -4,12 +4,19 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
+from core.utils import get_age
 
 
 # Create your views here.
 @login_required
 def profile(request):
-    return render(request, 'musicians/profile.html')
+    age = get_age(request.user.userprofile.birth_year)
+    print(age)
+    datas = {
+    'age' : age
+    }
+
+    return render(request, 'musicians/profile.html', datas)
 
 
 
@@ -39,4 +46,10 @@ def update_profile(request):
         'profile_form': profile_form
     })
 
+
+@login_required
+@transaction.atomic
+def update_avatar(request):
+
+    if request.method == 'POST':
 

@@ -12,6 +12,7 @@ psycopg2-binary = "*"
 django-yearlessdate = "*"
 pillow = "*"
 django-model-utils = "*"
+crispy-forms-materialize = "*"
 
 [requires]
 python_version = "3.5"
