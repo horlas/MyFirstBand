@@ -4,21 +4,16 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from authentication.models import User
 
-from django.core.files.storage import FileSystemStorage
+from model_utils import FieldTracker
 from PIL import Image
 from datetime import date
-from model_utils import FieldTracker
-from io import BytesIO, StringIO
-from django.core.files.uploadedfile import SimpleUploadedFile, InMemoryUploadedFile
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
 import os
 from django.conf import settings
 
-from core.utils import create_avatar_pict
 # Create your models here.
-
-fs = FileSystemStorage(location='core/media/user_avatar')
-
 class UserProfile(models.Model):
     '''
     Custom User Profile
@@ -28,8 +23,6 @@ class UserProfile(models.Model):
         ('H', 'Homme'),
         ('F', 'Femme'),
     )
-
-
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     username = models.CharField(max_length=60, blank=True)
@@ -42,7 +35,10 @@ class UserProfile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    # Here we instantiate a Fieltracker to track any fields specially avatar field
     tracker = FieldTracker()
+
+
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
@@ -61,19 +57,25 @@ class UserProfile(models.Model):
 
     def save(self, *args, **kwargs):
         super().save()
-        if self.tracker.has_changed('avatar'):
+
+        # we get here the self avatar condition
+        # in case of there is no self.avatar as example
+        # after a clear action.
+        if self.avatar and self.tracker.has_changed('avatar'):
+            # keep the upload image path in order to delete it after
+            upload_image = self.avatar.path
 
             # rename avatar image
             avatar_name = '{}-{}.jpg'.format(date.today(), self.user.id)
 
-            img = Image.open(self.avatar.path)
-
-
+            img = Image.open(upload_image)
 
             # convert all picture to jpg
             img = img.convert('RGB')
+
             # resize picture
-            img = img.resize((140 , 140) , Image.ANTIALIAS)
+            img = img.resize((140, 140), Image.ANTIALIAS)
+
             # make readable picture
             output = BytesIO()
             img.save(output, format='JPEG', quality=100)
@@ -85,10 +87,14 @@ class UserProfile(models.Model):
                                               sys.getsizeof(output),
                                               None)
 
-
             super(UserProfile, self).save()
 
-            # delete old image file
-            if self.tracker.previous('avatar'):
-                old_avatar = '{}{}'.format(settings.MEDIA_ROOT, self.tracker.previous('avatar'))
-                os.remove(old_avatar)
+            # delete the upload of avatar before resize it
+            os.remove(upload_image)
+
+        # delete old image file even in case of "clear" image action
+        if self.tracker.previous('avatar'):
+            old_avatar = '{}{}'.format(settings.MEDIA_ROOT, self.tracker.previous('avatar'))
+            os.remove(old_avatar)
+
+

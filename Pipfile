@@ -11,7 +11,6 @@ psycopg2 = "*"
 psycopg2-binary = "*"
 django-yearlessdate = "*"
 pillow = "*"
-python-resize-image = "*"
 django-model-utils = "*"
 
 [requires]

@@ -1,6 +1,5 @@
 {% extends 'core/base.html' %}
 {% load static %}
-
 {% block content %}
 
 <div class="container">
@@ -11,10 +10,7 @@
   {% csrf_token %}
   {{ profile_form.as_p }}
   <input type="submit" value="Save">
-  <!--<input type="image" name="avatar">-->
-  <!--<button type="submit">Upload Avatar</button>-->
 
-  <!--<button type="submit" value="Update">Save changes</button>-->
 </form>
 
  </div>

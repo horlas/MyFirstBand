@@ -9,11 +9,13 @@
 <h2>Profil de {{user.userprofile.username}}</h2>
 <h2>email :{{user.email}}</h2>
 <h4>Bio : {{user.userprofile.bio}}</h4>
+<p>Localisation : {{user.userprofile.town}}, {{user.userprofile.dept}}</p>
+
  {% if user.userprofile.avatar %}
   <img src="{{ user.userprofile.avatar.url }}" />
  {% else %}
-     <img src="core/media/user_avatar/0.jpg" />
-            {% endif %}
+     <img src="{% static 'core/img/0.jpg' %}" />
+ {% endif %}
 
 
 <a href="{% url 'musicians:update_profile' %}" class="waves-effect waves-light btn">button</a>
