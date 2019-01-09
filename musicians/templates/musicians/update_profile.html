@@ -2,20 +2,167 @@
 {% load static %}
 {% block content %}
 
-<div class="container">
-    <div class="row">
-        <div class="col s12  ">
+<div class="container " >
+    <div class="row"></div>
 
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ profile_form.as_p }}
-  <input type="submit" value="Save">
+<div class="row valign-wrapper">
+    <form method="post" enctype="multipart/form-data">
+    <div class="col s7">
+        {% if user.userprofile.avatar %}
+             <img alt="Avatar" class="circle responsive-img" src="{{ user.userprofile.avatar.url }}" />
+            {% else %}
+            <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" />
+            {% endif %}
 
-</form>
+           {% csrf_token %}
+           {{ avatar_form.as_p }}
+
+
+  <button class="btn-floating btn-large waves-effect waves-light black" type="submit" name="action">
+      <i class="material-icons">add</i></button>
 
  </div>
- </div>
-</div>
+
+    <div class="col s5">
+    {{ profile_form.as_p }}
+
+        <span class="">Localisation :</span>
+        <span>{{user.userprofile.town}}, {{user.userprofile.dept}}</span>
 
 
+    </div>
+
+
+
+   </form>
+        </div>
+
+     <input id="first" type="button" value="Click">
+
+    <div  hidden id="fn"  class = "row valign-wrapper" >
+
+         <form >
+
+        <div class="input-field inline cols6">
+        <input  id = "cp" type ="text" data-length = "5"  class=" 'validate"/>
+        <label for = 'cp'>code postal</label>
+             <input hidden id="send" type="button" value="Send"  >
+        </div>
+
+        <div class="input-field col s6">
+        <select  id="town">
+        <option value="" disabled selected>Ville</option>
+        </select>
+        <label>Materialize Select</label>
+        </div>
+
+         </form>
+        </div>
+
+      </div>
+
+
+<div id="lat" ></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- Modal Structure in case of a bad input cp -->
+  <div id="bad_cp" class="modal">
+    <div class="modal-content">
+      <h4>Mauvais code postal</h4>
+      <p>Veuillez le resaisir</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">OK</a>
+    </div>
+  </div>
+
+
+    <!--<div id="fn" hidden >code postal:-->
+   <!--<input placeholder="code postal" id="first_name" type="text" class="validate">-->
+<!--</div>-->
+
+    <!--<input id="test" type="button" value="Click">-->
+
+<!--</div>-->
+
+
+
+<script>
+
+$("#first").click(function() {
+
+  $("#fn").show();
+  $("#first").hide();
+  $("#send").show();
+  $('#send').click(function () {
+        var $code = $('#cp').val();
+        var $return = validateZip($code);
+
+        if ($return === true) {
+            var url = createURL($code);
+            $.getJSON(
+                url,
+                function(data, status ) {
+                   $.each(data, function( index, value ) {
+                        $("#town").append($("<option value="+index+">"+value.nom+"</option>"));
+                        $(document).ready(function(){
+                        $   ('select').formSelect();
+                            });
+                        });
+                    });
+        } else {
+            // show the modal
+           var elem= document.querySelector('.modal');
+            var instance = M.Modal.init(elem);
+            instance.open();
+            }
+        });
+
+        });
+
+//validate postal code
+
+function validateZip(code){
+	return (code.length!=5 || isNaN(code)) ? false : true;
+}
+
+//create an url
+function createURL(code) {
+    var baseURL = "https://geo.api.gouv.fr/communes?codePostal="
+    var params = {
+                    fields : 'nom, codeDepartement',
+                    format : 'json',
+                    geometry : 'centre'
+        };
+    return(baseURL+code+'&'+ $.param( params ))
+}
+
+// initialize the select choice
+  $(document).ready(function(){
+    $('select').formSelect();
+  });
+
+// loop to display all the town
+
+
+// function loopTown(data) {
+//
+//
+// }
+
+
+
+
+</script>
 {% endblock %}

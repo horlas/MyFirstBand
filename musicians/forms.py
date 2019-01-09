@@ -7,10 +7,15 @@ class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        fields = ['username', 'bio', 'dept', 'town', 'birth_year']
+        fields = ['username', 'bio', 'birth_year']
 
 class AvatarForm (forms.ModelForm):
 
     class Meta:
         model = UserProfile
         fields = ['avatar']
+
+class LocalForm (forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['dept', 'town']
