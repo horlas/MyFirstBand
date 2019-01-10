@@ -1,21 +1,25 @@
-from django import forms
+from django.forms import ModelForm, Select
 from musicians.models import UserProfile
-from PIL import Image
-from django.conf import settings
 
-class ProfileForm(forms.ModelForm):
+
+class ProfileForm(ModelForm):
 
     class Meta:
         model = UserProfile
         fields = ['username', 'bio', 'birth_year']
 
-class AvatarForm (forms.ModelForm):
+class AvatarForm (ModelForm):
 
     class Meta:
         model = UserProfile
         fields = ['avatar']
 
-class LocalForm (forms.ModelForm):
+class LocalForm (ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['dept', 'town']
+        fields = ['code', 'county_name', 'town']
+
+        widgets = {
+            'town': Select
+        }
+

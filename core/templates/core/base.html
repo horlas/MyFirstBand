@@ -3,9 +3,14 @@
   <html lang="fr">
 
     <head>
+       {% load static %}
       <!--Import jQuery before materialize.js-->
 
       <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+      <!--Import custom.js-->
+
+      <script type="text/javascript" src="{% static 'core/js/custom.js' %}"></script>
 
 
       <!-- Compiled and minified JavaScript -->
@@ -24,7 +29,7 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
 
       <!-- Custom Css for this web site-->
-        {% load static %}
+
       <link href="{% static 'core/css/custom.css' %}" rel="stylesheet">
 
       <!--Let browser know website is optimized for mobile-->
@@ -41,6 +46,7 @@
 
     {% include "core/navbar.html" %}
     {% block content %} {% endblock %}
+      {% block script %} {% endblock %}
 
 
     </body>

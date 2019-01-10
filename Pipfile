@@ -13,6 +13,7 @@ django-yearlessdate = "*"
 pillow = "*"
 django-model-utils = "*"
 crispy-forms-materialize = "*"
+django-widget-tweaks = "*"
 
 [requires]
 python_version = "3.5"

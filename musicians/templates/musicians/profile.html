@@ -22,7 +22,7 @@
             </div>
               <div class="col s2">
                   <a href="{% url 'musicians:update_profile' %}">
-                  <i style='color: black' class=" material-icons  tooltipped " data-tooltip="Edition du profil" >edit</i>
+                  <i style='color: black' class=" material-icons tooltipped " data-tooltip="Edition du profil" >edit</i>
                   </a>
               </div>
           </div>
@@ -35,7 +35,8 @@
 
             <h4>{{user.email}}</h4>
           <span>{{user.userprofile.bio}}</span></br>
-            <span>{{user.userprofile.town}}, {{user.userprofile.dept}}</span>
+          <div class="row"></div>
+            <span>{{user.userprofile.town}}, {{user.userprofile.county_name}}</span>
       </div>
     </div>
 
@@ -48,18 +49,6 @@
 
 
 <script>
-  $(document).ready(function(){
-    $('.tooltipped').tooltip();
-  });
-
-new Vue({
-  delimiters: ['[[', ']]'],
-  el: '#age',
-
-})
-
-
-
 
 </script>
 

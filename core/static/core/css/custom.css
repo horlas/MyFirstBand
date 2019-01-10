@@ -14,3 +14,15 @@
     color: #fdca5a;
 }
 
+/*.tooltipped {*/
+    /*background-color: black;*/
+/*}*/
+
+.material-tooltip > .backdrop {
+    background-color: black;
+    opacity: 100%;
+}
+
+.tooltipped{
+    opacity: 100;
+}

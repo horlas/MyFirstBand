@@ -27,7 +27,7 @@ class UserProfilAdmin(admin.ModelAdmin):
             'fields': ('user',)
         }),
 
-        (_('Information du Profil'), {'fields':('username', 'bio', 'dept', 'town', 'birth_year', 'avatar', )}),
+        (_('Information du Profil'), {'fields':('username', 'bio', 'code', 'county_name', 'town', 'birth_year', 'avatar', )}),
 
 
     )
