@@ -100,16 +100,21 @@ class UpdateAvatarView(FormView, SuccessMessageMixin):
         avatar_form = self.form_class(request.POST,
                                       request.FILES ,
                                       instance=request.user.userprofile)
+        # profile_form = ProfileForm(request.POST ,
+        #                             instance=request.user.userprofile)
+        # local_form = LocalForm(request.POST ,
+        #                          instance=request.user.userprofile))
         if avatar_form.is_valid():
             avatar_form.save()
-            return self.render_to_response(
-                self.get_context_data(sucess=True))
+            # return self.render_to_response(
+            #     self.get_context_data(sucess=True))
+            return redirect('musicians:update_profile') #, self.get_context_data(success=True))
 
         else:
             avatar_form = self.form_class(instance=request.user.userprofile)
 
             return self.render_to_response(
-                self.get_context_data(avatar_form =avatar_form))
+               self.get_context_data(avatar_form =avatar_form))
 
 
 class UpdateDataView(FormView , SuccessMessageMixin):
@@ -126,8 +131,7 @@ class UpdateDataView(FormView , SuccessMessageMixin):
                                        instance=request.user.userprofile)
         if profile_form.is_valid():
             profile_form.save()
-            return self.render_to_response(
-                self.get_context_data(sucess=True))
+            return redirect('musicians:update_profile')
 
         else:
             profile_form = self.form_class(instance=request.user.userprofile)
@@ -150,8 +154,7 @@ class UpdateLocalView(FormView , SuccessMessageMixin):
                                        instance=request.user.userprofile)
         if local_form.is_valid():
             local_form.save()
-            return self.render_to_response(
-                self.get_context_data(sucess=True))
+            return redirect('musicians:update_profile')
 
         else:
             local_form = self.form_class(instance=request.user.userprofile)

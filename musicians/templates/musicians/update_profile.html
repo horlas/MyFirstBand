@@ -9,11 +9,12 @@
 
 <div class="row valign-wrapper">
 
-
+ <!--avatar form-->
+ <div class="col s5">
     <form action='{% url "musicians:update_avatar" %}' method="post" enctype="multipart/form-data" >
         {% csrf_token %}
-     <!--avatar form   -->
-    <div class="col s7">
+
+
         {% if user.userprofile.avatar %}
              <img alt="Avatar" class="circle responsive-img" src="{{ user.userprofile.avatar.url }}" />
             {% else %}
@@ -23,38 +24,42 @@
 
            {{ avatar_form.as_p }}
 
-      <button class="btn-floating btn-large waves-effect waves-light black" type="submit" >
-      <i class="material-icons">add</i></button>
-
-    </div>
+      <button class="btn-floating btn-large waves-effect waves-light " type="submit" >
+      <i class="material-icons">check</i></button>
     </form>
+</div>
+
+    <!--profile form-->
+<div class="col s7">
    <form action='{% url "musicians:update_data" %}' method="post"  >
        {% csrf_token %}
-    <!--profile form-->
-    <div class="col s5">
+
+
         {{ profile_form.as_p }}
 
-         <button class="btn-floating btn-large waves-effect waves-light black" type="submit" >
-      <i class="material-icons">add</i></button>
-    </div>
+         <button class="btn-floating btn-large waves-effect waves-light " type="submit" >
+      <i class="material-icons">check</i></button>
+
     <form>
+</div>
 
 </div>
 
     <!--local form-->
-<form action='{% url "musicians:update_local" %}' method="post"  >
-    {% csrf_token %}
 
-<div class="row">
-    <div class="col s5 offset-s7">
+ <div class="row">
+
+ <div class="col s5 offset-s5">
+    <form action='{% url "musicians:update_local" %}' method="post"  >
+    {% csrf_token %}
 
         <div>
         <span class="tooltipped" data-position="bottom" data-tooltip="Je suis là">Localisation :</span>
         <span>{{user.userprofile.town}}, {{user.userprofile.county_name}}</span>
 
-        <input id="first" type="button" value="Change">
-        </div>
 
+        </div>
+        <input id="first" type="button" value="Change">
         <div class="col s4 ">
 
           <div style="display: none" id="cp"  class = "row " >
@@ -68,10 +73,8 @@
             {{ local_form.town }}
             {{ local_form.county_name}}
 
-            <button class="btn-floating btn-large waves-effect waves-light black" type="submit" >
-            <i class="material-icons">add</i></button>
-            <!--<button class="btn-floating btn-large waves-effect waves-light green" type="submit" >-->
-            <!--<i class="material-icons">add</i></button>-->
+            <button class="btn-floating btn-large waves-effect waves-light " type="submit" >
+            <i class="material-icons">check</i></button>
 
             </div>
 

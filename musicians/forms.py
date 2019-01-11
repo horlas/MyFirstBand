@@ -17,16 +17,16 @@ class AvatarForm (ModelForm):
 class LocalForm (ModelForm):
 
     class Meta:
-        town = (
-            ('1' , 'Montpellier') ,
-            ('2' , 'Nimes') ,
-            ('3' , 'Beziers') ,
-        )
+        # town = (
+        #     ('1' , 'Montpellier') ,
+        #     ('2' , 'Nimes') ,
+        #     ('3' , 'Beziers') ,
+        # )
 
         model = UserProfile
         fields = ['code', 'county_name', 'town']
 
         widgets = {
-            'town': Select(choices=town)
+            'town': Select() #choices=town
         }
 
