@@ -41,7 +41,6 @@ def update_profile(request):
 
         print(request.POST.get("town"))
         if avatar_form.is_valid() and profile_form.is_valid() and local_form.is_valid():
-
             avatar_form.save()
             profile_form.save()
             local_form.save()
@@ -59,7 +58,7 @@ def update_profile(request):
     return render(request , 'musicians/update_profile.html', {
         'avatar_form': avatar_form,
         'profile_form': profile_form,
-        'local_form' : local_form
+        'local_form' : local_form,
 
     })
 

@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Select
+from django.forms import ModelForm, Select, ModelChoiceField, ChoiceField, TextInput
 from musicians.models import UserProfile
 
 

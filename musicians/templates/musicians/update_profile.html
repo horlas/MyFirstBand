@@ -54,14 +54,15 @@
             </div>
             <div  style="display: none" id="town"  class = "row " >
 
-            {{ local_form.town|append_attr:'class:tooltipped'|append_attr:'data-position:bottom'|append_attr:'data-tooltip :plus de villes' }}
+            {{ local_form.town }}
             {{ local_form.county_name}}
 
-                <input id="go" type="submit" value="go">
+            <input id="go" type="submit" value="go">
             <!--<button class="btn-floating btn-large waves-effect waves-light green" type="submit" >-->
             <!--<i class="material-icons">add</i></button>-->
 
             </div>
+
 <!--|append_attr:'class:tooltipped'|append_attr:'data-position:bottom'|append_attr:'data-tooltip :plus de villes'-->
 
         </div>
@@ -102,14 +103,14 @@ $("#first").click(function() {
           $.getJSON(
               url,
               function (data) {
-                  // $.each(data, function (index, value) {
-                  //     $("#id_town").append($("<option value=" +value.nom+" >" + value.nom + "</option>"));
-                  //     $(document).ready(function () {
-                  //         $('select').formSelect();
-                  //     });
-                  //     console.log(value.nom)
-                  //     $('#id_county_name').val(value.departement.nom);
-                  // });
+                  $.each(data, function (index, value) {
+                      $("#id_town").append($("<option value=" +index+ ">" + value.nom + "</option>"));
+                      $(document).ready(function () {
+                          $('select').formSelect();
+                      });
+                      console.log(value.nom)
+                      $('#id_county_name').val(value.departement.nom);
+                  });
                   $("#send").hide();
                   $("#town").show();
               });
