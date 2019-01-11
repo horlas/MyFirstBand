@@ -91,8 +91,6 @@ class UpdateAvatarView(FormView, SuccessMessageMixin):
 
     form_class = AvatarForm
     template_name = 'musicians/update_profile.html'
-    success_url = '/'
-    sucess_message  = "Votre image a été correctement mise à jour!"
 
     @method_decorator(login_required)
     @transaction.atomic
@@ -100,14 +98,9 @@ class UpdateAvatarView(FormView, SuccessMessageMixin):
         avatar_form = self.form_class(request.POST,
                                       request.FILES ,
                                       instance=request.user.userprofile)
-        # profile_form = ProfileForm(request.POST ,
-        #                             instance=request.user.userprofile)
-        # local_form = LocalForm(request.POST ,
-        #                          instance=request.user.userprofile))
         if avatar_form.is_valid():
             avatar_form.save()
-            # return self.render_to_response(
-            #     self.get_context_data(sucess=True))
+            messages.success(self.request, (" Votre image a été  mise à jour!"))
             return redirect('musicians:update_profile') #, self.get_context_data(success=True))
 
         else:
@@ -117,50 +110,49 @@ class UpdateAvatarView(FormView, SuccessMessageMixin):
                self.get_context_data(avatar_form =avatar_form))
 
 
-class UpdateDataView(FormView , SuccessMessageMixin):
+class UpdateDataView(FormView, SuccessMessageMixin):
 
     form_class = ProfileForm
     template_name = 'musicians/update_profile.html'
-    success_url = 'update_profile/'
-    sucess_message = "Vos données ont été correctement mise à jour!"
 
     @method_decorator(login_required)
     @transaction.atomic
     def post(self , request , *args , **kwargs):
-        profile_form = self.form_class(request.POST ,
+        profile_form = self.form_class(request.POST,
                                        instance=request.user.userprofile)
         if profile_form.is_valid():
             profile_form.save()
+            print(request.POST.get("county_name"))
+            messages.success(self.request , (" Vos données ont été mises à jour!"))
             return redirect('musicians:update_profile')
 
         else:
             profile_form = self.form_class(instance=request.user.userprofile)
 
-            return self.render_to_response(
+            return render(
                 self.get_context_data(profile_form=profile_form))
 
 
+class UpdateLocalView(FormView, SuccessMessageMixin):
 
-class UpdateLocalView(FormView , SuccessMessageMixin):
     form_class = LocalForm
     template_name = 'musicians/update_profile.html'
-    success_url = '/'
-    sucess_message = "Vos données ont été correctement mise à jour!"
 
     @method_decorator(login_required)
     @transaction.atomic
-    def post(self , request , *args , **kwargs):
-        local_form = self.form_class(request.POST ,
+    def post(self, request, *args, **kwargs):
+        local_form = self.form_class(request.POST,
                                        instance=request.user.userprofile)
         if local_form.is_valid():
+
             local_form.save()
+            messages.success(self.request, (" Votre localité a été mise à jour!"))
             return redirect('musicians:update_profile')
 
         else:
             local_form = self.form_class(instance=request.user.userprofile)
 
-            return self.render_to_response(
-                self.get_context_data(local_form=local_form))
+            return render(self.get_context_data(local_form=local_form))
 
 
 
