@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "0025faf0b12da171d23eae717500d25e06dacb588c47a4ef6b2ad949946406ba"
+            "sha256": "98931585cf6fd093f1d94f8bdbc5afc94b7083eb729c3b3d37a043ba5b261c24"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -97,6 +97,13 @@
             "index": "pypi",
             "version": "==5.4.1"
         },
+        "pipfile": {
+            "hashes": [
+                "sha256:f7d9f15de8b660986557eb3cc5391aa1a16207ac41bc378d03f414762d36c984"
+            ],
+            "index": "pypi",
+            "version": "==0.0.2"
+        },
         "psycopg2": {
             "hashes": [
                 "sha256:10e391687b171878181e71736d0effe3772314a339d9ae30995ec8171a0c834e",
@@ -175,6 +182,14 @@
                 "sha256:d5f05e487007e29e03409f9398d074e158d920d36eb82eaf66fb1136b0c5374c"
             ],
             "version": "==2018.9"
+        },
+        "toml": {
+            "hashes": [
+                "sha256:229f81c57791a41d65e399fc06bf0848bab550a9dfd5ed66df18ce5f05e73d5c",
+                "sha256:235682dd292d5899d361a811df37e04a8828a5b1da3115886b73cf81ebc9100e"
+            ],
+            "index": "pypi",
+            "version": "==0.10.0"
         }
     },
     "develop": {}

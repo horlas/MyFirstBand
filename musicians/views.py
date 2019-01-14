@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from .forms import ProfileForm, AvatarForm, LocalForm
+from .forms import ProfileForm, AvatarForm, LocalForm, InstruForm
 from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView, FormView
+from django.views.generic import TemplateView, FormView, CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.decorators import method_decorator
 from django.views.generic.base import TemplateResponseMixin
@@ -9,6 +9,7 @@ from django.db import transaction
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from core.utils import get_age
+from musicians.models import Instrument
 
 
 # Create your views here.
@@ -25,49 +26,6 @@ def profile(request):
         return render(request, 'musicians/profile.html')
 
 
-
-
-# @login_required
-# @transaction.atomic
-# def update_profile(request):
-#
-#     if request.method == 'POST':
-#
-#         avatar_form = AvatarForm(request.POST ,
-#                                  request.FILES ,
-#                                  instance=request.user.userprofile)
-#
-#         profile_form = ProfileForm(request.POST,
-#                                    instance=request.user.userprofile)
-#
-#         local_form = LocalForm(request.POST ,
-#                                instance=request.user.userprofile)
-#
-#         print(request.POST.get("town"))
-#         if avatar_form.is_valid() and profile_form.is_valid() and local_form.is_valid():
-#             avatar_form.save()
-#             profile_form.save()
-#             local_form.save()
-#
-#             messages.success(request, _('Your profile was successfully updated!'))
-#             return redirect('musicians:profile')
-#         else:
-#             messages.error(request, _('Please correct the error below.'))
-#     #
-#     else:
-#         avatar_form = AvatarForm(instance=request.user.userprofile)
-#         profile_form = ProfileForm(instance=request.user.userprofile)
-#         local_form = LocalForm(instance=request.user.userprofile)
-#
-#     return render(request , 'musicians/update_profile.html', {
-#         'avatar_form': avatar_form,
-#         'profile_form': profile_form,
-#         'local_form' : local_form,
-#
-#     })
-#
-
-#
 class UpdateProfilView(TemplateView):
 
     template_name = 'musicians/update_profile.html'
@@ -78,12 +36,16 @@ class UpdateProfilView(TemplateView):
                                  instance=request.user.userprofile)
         profile_form = ProfileForm(self.request.GET or None,
                                    instance=request.user.userprofile)
+        instru_form = Instrument(self.request.GET or None)
+
+
         local_form = LocalForm(self.request.GET or None,
                                instance=request.user.userprofile)
         context = self.get_context_data(**kwargs)
         context['avatar_form'] = avatar_form
         context['profile_form'] = profile_form
         context['local_form'] = local_form
+        context['instru_form'] = instru_form
         return self.render_to_response(context)
 
 
@@ -156,10 +118,36 @@ class UpdateLocalView(FormView, SuccessMessageMixin):
 
 
 
+# class UpdateInstruView(FormView, SuccessMessageMixin):
+#
+#     form_class = InstruForm
+#     template_name = 'musicians/update_profile.html'
+#
+#     @method_decorator(login_required)
+#     @transaction.atomic
+#     def post(self, request, *args, **kwargs):
+#         instru_form = self.form_class(request.POST,
+#                                        instance=request.user.userprofile)
+#         if instru_form.is_valid():
+#
+#             instru_form.save()
+#             messages.success(self.request, (" Votre Instrument a été ajouté!"))
+#             return redirect('musicians:update_profile')
+#
+#         else:
+#             instru_form = self.form_class(instance=request.user.userprofile)
+#
+#             return render(self.get_context_data(instru_form=instru_form))
+#
+class InstruCreate(CreateView):
+    model = Instrument
+    fields = ['instrument']
+    template_name = 'musicians/update_profile.html'
 
-
-
-
+    @method_decorator(login_required)
+    def form_valid(self, form):
+        form.instance.musician =self.request.user
+        return super().form_valid(form)
 
 
 

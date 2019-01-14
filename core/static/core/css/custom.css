@@ -10,7 +10,7 @@
 }
 
 .material-icons {
-    font-size: 150px;
+    /*font-size: 150px;*/
     color: #fdca5a;
 }
 
@@ -18,14 +18,14 @@
     /*background-color: black;*/
 /*}*/
 
-.material-tooltip > .backdrop {
-    background-color: black;
-    opacity: 100%;
-}
+/*.material-tooltip > .backdrop {
+  /*  background-color: black;
+   /* opacity: 100%;
+/*}
 
-.tooltipped{
-    opacity: 100;
-}
+/*.tooltipped{
+  /*  opacity: 100;
+/*}*/
 
 a {
     color : #2f1b40;

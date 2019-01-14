@@ -7,13 +7,15 @@ verify_ssl = true
 
 [packages]
 django = "*"
-psycopg2 = "*"
-psycopg2-binary = "*"
 django-yearlessdate = "*"
 pillow = "*"
 django-model-utils = "*"
 crispy-forms-materialize = "*"
 django-widget-tweaks = "*"
+pipfile = "*"
+toml = "*"
+psycopg2 = "*"
+psycopg2-binary = "*"
 
 [requires]
 python_version = "3.5"

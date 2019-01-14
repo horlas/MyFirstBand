@@ -43,17 +43,12 @@
       <i class="material-icons">check</i></button>
     </form>
 
-
-
-
-
 </div>
 
     <!--profile form-->
 <div class="col s7">
    <form action='{% url "musicians:update_data" %}' method="post"  >
        {% csrf_token %}
-
 
         {{ profile_form.as_p }}
 
@@ -65,23 +60,39 @@
 
 </div>
 
-    <!--local form-->
 
- <div class="row">
+ <div class="row valign-wrapper">
 
- <div class="col s5 offset-s5">
+     <!--instru form-->
+
+<div class="col s6 ">
+    <h4 >Instrument : </h4>
+
+    <h5>Ajout : </h5>
+
+    <form action='' method="post"  >
+    {% csrf_token %}
+        {{ form.as_p }}
+    <button class="btn-floating btn-large waves-effect waves-light " type="submit" >
+      <i class="material-icons">check</i></button>
+
+
+    </form>
+</div>
+
+
+
+        <!--local form-->
+ <div class="col s6">
     <form action='{% url "musicians:update_location" %}' method="post"  >
     {% csrf_token %}
 
         <div>
         <span class="tooltipped" data-position="bottom" data-tooltip="Je suis là">Localisation :</span>
         <span>{{user.userprofile.town}}, {{user.userprofile.county_name}}</span>
-
-
         </div>
         <input id="first" type="button" value="Change">
         <div class="col s4 ">
-
           <div style="display: none" id="cp"  class = "row " >
 
             {{ local_form.code |add_label_class:"Code postal" }}
@@ -102,9 +113,12 @@
 
         </div>
 
- </div>
      </form>
+      </div>
         </div>
+    </div>
+
+
       <!-- Modal Structure in case of a bad input cp -->
   <div id="bad_cp" class="modal">
     <div class="modal-content">
@@ -116,7 +130,7 @@
     </div>
   </div>
 
-</div>
+
 
 
 

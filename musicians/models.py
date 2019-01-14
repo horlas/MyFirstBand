@@ -32,14 +32,12 @@ class UserProfile(models.Model):
     town = models.CharField("Ville", max_length=60, blank=True)
     birth_year = YearField("Année de naissance", null=True, blank=True)
     avatar = models.ImageField(null=True, blank=True, upload_to='user_avatar/')
-    gender = models.CharField('gender' , max_length=1 , choices=GENDER_CHOICES)
+    gender = models.CharField('Genre' , max_length=1, choices=GENDER_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     # Here we instantiate a Fieltracker to track any fields specially avatar field
     tracker = FieldTracker()
-
-
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
@@ -102,3 +100,32 @@ class UserProfile(models.Model):
         if not self.avatar and self.tracker.has_changed('avatar'):
             old_avatar = '{}{}'.format(settings.MEDIA_ROOT , self.tracker.previous('avatar'))
             os.remove(old_avatar)
+
+
+class Instrument(models.Model):
+    ''' Musicians Instruments'''
+
+    INSTRUMENT_CHOICE = (
+
+            ('ACCORDEON' , 'Accordéoniste'),
+            ('BASSE' , 'Bassiste'),
+            ('BATTERIE' , 'Batteur'),
+            ('CUIVRE' , 'Cuivriste'),
+            ('CLARINETTE' , 'Clarinetiste'),
+            ('CLAVIER' , 'Clavieriste'),
+            ('CONTREBASSE' , 'Contrebassiste'),
+            ('FLUTE' , 'Flutiste'),
+            ('GUITARE' , 'Guitariste'),
+            ('HARMONICA' , 'Harmoniciste'),
+            ('PERCUSSION' , 'Percussionniste'),
+            ('PIANO' , 'Pianiste'),
+            ('SAXOPHONE' , 'Saxophoniste'),
+            ('VIOLON' , 'Violoniste'),
+        )
+
+    instrument = models.CharField('instrument', max_length=80, choices=INSTRUMENT_CHOICE)
+    musician = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.instrument
+

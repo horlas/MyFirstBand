@@ -1,21 +1,20 @@
 from django.forms import ModelForm, Select, ModelChoiceField, ChoiceField, TextInput
-from musicians.models import UserProfile
+from musicians.models import UserProfile, Instrument
 
 
 class ProfileForm(ModelForm):
-
     class Meta:
         model = UserProfile
-        fields = ['username', 'bio', 'birth_year']
+        fields = ['username', 'bio', 'birth_year', 'gender']
 
-class AvatarForm (ModelForm):
 
+class AvatarForm(ModelForm):
     class Meta:
         model = UserProfile
         fields = ['avatar']
 
-class LocalForm (ModelForm):
 
+class LocalForm(ModelForm):
     class Meta:
         # town = (
         #     ('1' , 'Montpellier') ,
@@ -27,6 +26,18 @@ class LocalForm (ModelForm):
         fields = ['code', 'county_name', 'town']
 
         widgets = {
-            'town': Select() #choices=town
+            'town': Select()  # choices=town
         }
 
+
+class InstruForm(ModelForm):
+
+
+    class Meta:
+
+        model = Instrument
+        fields = ['instrument']
+
+        widgets = {
+            'instrument': Select()
+        }
