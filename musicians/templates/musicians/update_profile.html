@@ -70,9 +70,9 @@
 
     <h5>Ajout : </h5>
 
-    <form action='' method="post"  >
+    <form action='{% url "musicians:add_instru" %}' method="post"  >
     {% csrf_token %}
-        {{ form.as_p }}
+        {{ instru_form.as_p }}
     <button class="btn-floating btn-large waves-effect waves-light " type="submit" >
       <i class="material-icons">check</i></button>
 

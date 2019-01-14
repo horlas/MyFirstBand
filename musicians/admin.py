@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from musicians.models import UserProfile
+from musicians.models import UserProfile, Instrument
 from authentication.models import User
 from django.utils.translation import ugettext_lazy as _
 
@@ -27,9 +27,19 @@ class UserProfilAdmin(admin.ModelAdmin):
             'fields': ('user',)
         }),
 
-        (_('Information du Profil'), {'fields':('username', 'bio', 'code', 'county_name', 'town', 'birth_year', 'avatar', )}),
+        (_('Information du Profil'), {'fields':('gender','username', 'bio', 'code', 'county_name', 'town', 'birth_year', 'avatar', )}),
 
 
     )
     # readonly_fields = ['created_at', 'update_at']
 
+
+@admin.register(Instrument)
+class InstrumentAdmin(admin.ModelAdmin):
+
+    fieldsets =  (
+        (None, {'fields':('musician',)
+                }),
+        (_('Instrument joué'),{'fields': ('instrument', 'level', )}),
+
+    )

@@ -3,6 +3,7 @@ from djangoyearlessdate.models import YearField
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from authentication.models import User
+from django.urls import reverse
 
 from model_utils import FieldTracker
 from PIL import Image
@@ -123,9 +124,15 @@ class Instrument(models.Model):
             ('VIOLON' , 'Violoniste'),
         )
 
+
+
+
     instrument = models.CharField('instrument', max_length=80, choices=INSTRUMENT_CHOICE)
+    level = models.CharField('niveau de maitrise', max_length=80, blank=True)
     musician = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.instrument
 
+    # def get_absolute_url(self):
+    #     return reverse('musicians:update_profile')

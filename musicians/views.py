@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from .forms import ProfileForm, AvatarForm, LocalForm, InstruForm
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView, FormView, CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.decorators import method_decorator
+
 from django.views.generic.base import TemplateResponseMixin
 from django.db import transaction
 from django.contrib import messages
@@ -36,7 +38,7 @@ class UpdateProfilView(TemplateView):
                                  instance=request.user.userprofile)
         profile_form = ProfileForm(self.request.GET or None,
                                    instance=request.user.userprofile)
-        instru_form = Instrument(self.request.GET or None)
+        instru_form = InstruForm(self.request.GET or None)
 
 
         local_form = LocalForm(self.request.GET or None,
@@ -117,37 +119,31 @@ class UpdateLocalView(FormView, SuccessMessageMixin):
             return render(self.get_context_data(local_form=local_form))
 
 
-
-# class UpdateInstruView(FormView, SuccessMessageMixin):
-#
-#     form_class = InstruForm
-#     template_name = 'musicians/update_profile.html'
-#
-#     @method_decorator(login_required)
-#     @transaction.atomic
-#     def post(self, request, *args, **kwargs):
-#         instru_form = self.form_class(request.POST,
-#                                        instance=request.user.userprofile)
-#         if instru_form.is_valid():
-#
-#             instru_form.save()
-#             messages.success(self.request, (" Votre Instrument a été ajouté!"))
-#             return redirect('musicians:update_profile')
-#
-#         else:
-#             instru_form = self.form_class(instance=request.user.userprofile)
-#
-#             return render(self.get_context_data(instru_form=instru_form))
-#
 class InstruCreate(CreateView):
+    '''View to add instrument to a musician'''
+
     model = Instrument
-    fields = ['instrument']
+    form_class = InstruForm
+    fields = ['instrument', 'level']
     template_name = 'musicians/update_profile.html'
+    success_url = reverse_lazy('musicians:update_profile')
+
+
 
     @method_decorator(login_required)
-    def form_valid(self, form):
-        form.instance.musician =self.request.user
-        return super().form_valid(form)
+    def post(self, request, *args, **kwargs):
+        instru_form = self.form_class(request.POST)
+        if instru_form.is_valid():
+            instru_form.instance.musician = self.request.user
+            # form_valid() save and create the object with
+            super(InstruCreate, self).form_valid(instru_form)
+            messages.success(self.request, (" Votre Instrument a été ajouté ! "))
+            return redirect(self.success_url)
+
+        else:
+            self.object =None
+            return self.form_invalid(instru_form)
+
 
 
 

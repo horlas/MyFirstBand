@@ -36,7 +36,7 @@ class InstruForm(ModelForm):
     class Meta:
 
         model = Instrument
-        fields = ['instrument']
+        fields = ['instrument', 'level']
 
         widgets = {
             'instrument': Select()
