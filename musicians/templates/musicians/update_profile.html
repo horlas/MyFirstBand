@@ -66,7 +66,18 @@
      <!--instru form-->
 
 <div class="col s6 ">
-    <h4 >Instrument : </h4>
+
+    {% if user.instrument_set.all %}
+         <h4 >Instrument : </h4>
+                    <ul>
+                        {% for i in user.instrument_set.all %}
+                        <li>{{i.instrument}} : {{i.level}}</li>
+                        {% endfor %}
+                    </ul>
+    {% endif %}
+    
+    {# to display add possibilitie only for three instrument #}
+    {% if user.instrument_set.all <= 3 %}
 
     <h5>Ajout : </h5>
 
@@ -75,9 +86,9 @@
         {{ instru_form.as_p }}
     <button class="btn-floating btn-large waves-effect waves-light " type="submit" >
       <i class="material-icons">check</i></button>
-
-
     </form>
+    {% endif %}
+
 </div>
 
 

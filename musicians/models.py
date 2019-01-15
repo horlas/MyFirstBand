@@ -106,29 +106,54 @@ class UserProfile(models.Model):
 class Instrument(models.Model):
     ''' Musicians Instruments'''
 
+    ACC = 'Accordéoniste'
+    BASS = 'Bassiste'
+    BATT = 'Batteur'
+    CUIV = 'Cuivriste'
+    CLAR = 'Clarinetiste'
+    CLAV = 'Clavieriste'
+    CON = 'Contrebassiste'
+    FLU = 'Flutiste'
+    GUI = 'Guitariste'
+    HAR = 'Harmoniciste'
+    PER = 'Percussionniste'
+    PIA = 'Pianiste'
+    SAX = 'Saxophoniste'
+    VIO = 'Violoniste'
+
     INSTRUMENT_CHOICE = (
 
-            ('ACCORDEON' , 'Accordéoniste'),
-            ('BASSE' , 'Bassiste'),
-            ('BATTERIE' , 'Batteur'),
-            ('CUIVRE' , 'Cuivriste'),
-            ('CLARINETTE' , 'Clarinetiste'),
-            ('CLAVIER' , 'Clavieriste'),
-            ('CONTREBASSE' , 'Contrebassiste'),
-            ('FLUTE' , 'Flutiste'),
-            ('GUITARE' , 'Guitariste'),
-            ('HARMONICA' , 'Harmoniciste'),
-            ('PERCUSSION' , 'Percussionniste'),
-            ('PIANO' , 'Pianiste'),
-            ('SAXOPHONE' , 'Saxophoniste'),
-            ('VIOLON' , 'Violoniste'),
-        )
+        (ACC , 'Accordéoniste'),
+        (BASS , 'Bassiste'),
+        (BATT , 'Batteur'),
+        (CUIV , 'Cuivriste'),
+        (CLAR , 'Clarinetiste'),
+        (CLAV , 'Clavieriste'),
+        (CON , 'Contrebassiste'),
+        (FLU , 'Flutiste'),
+        (GUI , 'Guitariste'),
+        (HAR , 'Harmoniciste'),
+        (PER , 'Percussionniste'),
+        (PIA , 'Pianiste'),
+        (SAX , 'Saxophoniste'),
+        (VIO , 'Violoniste'),
+    )
 
+    DB = 'Débutant'
+    IN = 'Intermédiaire'
+    CF = 'Confirmé'
+    PR = 'Professionnel'
 
+    LEVEL_CHOICE = (
 
+        (DB, 'Débutant'),
+        (IN, 'Intermédiaire'),
+        (CF, 'Confirmé'),
+        (PR, 'Professionnel'),
+    )
 
     instrument = models.CharField('instrument', max_length=80, choices=INSTRUMENT_CHOICE)
-    level = models.CharField('niveau de maitrise', max_length=80, blank=True)
+    level = models.CharField('niveau de maitrise', max_length=80, choices=LEVEL_CHOICE)
     musician = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

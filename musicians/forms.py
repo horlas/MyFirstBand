@@ -39,5 +39,6 @@ class InstruForm(ModelForm):
         fields = ['instrument', 'level']
 
         widgets = {
-            'instrument': Select()
+            'instrument': Select(),
+            'level': Select()
         }

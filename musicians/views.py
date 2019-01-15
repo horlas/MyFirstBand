@@ -40,7 +40,6 @@ class UpdateProfilView(TemplateView):
                                    instance=request.user.userprofile)
         instru_form = InstruForm(self.request.GET or None)
 
-
         local_form = LocalForm(self.request.GET or None,
                                instance=request.user.userprofile)
         context = self.get_context_data(**kwargs)
@@ -127,7 +126,7 @@ class InstruCreate(CreateView):
     fields = ['instrument', 'level']
     template_name = 'musicians/update_profile.html'
     success_url = reverse_lazy('musicians:update_profile')
-
+    sucess_message = "Votre Instrument a été ajouté ! "
 
 
     @method_decorator(login_required)
@@ -135,11 +134,7 @@ class InstruCreate(CreateView):
         instru_form = self.form_class(request.POST)
         if instru_form.is_valid():
             instru_form.instance.musician = self.request.user
-            # form_valid() save and create the object with
-            super(InstruCreate, self).form_valid(instru_form)
-            messages.success(self.request, (" Votre Instrument a été ajouté ! "))
-            return redirect(self.success_url)
-
+            return super(InstruCreate, self).form_valid(instru_form)
         else:
             self.object =None
             return self.form_invalid(instru_form)
