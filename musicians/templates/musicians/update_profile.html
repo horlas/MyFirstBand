@@ -15,9 +15,9 @@
         {% endfor %}
         {% endif %}
 <div class="row">
-    <div class="col s1 offset-s11">
+    <div>
         <a href='{% url "musicians:profile" %}' class="waves-effect waves-light btn ">
-            <i class="material-icons left">equalizer</i> Provwccbcbcfil </a>
+            <i class="material-icons left">equalizer</i> Profil </a>
     </div>
 </div>
 
@@ -67,27 +67,51 @@
 
 <div class="col s6 ">
 
-    {% if user.instrument_set.all %}
+
+        {# display list and level of instrument #}
          <h4 >Instrument : </h4>
                     <ul>
                         {% for i in user.instrument_set.all %}
                         <li>{{i.instrument}} : {{i.level}}</li>
                         {% endfor %}
                     </ul>
-    {% endif %}
-    
-    {# to display add possibilitie only for three instrument #}
-    {% if user.instrument_set.all <= 3 %}
 
-    <h5>Ajout : </h5>
 
-    <form action='{% url "musicians:add_instru" %}' method="post"  >
-    {% csrf_token %}
-        {{ instru_form.as_p }}
-    <button class="btn-floating btn-large waves-effect waves-light " type="submit" >
-      <i class="material-icons">check</i></button>
-    </form>
-    {% endif %}
+        <!--<button id = 'delete' class="waves-effect waves-light btn">-->
+            <!--<i class="material-icons left">delete</i> Instrument </button>-->
+
+        {% if user.instrument_set.all %}
+        {# display possibility of delete #}
+        <div>
+            <form action='{% url "musicians:del_instru" %}' method="post">
+                {% csrf_token %}
+                {{ del_instru_form.as_p }}
+
+            <button class="waves-effect waves-light btn" type="submit" value="Select">
+            <i class="material-icons left">delete</i> Instrument </button>
+
+            </form>
+            </div>
+
+        {% endif %}
+
+
+    <!--{% if user.instrument_set.all.count < 3 %}-->
+        {# to display add possibility only for three instruments #}
+
+            <h5>Ajout : </h5>
+
+            <form action='{% url "musicians:add_instru" %}' method="post"  >
+                {% csrf_token %}
+                {{ instru_form.as_p }}
+                <button class="btn-floating btn-large waves-effect waves-light " type="submit" >
+                <i class="material-icons">check</i></button>
+            </form>
+    <!--{% endif %}-->
+
+
+
+
 
 </div>
 
@@ -166,7 +190,7 @@ $("#first").click(function() {
               url,
               function (data) {
                   $.each(data, function (index, value) {
-                      $("#id_town").append($("<option value=" +value.nom+ ">" + value.nom + "</option>"));
+                      $("#id_town").append($("<option value=\"" +value.nom+ "\">" + value.nom + "</option>"));
                       $(document).ready(function () {
                           $('select').formSelect();
                       });
@@ -208,6 +232,21 @@ function createURL(code) {
   $(document).ready(function(){
     $('select').formSelect();
   });
+
+// script to display list of instrument in order to delete just one
+
+$("#delete").click(function() {
+    $('#delete').hide();
+
+
+    })
+
+
+
+
+
+
+
 
 </script>
 {% endblock %}

@@ -152,8 +152,8 @@ class Instrument(models.Model):
         (PR, 'Professionnel'),
     )
 
-    instrument = models.CharField('instrument', max_length=80, choices=INSTRUMENT_CHOICE)
-    level = models.CharField('niveau de maitrise', max_length=80, choices=LEVEL_CHOICE)
+    instrument = models.CharField('instrument', max_length=80, choices=INSTRUMENT_CHOICE, blank=False)
+    level = models.CharField('niveau de maitrise', max_length=80, choices=LEVEL_CHOICE, blank=False)
     musician = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

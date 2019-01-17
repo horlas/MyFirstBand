@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Select, ModelChoiceField, ChoiceField, TextInput
+from django.forms import ModelForm, Select, Form, ModelChoiceField, ChoiceField, TextInput
 from musicians.models import UserProfile, Instrument
 
 
@@ -30,15 +30,25 @@ class LocalForm(ModelForm):
         }
 
 
-class InstruForm(ModelForm):
-
+class InstruCreateForm(ModelForm):
 
     class Meta:
 
         model = Instrument
         fields = ['instrument', 'level']
 
-        widgets = {
-            'instrument': Select(),
-            'level': Select()
-        }
+
+        # widgets = {
+        #     'instrument': Select(),
+        #     'level': Select()
+        # }
+
+class InstruDeleteForm(Form):
+
+    # here we use a dummy `queryset`, because ModelChoiceField
+    # requires some queryset
+    instrument = ModelChoiceField(queryset=Instrument.objects.none(), empty_label=None)
+
+    def __init__(self, user, *args, **kwargs):
+        super(InstruDeleteForm, self).__init__(*args, **kwargs)
+        self.fields['instrument'].queryset = Instrument.objects.filter(musician=user)

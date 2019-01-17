@@ -1,18 +1,19 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from .forms import ProfileForm, AvatarForm, LocalForm, InstruForm
+from .forms import ProfileForm, AvatarForm, LocalForm, InstruDeleteForm, InstruCreateForm
 from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView, FormView, CreateView
+from django.views.generic import TemplateView, FormView, CreateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.decorators import method_decorator
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.forms import modelformset_factory
 from django.views.generic.base import TemplateResponseMixin
 from django.db import transaction
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from core.utils import get_age
 from musicians.models import Instrument
-
+from django.forms import modelformset_factory
 
 # Create your views here.
 @login_required
@@ -38,8 +39,8 @@ class UpdateProfilView(TemplateView):
                                  instance=request.user.userprofile)
         profile_form = ProfileForm(self.request.GET or None,
                                    instance=request.user.userprofile)
-        instru_form = InstruForm(self.request.GET or None)
-
+        instru_form = InstruCreateForm(self.request.GET or None)
+        del_instru_form = InstruDeleteForm(request.user)
         local_form = LocalForm(self.request.GET or None,
                                instance=request.user.userprofile)
         context = self.get_context_data(**kwargs)
@@ -47,6 +48,7 @@ class UpdateProfilView(TemplateView):
         context['profile_form'] = profile_form
         context['local_form'] = local_form
         context['instru_form'] = instru_form
+        context['del_instru_form'] = del_instru_form
         return self.render_to_response(context)
 
 
@@ -118,26 +120,40 @@ class UpdateLocalView(FormView, SuccessMessageMixin):
             return render(self.get_context_data(local_form=local_form))
 
 
-class InstruCreate(CreateView):
+class InstruCreateView(LoginRequiredMixin, CreateView, SuccessMessageMixin):
     '''View to add instrument to a musician'''
 
     model = Instrument
-    form_class = InstruForm
+    # form_class = InstruCreateForm
     fields = ['instrument', 'level']
     template_name = 'musicians/update_profile.html'
     success_url = reverse_lazy('musicians:update_profile')
-    sucess_message = "Votre Instrument a été ajouté ! "
+    success_message = "Votre Instrument a été ajouté ! "
 
+    def form_valid(self, instru_form):
+        instru_form.instance.musician = self.request.user
+        return super().form_valid(instru_form)
+
+
+class InstruDeleteView(FormView, SuccessMessageMixin):
+    '''View to delete instrument based on a Formwview because with deleteview
+    we can not have the select option. So we use a custom form
+    witch display a queryset : request. user instrument'''
+
+    template_name = 'musicians/update_profile.html'
+    success_url = reverse_lazy('musicians:update_profile')
+    success_message = "Votre Instrument a été supprimé ! "
 
     @method_decorator(login_required)
+    @transaction.atomic
     def post(self, request, *args, **kwargs):
-        instru_form = self.form_class(request.POST)
-        if instru_form.is_valid():
-            instru_form.instance.musician = self.request.user
-            return super(InstruCreate, self).form_valid(instru_form)
-        else:
-            self.object =None
-            return self.form_invalid(instru_form)
+        del_instru_form = InstruDeleteForm(request.user, request.POST)
+        # get instrument id user wants to delete
+        delete_id = request.POST['instrument']
+        if del_instru_form.is_valid():
+            delete_instrument = Instrument.objects.get(id=delete_id)
+            delete_instrument.delete()
+            return redirect(self.success_url)
 
 
 
@@ -148,33 +164,3 @@ class InstruCreate(CreateView):
 
 
 
-
-
-
-
-
-#
-# @login_required
-# @transaction.atomic
-# def update_location(request):
-#     datas = {
-#         'age': 'HOUOUOU'
-#     }
-#
-#     if request.method == 'POST':
-#
-#
-#         if local_form.is_valid():
-#             local_form.save()
-#             messages.success(request , _('Your profile was successfully updated!'))
-#             return redirect('musicians:profile')
-#         else:
-#             messages.error(request , _('Please correct the error below.'))
-#
-#     else:
-#         local_form = LocalForm(instance=request.user.userprofile)
-#
-#     return render(request, 'musicians/update_profile.html', {
-#         "local_form": local_form,
-#         "age" : age
-#     })
