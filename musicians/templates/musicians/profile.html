@@ -30,7 +30,11 @@
           <div class="row">
       <div class='col s8 offset-s4'>
 
- {% csrf_token %}
+            <ul>
+                        {% for i in user.instrument_set.all %}
+                        <li>{{i.instrument}} </li>
+                        {% endfor %}
+            </ul>
             <span > {{age}} ans </span>
 
             <h4>{{user.email}}</h4>

@@ -14,6 +14,19 @@
     color: #fdca5a;
 }
 
+#delete {
+   margin-left: 40px;
+}
+
+#add {
+    margin-left : 40px;
+}
+
+.middle  {
+    vertical-align : middle
+}
+
+
 /*.tooltipped {*/
     /*background-color: black;*/
 /*}*/

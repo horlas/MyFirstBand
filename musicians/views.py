@@ -2,18 +2,18 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from .forms import ProfileForm, AvatarForm, LocalForm, InstruDeleteForm, InstruCreateForm
 from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView, FormView, CreateView, DeleteView
+from django.views.generic import TemplateView, FormView, CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.forms import modelformset_factory
-from django.views.generic.base import TemplateResponseMixin
+
+
 from django.db import transaction
 from django.contrib import messages
-from django.utils.translation import ugettext_lazy as _
+
 from core.utils import get_age
 from musicians.models import Instrument
-from django.forms import modelformset_factory
+
 
 # Create your views here.
 @login_required
@@ -124,7 +124,6 @@ class InstruCreateView(LoginRequiredMixin, CreateView, SuccessMessageMixin):
     '''View to add instrument to a musician'''
 
     model = Instrument
-    # form_class = InstruCreateForm
     fields = ['instrument', 'level']
     template_name = 'musicians/update_profile.html'
     success_url = reverse_lazy('musicians:update_profile')
