@@ -118,63 +118,54 @@
 </div>
 
 
-
-        <!--local form-->
- <div class="col s7">
-
-
-
-
-     
-    <form action='{% url "musicians:update_location" %}' method="post"  >
-    {% csrf_token %}
-
-        <div>
-        <span class="tooltipped" data-position="bottom" data-tooltip="Je suis là">Localisation :</span>
-        <span>{{user.userprofile.town}}, {{user.userprofile.county_name}}</span>
-        </div>
-        <input id="first" type="button" value="Change">
-        <div class="col s4 ">
-          <div style="display: none" id="cp"  class = "row " >
-
-            {{ local_form.code |add_label_class:"Code postal" }}
-            {{ local_form.code|append_attr:"class:validate" }}
-            <input id="send" type="button" value="send">
+<!--local form-->
+<div class="col s7">
+   <div class="row">
+      <div class="col s7">
+         <span class="tooltipped" data-position="bottom" data-tooltip="Je suis là">Localisation :</span>
+         <span>{{user.userprofile.town}}, {{user.userprofile.county_name}}</span>
+      </div>
+      <div class="col s3">
+         <!--<input id="first" type="button" value="Change">-->
+         <button id="first" class="waves-effect waves-light btn">change</button>
+      </div>
+   </div>
+   <div class="row">
+      <form action='{% url "musicians:update_location" %}' method="post"  >
+         {% csrf_token %}
+         <div style="display: none"  id="cp" >
+            <div class="col s7">
+               {{ local_form.code |add_label_class:"Code postal" }}
+               {{ local_form.code|append_attr:"class:validate" }}
             </div>
-            <div  style="display: none" id="town"  class = "row " >
-
-            {{ local_form.town }}
-            {{ local_form.county_name}}
-
+            <div class="col s3">
+               <input id="send" type="button" class="btn" value ='MAJ'>
+            </div>
+         </div>
+         <div  style="display: none" id="town" >
+            <div class="col s7">
+               {{ local_form.town }}
+               {{ local_form.county_name}}
+            </div>
             <button class="btn-floating btn-large waves-effect waves-light " type="submit" >
             <i class="material-icons">check</i></button>
+         </div>
+      </form>
+   </div>
+</div>
+</div>
+</div>
 
-            </div>
-
-<!--|append_attr:'class:tooltipped'|append_attr:'data-position:bottom'|append_attr:'data-tooltip :plus de villes'-->
-
-        </div>
-
-     </form>
-      </div>
-        </div>
-    </div>
-
-
-      <!-- Modal Structure in case of a bad input cp -->
-  <div id="bad_cp" class="modal">
-    <div class="modal-content">
+<!-- Modal Structure in case of a bad input cp -->
+<div id="bad_cp" class="modal">
+   <div class="modal-content">
       <h4>Mauvais code postal</h4>
       <p>Veuillez le resaisir</p>
-    </div>
-    <div class="modal-footer">
+   </div>
+   <div class="modal-footer">
       <a href="#!" class="modal-close waves-effect waves-green btn-flat">OK</a>
-    </div>
-  </div>
-
-
-
-
+   </div>
+</div>
 
 
 {% endblock %}
@@ -184,11 +175,17 @@
 <script>
 $("#first").click(function() {
 
-  $("#cp").show();
   $("#first").hide();
-  $("#send").show();
-  $('#send').click(function () {
+  $("#cp").show();
+  $("#btn_send").show();
+  //empty id_code
+  $('#id_code').val('');
+
+
+  $("#send").click(function () {
+
       var $code = $('#id_code').val();
+
       // valid cp coder
       var $return = validateZip($code);
       if ($return === true) {
@@ -196,17 +193,34 @@ $("#first").click(function() {
           $.getJSON(
               url,
               function (data) {
-                  $.each(data, function (index, value) {
-                      $("#id_town").append($("<option value=\"" +value.nom+ "\">" + value.nom + "</option>"));
-                      $(document).ready(function () {
-                          $('select').formSelect();
-                      });
-                      console.log(value.nom)
-                      $('#id_county_name').val(value.departement.nom);
-                  });
-                  $("#send").hide();
-                  $("#town").show();
+
+                    if (data.length != 0){
+
+
+                            $.each(data, function (index, value) {
+
+
+                             $("#id_town").append($("<option value=\"" +value.nom+ "\">" + value.nom + "</option>"));
+                                $(document).ready(function () {
+                                $('select').formSelect();
+                                 });
+
+                             $('#id_county_name').val(value.departement.nom);
+
+                            });
+
+
+                            $("#send").hide();
+                            $("#town").show();
+                          } else {
+                             // show the modal
+                              var elem = document.querySelector('.modal');
+                              var instance = M.Modal.init(elem);
+                              instance.open();
+                                }
+
               });
+
       } else {
           // show the modal
           var elem = document.querySelector('.modal');
@@ -215,8 +229,7 @@ $("#first").click(function() {
       }
 
         });
-
-        });
+});
 
 //validate postal code
 
