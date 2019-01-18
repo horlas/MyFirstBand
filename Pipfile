@@ -16,6 +16,7 @@ pipfile = "*"
 toml = "*"
 psycopg2 = "*"
 psycopg2-binary = "*"
+coverage = "*"
 
 [requires]
 python_version = "3.5"
