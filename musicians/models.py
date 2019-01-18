@@ -1,4 +1,6 @@
 from django.db import models
+# from django.db.models.fields import IntegerField
+
 from djangoyearlessdate.models import YearField
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -13,6 +15,14 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
 import os
 from django.conf import settings
+
+from django.core.validators import MaxValueValidator, MinValueValidator
+
+
+from core.utils import current_year
+
+
+
 
 # Create your models here.
 class UserProfile(models.Model):
@@ -31,9 +41,12 @@ class UserProfile(models.Model):
     code = models.CharField("code postal", max_length=5, blank=True)
     county_name = models.CharField("Nom du département", max_length=60, blank=True)
     town = models.CharField("Ville", max_length=60, blank=True)
-    birth_year = YearField("Année de naissance", null=True, blank=True)
+    birth_year = models.IntegerField("Année de naissance",
+                                     validators=[MinValueValidator(1918),
+                                                  MaxValueValidator(current_year())],
+                                     null=True, blank=True)
     avatar = models.ImageField(null=True, blank=True, upload_to='user_avatar/')
-    gender = models.CharField('Genre' , max_length=1, choices=GENDER_CHOICES)
+    gender = models.CharField('Genre', max_length=1, choices=GENDER_CHOICES, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -158,6 +171,3 @@ class Instrument(models.Model):
 
     def __str__(self):
         return self.instrument
-
-    # def get_absolute_url(self):
-    #     return reverse('musicians:update_profile')

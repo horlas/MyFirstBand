@@ -87,7 +87,6 @@ class UpdateDataView(FormView, SuccessMessageMixin):
                                        instance=request.user.userprofile)
         if profile_form.is_valid():
             profile_form.save()
-            print(request.POST.get("county_name"))
             messages.success(self.request , (" Vos données ont été mises à jour!"))
             return redirect('musicians:update_profile')
 
@@ -127,10 +126,10 @@ class InstruCreateView(LoginRequiredMixin, CreateView, SuccessMessageMixin):
     fields = ['instrument', 'level']
     template_name = 'musicians/update_profile.html'
     success_url = reverse_lazy('musicians:update_profile')
-    success_message = "Votre Instrument a été ajouté ! "
 
     def form_valid(self, instru_form):
         instru_form.instance.musician = self.request.user
+        messages.success(self.request, ("Votre Instrument a été ajouté ! "))
         return super().form_valid(instru_form)
 
 
@@ -141,7 +140,6 @@ class InstruDeleteView(FormView, SuccessMessageMixin):
 
     template_name = 'musicians/update_profile.html'
     success_url = reverse_lazy('musicians:update_profile')
-    success_message = "Votre Instrument a été supprimé ! "
 
     @method_decorator(login_required)
     @transaction.atomic
@@ -152,6 +150,7 @@ class InstruDeleteView(FormView, SuccessMessageMixin):
         if del_instru_form.is_valid():
             delete_instrument = Instrument.objects.get(id=delete_id)
             delete_instrument.delete()
+            messages.success(self.request, ("Votre Instrument a été supprimé ! "))
             return redirect(self.success_url)
 
 

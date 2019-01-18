@@ -1,11 +1,15 @@
-from django.forms import ModelForm, Select, Form, ModelChoiceField
+from django.forms import ModelForm, Select, Form, ModelChoiceField, fields
 from musicians.models import UserProfile, Instrument
+from core.utils import current_year
 
 
 class ProfileForm(ModelForm):
+    birth_year = fields.IntegerField(min_value=1918, max_value=current_year())
     class Meta:
         model = UserProfile
         fields = ['username', 'bio', 'birth_year', 'gender']
+
+
 
 
 class AvatarForm(ModelForm):

@@ -1,7 +1,7 @@
 from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import SimpleUploadedFile
-
+import datetime
 # Some  useful function
 
 
@@ -44,3 +44,9 @@ def get_age(birth_year):
     import datetime
     this_year = datetime.date.today().year
     return this_year - birth_year
+
+
+# define validator of birth_year
+def current_year():
+    return datetime.date.today().year
+

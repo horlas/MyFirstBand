@@ -3,63 +3,53 @@
 {% load widget_tweaks %}
 {% block content %}
 
+
+
 <div class="container " xmlns="http://www.w3.org/1999/html">
-    <div class="row"></div>
-    <div class="row"></div>
-
-            {% if messages %}
-        {% for message in messages %}
-        <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" {% endif %}>
-        <span>{{ message }}</span>
-        </div>
-        {% endfor %}
-        {% endif %}
+   <div class="row"></div>
+   <div class="row"></div>
+   {% if messages %}
+   {% for message in messages %}
+   <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" {% endif %}>
+   <span>{{ message }}</span>
+</div>
+{% endfor %}
+{% endif %}
 <div class="row">
-    <div>
-        <a href='{% url "musicians:profile" %}' class="waves-effect waves-light btn ">
-            <i class="material-icons left">equalizer</i> Profil </a>
-    </div>
+   <div>
+      <a href='{% url "musicians:profile" %}' class="waves-effect waves-light btn ">
+      <i class="material-icons left">equalizer</i> Profil </a>
+   </div>
 </div>
-
 <div class="row valign-wrapper">
-
- <!--avatar form-->
- <div class="col s5">
-
-    <form action='{% url "musicians:update_avatar" %}' method="post" enctype="multipart/form-data" >
-        {% csrf_token %}
-
-
-        {% if user.userprofile.avatar %}
-             <img alt="Avatar" class="circle responsive-img" src="{{ user.userprofile.avatar.url }}" />
-            {% else %}
-            <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" />
-            {% endif %}
-
-
-           {{ avatar_form.as_p }}
-
-      <button class="btn-floating btn-large waves-effect waves-light " type="submit" >
-      <i class="material-icons">check</i></button>
-    </form>
-
-</div>
-
-    <!--profile form-->
-<div class="col s7">
-   <form action='{% url "musicians:update_data" %}' method="post"  >
-       {% csrf_token %}
-
-        {{ profile_form.as_p }}
-
+   <!--avatar form-->
+   <div class="col s5">
+      <form action='{% url "musicians:update_avatar" %}' method="post" enctype="multipart/form-data" >
+         {% csrf_token %}
+         {% if user.userprofile.avatar %}
+         <img alt="Avatar" class="circle responsive-img" src="{{ user.userprofile.avatar.url }}" />
+         {% else %}
+         <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" />
+         {% endif %}
+         {{ avatar_form.as_p }}
          <button class="btn-floating btn-large waves-effect waves-light " type="submit" >
-      <i class="material-icons">check</i></button>
+         <i class="material-icons">check</i></button>
+      </form>
+   </div>
+   <!--profile form-->
+   <div class="col s7">
+      <form action='{% url "musicians:update_data" %}' method="post"  >
+         {% csrf_token %}
 
-    </form>
+        {% include 'core/form_errors.html' with form=profil_form %}
+
+         {{ profile_form.as_p }}
+         <button class="btn-floating btn-large waves-effect waves-light " type="submit" >
+         <i class="material-icons">check</i></button>
+
+      </form>
+   </div>
 </div>
-
-</div>
-
 
  <div class="row valign-wrapper">
 
