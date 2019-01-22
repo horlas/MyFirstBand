@@ -1,11 +1,11 @@
 from requestium import Session, Keys
 from django.test import TestCase, RequestFactory
-from django.shortcuts import render
+from django.contrib.auth.views import LoginView
 from django.urls import reverse
 from django.test.client import Client
 from authentication.models import User
 from musicians.models import UserProfile
-from authentication.forms import SignupForm
+from authentication.forms import SignupForm, CustomLoginForm
 from authentication.views import signup
 
 
@@ -18,8 +18,7 @@ class MyTestCase(TestCase):
         # web client
         self.client = Client()
         # our test user
-        # self.user = User.objects.create( email='test@hotmail.com',
-        #                                       password = 'aqwz7418')
+
 
         self.factory = RequestFactory()
 
@@ -93,42 +92,41 @@ class SignupFormTest(TestCase):
         self.assertEqual(form.errors['email'][0], 'This field is required.')
 
 
+class LoginViewTest(MyTestCase):
+
+    def test_login_get(self):
+        request = self.factory.get('/authentication/accounts/login')
+        response = LoginView.as_view()(request)
+        self.assertEqual(response.status_code, 200)
+
+    # def test_login_form(self):
+    #
+    #     form = CustomLoginForm({'username': 'test@hotmail.com',
+    #             'password': 'aqwz7418'})
+    #     self.assertTrue(form.is_valid())
+    #
+    # def test_login_form_blank(self):
+    #
+    #     form = CustomLoginForm({})
+    #     self.assertFalse(form.is_valid())
+    #     self.assertEqual(form.errors['email'][0], 'This field is required.')
+
+    # def test_login_form(self):
+    #     response = self.client.post()
+
+    def test_login_bis(self):
+
+        data = {'email': 'test@hotmail.com',
+                'password1': 'aqwz7418'}
+
+        connect = self.client.post('/authentication/accounts/login', data, follow=True)
+        # self.assertFormError(connect, 'form', 'username', 'This field is required.')
+
+        self.assertEqual(connect.status_code, 200)
 
 
 
 
 
 
-
-
-
-
-
-
-
-# class LoginLogoutViewTest(MyTestCase):
-#
-#     def test_loginout_selenium(self):
-        # self.session.driver.get(self.url)
-        # self.session.driver.ensure_element_by_xpath("//a[@id='logn']", state='clickable', timeout=10).ensure.click()
-
-        # self.session.driver.get('{}/authentication/signup/'.format(self.url))
-        # self.session.driver.ensure_element_by_id('id_email').send_keys('test@horlmail.com')
-        # self.session.driver.ensure_element_by_id('id_password1').send_keys('aqwz7418')
-        #
-        # self.session.driver.ensure_element_by_id('id_password2').send_keys('aqwz7418')
-        # print('Waiting for elements to load...')
-        # self.session.driver.ensure_element_by_id('sign_up_button', state='visible', timeout=5).click()
-
-
-        # self.session.driver.ensure_element_by_id('logout', state='clickable', timeout=5).ensure_click()
-
-        # self.session.driver.quit()
-        # self.session.driver.get('{}/authentication/accounts/login/'.format(self.url))
-        #
-        # # Can we get the user create by the last test ?
-        # self.session.driver.ensure_element_by_id('id_email').send_keys('test@horlmail.com')
-        # # self.session.driver.ensure_element_by_id('id_password1').send_keys('aqwz7418')
-        # #
-        # self.session.driver.ensure_element_by_css_selector('[value="login"]', state='clickable', timeout=5).ensure.click()
 
