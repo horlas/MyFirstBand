@@ -25,7 +25,7 @@ SECRET_KEY = '80=sipkw)w_dj5$x$@+^eizi#w3!oput!3hg7go_nxv_)u&d7+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'testserver']
 
 
 # Application definition
@@ -139,6 +139,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'authentication/static'),
     os.path.join(BASE_DIR, 'musicians/static'),
 ]
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 LOGIN_REDIRECT_URL = '/core/'
 LOGOUT_REDIRECT_URL = '/core/'
 
