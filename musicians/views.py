@@ -20,8 +20,9 @@ from musicians.models import Instrument
 def profile(request):
     if request.user.userprofile.birth_year:
         age = get_age(request.user.userprofile.birth_year)
+        age_str = '{} ans'.format(age)
         datas = {
-            'age' : age
+            'age' : age_str
             }
 
         return render(request, 'musicians/profile.html', datas)

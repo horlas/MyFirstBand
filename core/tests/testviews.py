@@ -67,5 +67,6 @@ class NavBarTest(MyTestCase):
         self.assertEqual(icon2.get_attribute('href'), 'http://127.0.0.1:8000/authentication/accounts/login/')
 
         # Note : icon2.click() doesn't work : element not interactable
+        # Maybe due to the size of the window
 
         self.session.driver.quit()

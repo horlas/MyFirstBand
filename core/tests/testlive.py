@@ -4,8 +4,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 import time
 
 class MySeleniumTests(StaticLiveServerTestCase):
-    fixtures = ['user-data.json']
 
+    fixtures = ['user-data.json']
     TIMEOUT = 2
 
     @classmethod
@@ -49,9 +49,14 @@ class MySeleniumTests(StaticLiveServerTestCase):
         time.sleep(2)
         # he posts the signin form
         self.selenium.find_element_by_id("sign_up_button").click()
-        # he is connected
+        # he is connected so we have the logout icon
         self.webdriver_wait()
         time.sleep(3)
+        self.selenium.find_element_by_xpath('//a[@href="/authentication/accounts/logout/"]')
+
+        # get the Live server url
+        end_url = "{}/core/".format(self.live_server_url)
+        self.assertEqual(self.selenium.current_url, end_url)
 
     def test_login_logout(self):
 
