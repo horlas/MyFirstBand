@@ -8,6 +8,7 @@ from musicians.models import UserProfile, Instrument
 from musicians.forms import ProfileForm, AvatarForm, LocalForm, InstruCreateForm, InstruDeleteForm
 from musicians.views import profile
 from core.utils import get_age
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 
 class MyTestCase(TestCase):
@@ -108,10 +109,19 @@ class ProfileViewTest(MyTestCase):
 class UpdateProfilViewTest(MyTestCase):
     ''' Test get forms '''
 
+    def setUp(self):
+        super(UpdateProfilViewTest, self).setUp()
+        self.login = self.client.login(username=self.email, password=self.password)
+        self.fake_data_profile_form = {'gender': 'F',
+                'username': 'Toto',
+                'bio': "Et dire qu'il y a un groupe qui s'appelle Toto",
+                'birth_year': '1971'}
+
+
     def test_update_profil_page(self):
-        login = self.client.login(username=self.email, password=self.password)
+        # login = self.client.login(username=self.email, password=self.password)
         # test if the user is logged
-        self.assertEqual(login, True)
+        self.assertEqual(self.login, True)
         response = self.client.get('/musicians/update_profile/')
         # test the status code
         self.assertEqual(response.status_code, 200)
@@ -146,9 +156,63 @@ class UpdateProfilViewTest(MyTestCase):
         # Now let's test each form post
 
     def test_avatar_form_post(self):
+        # test if the user is logged
+        self.assertEqual(self.login, True)
+        # make sure the user has no avatar image
+        qs = UserProfile.objects.filter(id= self.test_user.id)
+        for i in qs:
+            self.assertEqual(i.avatar.name, '')
+        url = reverse("musicians:update_avatar")
 
+        # In Python 3.5+, you must use the bytes object instead of str. Replace "file_content" with b"file_content"
+        test_img = SimpleUploadedFile('test.png', b'file_content', content_type='/test_img.test.png')
+        img = {'avatar' : test_img}
+        #  post the form with test img
+        response = self.client.post('musicians/update_avatar/submit', img, follow=True)
+        # self.assertEqual(response.status_code, 200)
+        # response['location']
 
+        # self.assertRegex(response.redirect_chain, r'/users/profile/$')
+        # self.assertRedirects(
+        #     response,
+        #     expected_url=reverse("musicians:update_profile"),
+        #     status_code=302,
+        #     target_status_code=200
+        # )
+        image_src = response.context.get('image_src')
+        # print(image_src)
 
+    def test_profile_form_post(self):
+        # test if the user is logged
+        self.assertEqual(self.login, True)
+        url = reverse("musicians:update_data")
+        data = self.fake_data_profile_form
+        response = self.client.post(url, data, follow=True)
+        self.assertRedirects(
+            response,
+            expected_url=reverse('musicians:update_profile'),
+            status_code=302,
+            target_status_code=200
+        )
+        # test the success message
+        self.assertContains(response, 'Vos données ont été mises à jour!')
 
+    def test_profile_form_valid(self):
+        # test only the form
+        form = ProfileForm(self.fake_data_profile_form)
+        self.assertTrue(form.is_valid())
 
+    def test_profile_form_not_valid(self):
+        # test with bad values
+        self.fake_data_profile_form['gender']= ""
+        form = ProfileForm(self.fake_data_profile_form)
+        self.assertEqual(form.errors['gender'][0], 'This field is required.')
+
+        self.fake_data_profile_form['birth_year'] = "19"
+        form = ProfileForm(self.fake_data_profile_form)
+        self.assertEqual(form.errors['birth_year'][0], 'Ensure this value is greater than or equal to 1918.')
+
+        self.fake_data_profile_form['birth_year'] = "2028"
+        form = ProfileForm(self.fake_data_profile_form)
+        self.assertEqual(form.errors['birth_year'][0], 'Ensure this value is less than or equal to 2019.')
 

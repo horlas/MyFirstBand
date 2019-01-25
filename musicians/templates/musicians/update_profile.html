@@ -32,7 +32,7 @@
          <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" />
          {% endif %}
          {{ avatar_form.as_p }}
-         <button class="btn-floating btn-large waves-effect waves-light " type="submit" >
+         <button id='submit_avatar' class="btn-floating btn-large waves-effect waves-light " type="submit" >
          <i class="material-icons">check</i></button>
       </form>
    </div>
@@ -44,7 +44,7 @@
         {% include 'core/form_errors.html' with form=profil_form %}
 
          {{ profile_form.as_p }}
-         <button class="btn-floating btn-large waves-effect waves-light " type="submit" >
+         <button id = 'submit_profile' class="btn-floating btn-large waves-effect waves-light " type="submit" >
          <i class="material-icons">check</i></button>
 
       </form>
@@ -137,7 +137,7 @@
                {{ local_form.town }}
                {{ local_form.county_name}}
             </div>
-            <button class="btn-floating btn-large waves-effect waves-light " type="submit" >
+            <button id='local_submit' class="btn-floating btn-large waves-effect waves-light " type="submit" >
             <i class="material-icons">check</i></button>
          </div>
       </form>

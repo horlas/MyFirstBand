@@ -64,6 +64,7 @@ class UpdateAvatarView(FormView, SuccessMessageMixin):
         avatar_form = self.form_class(request.POST,
                                       request.FILES ,
                                       instance=request.user.userprofile)
+
         if avatar_form.is_valid():
             avatar_form.save()
             messages.success(self.request, (" Votre image a été  mise à jour!"))
