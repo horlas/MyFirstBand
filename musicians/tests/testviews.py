@@ -9,6 +9,7 @@ from musicians.forms import ProfileForm, AvatarForm, LocalForm, InstruCreateForm
 from musicians.views import profile
 from core.utils import get_age
 from django.core.files.uploadedfile import SimpleUploadedFile
+import requests
 
 
 class MyTestCase(TestCase):
@@ -116,7 +117,9 @@ class UpdateProfilViewTest(MyTestCase):
                 'username': 'Toto',
                 'bio': "Et dire qu'il y a un groupe qui s'appelle Toto",
                 'birth_year': '1971'}
-
+        self.fake_data_local_form = {'code' : 34070,
+                                     'town' : 'Montpellier',
+                                     'county_name' : 'Hérault'}
 
     def test_update_profil_page(self):
         # login = self.client.login(username=self.email, password=self.password)
@@ -169,6 +172,9 @@ class UpdateProfilViewTest(MyTestCase):
         img = {'avatar' : test_img}
         #  post the form with test img
         response = self.client.post('musicians/update_avatar/submit', img, follow=True)
+
+        # Todo : the post form doesn't redirect to the update_profil page
+
         # self.assertEqual(response.status_code, 200)
         # response['location']
 
@@ -182,7 +188,7 @@ class UpdateProfilViewTest(MyTestCase):
         image_src = response.context.get('image_src')
         # print(image_src)
 
-    def test_profile_form_post(self):
+    def test_post_profile_form(self):
         # test if the user is logged
         self.assertEqual(self.login, True)
         url = reverse("musicians:update_data")
@@ -215,4 +221,88 @@ class UpdateProfilViewTest(MyTestCase):
         self.fake_data_profile_form['birth_year'] = "2028"
         form = ProfileForm(self.fake_data_profile_form)
         self.assertEqual(form.errors['birth_year'][0], 'Ensure this value is less than or equal to 2019.')
+
+    def test_geoapi(self):
+        ''' We use GeoApi in JS script, we test 200 code'''
+        url = 'https://geo.api.gouv.fr/communes?codePostal=34070'
+        response = requests.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_local_form(self):
+        # test if the user is logged
+        self.assertEqual(self.login, True)
+        url = reverse("musicians:update_location")
+        data = self.fake_data_local_form
+        response = self.client.post(url, data, follow=True)
+        self.assertRedirects(
+            response,
+            expected_url=reverse('musicians:update_profile'),
+            status_code=302,
+            target_status_code=200
+        )
+
+        # test the success message
+        self.assertContains(response, 'Votre localité a été mise à jour!')
+
+    def test_post_instru_form(self):
+        # test if the user is logged
+        self.assertEqual(self.login, True)
+        url = reverse("musicians:add_instru")
+        data = {'instrument' : 'Flutiste',
+                'level': 'Débutant'}
+        before_instru = Instrument.objects.filter(musician=self.test_user)
+
+        #### Warning keep this line , we don't know why but without the print the test failed ####
+        print(len(before_instru))
+
+        response = self.client.post(url, data, follow=True)
+        self.assertRedirects(
+            response,
+            expected_url=reverse('musicians:update_profile'),
+            status_code=302,
+            target_status_code=200
+        )
+        # check if the instrument is well added
+        after_instru = Instrument.objects.filter(musician=self.test_user)
+        # print(len(after_instru))
+        self.assertEqual(len(after_instru), len(before_instru)+1)
+        # test the success message
+        self.assertContains(response, "Votre Instrument a été ajouté ! ")
+        self.assertContains(response, 'Flutiste : Débutant')
+        self.assertContains(response, 'Pianiste : Debutant')
+
+
+
+
+
+    def test_post_del_instru_form(self):
+        self.assertEqual(self.login, True)
+        url = reverse("musicians:del_instru")
+        before_instru = Instrument.objects.filter(musician=self.test_user)
+        # as in the view we get the id of the instrument user wants to delete
+        for i in before_instru:
+            instru_id = i.id
+        # print(len(before_instru))
+        data = {'instrument' : instru_id}
+        response = self.client.post(url, data, follow=True)
+        self.assertRedirects(
+            response,
+            expected_url=reverse('musicians:update_profile'),
+            status_code=302,
+            target_status_code=200
+        )
+        self.assertContains(response, "Votre Instrument a été supprimé ! ")
+        after_instru = Instrument.objects.filter(musician=self.test_user)
+        # print(len(after_instru))
+        self.assertEqual(len(after_instru), len(before_instru)-1)
+        self.assertNotContains(response, 'Pianiste : Debutant')
+
+
+
+
+
+
+
+
+
 

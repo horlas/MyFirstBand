@@ -168,6 +168,7 @@ class MySeleniumTests(StaticLiveServerTestCase):
         print('His new home is updated ')
 
         # Todo : test intru form add plus delete
+        # Todo : check username in index page when the user is connected
 
 
 
