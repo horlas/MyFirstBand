@@ -272,9 +272,6 @@ class UpdateProfilViewTest(MyTestCase):
         self.assertContains(response, 'Pianiste : Debutant')
 
 
-
-
-
     def test_post_del_instru_form(self):
         self.assertEqual(self.login, True)
         url = reverse("musicians:del_instru")
