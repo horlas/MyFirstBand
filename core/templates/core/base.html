@@ -15,9 +15,15 @@
 
       <!-- Compiled and minified JavaScript -->
 
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+      <!-- Materialize CSS core -->
 
-        <!--Import Vue.JS-->
+      <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+
+      <!-- Materiallize CSS JavaScript -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+      <!--Import Vue.JS-->
         <script src="https://unpkg.com/vue"></script>
 
       <!--Import Google Icon Font-->
@@ -26,7 +32,7 @@
 
      <!-- Compiled and minified CSS -->
 
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+      <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">-->
 
       <!-- Custom Css for this web site-->
 
@@ -45,6 +51,9 @@
 
 
     {% include "core/navbar.html" %}
+    {% if user.is_authenticated %}
+    {% include "core/sidenav_connected.html" %}
+    {% endif %}
     {% block content %} {% endblock %}
       {% block script %} {% endblock %}
 

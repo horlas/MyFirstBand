@@ -6,13 +6,24 @@
 }
 
 .bg-test {
-    background-color: bisque;
+    background-color: #fdb44b;
 }
 
 .material-icons {
     /*font-size: 150px;*/
-    color: #fdca5a;
+    color: #fdca5a !important;
 }
+
+
+.custom-text {
+     color: #fdca5a !important;;
+}
+
+#nav-mobile {
+    color : #fdca5a;
+}
+
+
 
 #delete {
    margin-left: 40px;
@@ -26,6 +37,9 @@
     vertical-align : middle
 }
 
+#nav-mobile {
+    background : #33313b;
+}
 
 /*.tooltipped {*/
     /*background-color: black;*/

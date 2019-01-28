@@ -15,16 +15,16 @@
             <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" />
             {% endif %}
             </div>
-            <div class="col s6">
+            <div class="col s8">
               <h4 class="black-text">
                 {{user.userprofile.username}}
               </h4>
             </div>
-              <div class="col s2">
-                  <a href="{% url 'musicians:update_profile' %}">
-                  <i style='color: black' class=" material-icons tooltipped " data-tooltip="Edition du profil" >edit</i>
-                  </a>
-              </div>
+              <!--<div class="col s2">-->
+                  <!--<a href="{% url 'musicians:update_profile' %}">-->
+                  <!--<i style='color: black' class=" material-icons tooltipped " data-tooltip="Edition du profil" >edit</i>-->
+                  <!--</a>-->
+              <!--</div>-->
           </div>
 
           <div class="row">
