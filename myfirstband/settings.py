@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'authentication',
     'musicians',
     'core',
+    'band',
 ]
 
 MIDDLEWARE = [
@@ -138,6 +139,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'core/static'),
     os.path.join(BASE_DIR, 'authentication/static'),
     os.path.join(BASE_DIR, 'musicians/static'),
+    os.path.join(BASE_DIR, 'band/static'),
 ]
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')

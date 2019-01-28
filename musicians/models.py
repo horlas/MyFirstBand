@@ -1,12 +1,7 @@
 from django.db import models
-# from django.db.models.fields import IntegerField
-
-from djangoyearlessdate.models import YearField
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from authentication.models import User
-from django.urls import reverse
-
 from model_utils import FieldTracker
 from PIL import Image
 from datetime import date
@@ -15,10 +10,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
 import os
 from django.conf import settings
-
 from django.core.validators import MaxValueValidator, MinValueValidator
-
-
 from core.utils import current_year
 
 

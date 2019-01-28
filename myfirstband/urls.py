@@ -16,16 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
-# from authentication import views
 from core import views as core_views
 from django.conf.urls.static import static
-from musicians import views as musicians_views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('authentication/', include('authentication.urls', namespace='authentication')),
     path('core/', include('core.urls', namespace='core')),
     path('musicians/', include('musicians.urls', namespace='musicians')),
+    path('band/', include('band.urls', namespace='band')),
     path('', core_views.accueil),
 
 ]
