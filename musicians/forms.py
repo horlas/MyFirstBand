@@ -10,8 +10,6 @@ class ProfileForm(ModelForm):
         fields = ['username', 'bio', 'birth_year', 'gender']
 
 
-
-
 class AvatarForm(ModelForm):
     class Meta:
         model = UserProfile

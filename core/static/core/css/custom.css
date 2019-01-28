@@ -16,7 +16,11 @@
 
 
 .custom-text {
-     color: #fdca5a !important;;
+     color: #fdca5a !important;
+}
+
+.custom-btn {
+    background : #2f1b40 !important;
 }
 
 #nav-mobile {
@@ -40,6 +44,20 @@
 #nav-mobile {
     background : #33313b;
 }
+
+header, main, footer {
+      padding-left: 300px;
+    }
+
+    @media only screen and (max-width : 992px) {
+      header, main, footer {
+        padding-left: 0;
+      }
+    }
+
+
+
+
 
 /*.tooltipped {*/
     /*background-color: black;*/

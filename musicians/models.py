@@ -45,6 +45,7 @@ class UserProfile(models.Model):
     # Here we instantiate a Fieltracker to track any fields specially avatar field
     tracker = FieldTracker()
 
+    # creating the profile when creating the user
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
         if created:
@@ -54,8 +55,8 @@ class UserProfile(models.Model):
     def save_user_profile(sender, instance, **kwargs):
         instance.userprofile.save()
 
-
     def set_avatar(self):
+
         _avatar = self.avatar
         if not _avatar:
             self.avatar = 'core/media/user_avatar/0.jpg'

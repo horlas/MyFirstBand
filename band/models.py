@@ -46,7 +46,7 @@ class Band(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     type = models.CharField('Type', max_length=80, choices=TYPE_OF_BAND)
 
-    owner = models.OneToOneField(User, on_delete=models.PROTECT)
+    owner = models.ForeignKey(User, on_delete=models.PROTECT)
 
     # Here we instantiate a Fieltracker to track any fields specially avatar field
     tracker = FieldTracker()
@@ -65,7 +65,7 @@ class Band(models.Model):
             upload_image = self.avatar.path
 
             # rename avatar image
-            avatar_name = '{}-{}.jpg'.format(date.today(), self.user.id)
+            avatar_name = '{}-{}.jpg'.format(date.today(), self.id)
 
             img = Image.open(upload_image)
 
@@ -86,7 +86,7 @@ class Band(models.Model):
                                               sys.getsizeof(output),
                                               None)
 
-            super(UserProfile, self).save()
+            super(Band, self).save()
 
             # delete the upload of avatar before resize it
             os.remove(upload_image)
@@ -106,6 +106,15 @@ class Member(models.Model):
     ''' Musicians of the band '''
     member = models.ForeignKey(User, on_delete=models.CASCADE)
     band = models.ForeignKey(Band, on_delete=models.CASCADE)
+
+    # @receiver(post_save, sender=Band)
+    # def create_member(sender, instance, created, **kwargs):
+    #     if created:
+    #         Member.objects.create(member=instance.owner, band=instance)
+    #
+    # @receiver(post_save, sender=Band)
+    # def save_member(sender, instance, **kwargs):
+    #     # some stuff
 
 class MusicalGenre (models.Model):
     ''' Musical genre of the Band '''

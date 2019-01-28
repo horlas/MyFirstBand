@@ -1,17 +1,15 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from .forms import ProfileForm, AvatarForm, LocalForm, InstruDeleteForm, InstruCreateForm
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView, FormView, CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-
 from django.db import transaction
 from django.contrib import messages
 
 from core.utils import get_age
+from musicians.forms import ProfileForm, AvatarForm, LocalForm, InstruDeleteForm, InstruCreateForm
 from musicians.models import Instrument
 
 

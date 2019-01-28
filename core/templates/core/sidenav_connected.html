@@ -1,7 +1,7 @@
 {% load static %}
 {% block content %}
 <div class="container">
-    <a href="#" data-target="nav-mobile" class="top-nav sidenav-trigger full hide-on-large-only">
+    <a href="#" data-target="nav-mobile" class="top-nav sidenav-trigger show-on-large">
         <i class="material-icons">menu</i></a>
 </div>
 
@@ -41,7 +41,7 @@
 
     <li><div class="divider"></div></li>
     <li>
-        <a id='group' class="waves-effect custom-text" href="">
+        <a id='group' class="waves-effect custom-text" href='{% url "band:list_bands" %}'>
             <i class="material-icons custom-icons">group_work</i>
             Mes groupes</a>
     </li>

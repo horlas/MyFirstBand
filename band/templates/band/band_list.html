@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+<main>
+
+<div class="row">
+    <div class="col s10 offset-s1">
+    <h3 class="header">Mes groupes</h3>
+
+
+<ul class="collection">
+
+    {% for band in object_list %}
+
+    <li class="collection-item avatar">
+       {% if band.avatar %}
+      <img src="{{ band.avatar.url }}" alt="" class="circle">
+        {% else %}
+       <img src="{% static 'core/img/0_band.jpg' %}" alt="" class="circle">
+        {% endif %}
+      <span class="title">{{ band.name }}</span>
+      <p> {{ band.type }} <br>
+         {{ band.town }} , {{ band.county_name }}
+
+      </p>
+      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+    </li>
+
+{% endfor %}
+
+
+  </ul>
+
+
+</div>
+
+</div>
+
+<div class="row">
+    <div class="col s10 offset-s1">
+    <a class="waves-effect waves-light btn custom-btn custom-text"><i class="material-icons left">add</i>Creer un groupe</a>
+
+    </div>
+
+</div>
+
+
+
+</main>
+
+{% endblock %}
+

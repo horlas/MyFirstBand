@@ -3,7 +3,7 @@
 {% load widget_tweaks %}
 {% block content %}
 
-
+<main>
 
 <div class="container " xmlns="http://www.w3.org/1999/html">
    <div class="row"></div>
@@ -17,7 +17,7 @@
 {% endif %}
 <div class="row">
    <div>
-      <a href='{% url "musicians:profile" %}' class="waves-effect waves-light btn ">
+      <a href='{% url "musicians:profile" %}' class="waves-effect waves-light btn custom-btn custom-text" >
       <i class="material-icons left">equalizer</i> Profil </a>
    </div>
 </div>
@@ -32,7 +32,7 @@
          <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" />
          {% endif %}
          {{ avatar_form.as_p }}
-         <button id='submit_avatar' class="btn-floating btn-large waves-effect waves-light " type="submit" >
+         <button id='submit_avatar' class="btn-floating btn-small waves-effect waves-light custom-btn"" type="submit" >
          <i class="material-icons">check</i></button>
       </form>
    </div>
@@ -44,7 +44,7 @@
         {% include 'core/form_errors.html' with form=profil_form %}
 
          {{ profile_form.as_p }}
-         <button id = 'submit_profile' class="btn-floating btn-large waves-effect waves-light " type="submit" >
+         <button id = 'submit_profile' class="btn-floating btn-small waves-effect waves-light custom-btn" " type="submit" >
          <i class="material-icons">check</i></button>
 
       </form>
@@ -65,11 +65,11 @@
 <div id='trigger_button' class="row valign-wrapper">
    {% if user.instrument_set.all.count < 3 %}
    {# to display add possibility only for three instruments #}
-   <button id = "add" class="btn-floating btn-small waves-effect waves-light">
+   <button id = "add" class="btn-floating btn-small waves-effect waves-light custom-btn"">
    <i class="material-icons">add</i>  </button>
    {% endif %}
    {% if user.instrument_set.all %}
-   <button id = "delete" class="btn-floating btn-small waves-effect waves-light">
+   <button id = "delete" class="btn-floating btn-small waves-effect waves-light custom-btn"">
    <i class="material-icons">delete</i>  </button>
    {% endif %}
 </div>
@@ -83,7 +83,7 @@
             {{ del_instru_form.as_p }}
          </div>
          <div class="col s6 center-align ">
-            <button  class="btn-floating btn-small waves-effect waves-light">
+            <button  class="btn-floating btn-small waves-effect waves-light custom-btn">
             <i class="material-icons">delete</i>  </button>
          </div>
       </div>
@@ -98,7 +98,7 @@
             {{ instru_form.as_p }}
          </div>
          <div class="col s6 center-align ">
-            <button class="btn-floating btn-small waves-effect waves-light" type="submit" >
+            <button class="btn-floating btn-small waves-effect waves-light custom-btn " type="submit" >
             <i class="material-icons">add</i></button>
          </div>
       </div>
@@ -117,7 +117,7 @@
       </div>
       <div class="col s3">
          <!--<input id="first" type="button" value="Change">-->
-         <button id="first" class="waves-effect waves-light btn">change</button>
+         <button id="first" class="waves-effect waves-light btn custom-btn custom-text ">change</button>
       </div>
    </div>
    <div class="row">
@@ -129,7 +129,7 @@
                {{ local_form.code|append_attr:"class:validate" }}
             </div>
             <div class="col s3">
-               <input id="send" type="button" class="btn" value ='MAJ'>
+               <input id="send" type="button" class="btn custom-btn custom-text" value ='MAJ'>
             </div>
          </div>
          <div  style="display: none" id="town" >
@@ -137,7 +137,7 @@
                {{ local_form.town }}
                {{ local_form.county_name}}
             </div>
-            <button id='local_submit' class="btn-floating btn-large waves-effect waves-light " type="submit" >
+            <button id='local_submit' class="btn-floating btn-large waves-effect waves-light custom-btn " type="submit" >
             <i class="material-icons">check</i></button>
          </div>
       </form>
@@ -156,7 +156,7 @@
       <a href="#!" class="modal-close waves-effect waves-green btn-flat">OK</a>
    </div>
 </div>
-
+</main>
 
 {% endblock %}
 
@@ -256,13 +256,6 @@ $("#add").click(function() {
     $('#trigger_button').hide();
     $('#form_add').show();
     })
-
-
-
-
-
-
-
 
 </script>
 {% endblock %}
