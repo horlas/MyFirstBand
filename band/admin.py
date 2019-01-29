@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from band.models import Band, MusicalGenre, Member
+from band.models import Band, MusicalGenre, UserBand
 from django.utils.translation import ugettext_lazy as _
 from django.forms import ModelForm
 
@@ -41,8 +41,8 @@ class MusicalGenreAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(Member)
-class MenberAdmin(admin.ModelAdmin):
+@admin.register(UserBand)
+class UserBandAdmin(admin.ModelAdmin):
 
     fields = ('member', 'band')
 

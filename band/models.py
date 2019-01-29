@@ -45,7 +45,7 @@ class Band(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     type = models.CharField('Type', max_length=80, choices=TYPE_OF_BAND)
-
+    # created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     owner = models.ForeignKey(User, on_delete=models.PROTECT)
 
     # Here we instantiate a Fieltracker to track any fields specially avatar field
@@ -102,8 +102,8 @@ class Band(models.Model):
             os.remove(old_avatar)
 
 
-class Member(models.Model):
-    ''' Musicians of the band '''
+class UserBand(models.Model):
+    ''' Musicians or Members of the band '''
     member = models.ForeignKey(User, on_delete=models.CASCADE)
     band = models.ForeignKey(Band, on_delete=models.CASCADE)
 
@@ -115,6 +115,7 @@ class Member(models.Model):
     # @receiver(post_save, sender=Band)
     # def save_member(sender, instance, **kwargs):
     #     # some stuff
+
 
 class MusicalGenre (models.Model):
     ''' Musical genre of the Band '''

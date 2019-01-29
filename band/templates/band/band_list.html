@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 
 
@@ -10,11 +11,14 @@
 <div class="row">
     <div class="col s10 offset-s1">
     <h3 class="header">Mes groupes</h3>
-
+{% if object_list|length > 0  %}
 
 <ul class="collection">
 
+
     {% for band in object_list %}
+
+
 
     <li class="collection-item avatar">
        {% if band.avatar %}
@@ -29,12 +33,12 @@
       </p>
       <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
     </li>
-
-{% endfor %}
-
-
-  </ul>
-
+    {% endfor %}
+      </ul>
+       {% else %}
+        {# if no band #}
+       <div class="divider"></div>
+   {% endif %}
 
 </div>
 
@@ -42,10 +46,8 @@
 
 <div class="row">
     <div class="col s10 offset-s1">
-    <a class="waves-effect waves-light btn custom-btn custom-text"><i class="material-icons left">add</i>Creer un groupe</a>
-
+    <a class="waves-effect waves-light btn custom-btn custom-text" href='{% url "band:update_band" %}' ><i class="material-icons left">add</i>Creer un groupe</a>
     </div>
-
 </div>
 
 

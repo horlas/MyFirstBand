@@ -38,10 +38,10 @@
    </div>
    <!--profile form-->
    <div class="col s7">
-      <form action='{% url "musicians:update_data" %}' method="post"  >
+      <form action='{% url "band:update_band" %}' method="post"  >
          {% csrf_token %}
 
-        {% include 'core/form_errors.html' with form=profil_form %}
+        {% include 'core/form_errors.html' with form=profile_form %}
 
          {{ profile_form.as_p }}
          <button id = 'submit_profile' class="btn-floating btn-small waves-effect waves-light custom-btn" " type="submit" >
@@ -53,59 +53,59 @@
 
  <div class="row valign-wrapper">
 
-<!--instru form-->
-<div class="col s5 ">
-{# display list and level of instrument #}
-<h4 >Instrument : </h4>
-<ul>
-   {% for i in user.instrument_set.all %}
-   <li>{{i.instrument}} : {{i.level}}</li>
-   {% endfor %}
-</ul>
-<div id='trigger_button' class="row valign-wrapper">
-   {% if user.instrument_set.all.count < 3 %}
-   {# to display add possibility only for three instruments #}
-   <button id = "add" class="btn-floating btn-small waves-effect waves-light custom-btn"">
-   <i class="material-icons">add</i>  </button>
-   {% endif %}
-   {% if user.instrument_set.all %}
-   <button id = "delete" class="btn-floating btn-small waves-effect waves-light custom-btn"">
-   <i class="material-icons">delete</i>  </button>
-   {% endif %}
-</div>
+<!--&lt;!&ndash;instru form&ndash;&gt;-->
+<!--<div class="col s5 ">-->
+<!--{# display list and level of instrument #}-->
+<!--<h4 >Instrument : </h4>-->
+<!--<ul>-->
+   <!--{% for i in user.instrument_set.all %}-->
+   <!--<li>{{i.instrument}} : {{i.level}}</li>-->
+   <!--{% endfor %}-->
+<!--</ul>-->
+<!--<div id='trigger_button' class="row valign-wrapper">-->
+   <!--{% if user.instrument_set.all.count < 3 %}-->
+   <!--{# to display add possibility only for three instruments #}-->
+   <!--<button id = "add" class="btn-floating btn-small waves-effect waves-light custom-btn"">-->
+   <!--<i class="material-icons">add</i>  </button>-->
+   <!--{% endif %}-->
+   <!--{% if user.instrument_set.all %}-->
+   <!--<button id = "delete" class="btn-floating btn-small waves-effect waves-light custom-btn"">-->
+   <!--<i class="material-icons">delete</i>  </button>-->
+   <!--{% endif %}-->
+<!--</div>-->
 
-<div  style="display: none" id="form_delete">
-   {# display possibility of delete #}
-   <form action='{% url "musicians:del_instru" %}' method="post">
-      {% csrf_token %}
-      <div class="row valign-wrapper">
-         <div class="col s6">
-            {{ del_instru_form.as_p }}
-         </div>
-         <div class="col s6 center-align ">
-            <button  class="btn-floating btn-small waves-effect waves-light custom-btn">
-            <i class="material-icons">delete</i>  </button>
-         </div>
-      </div>
-   </form>
-</div>
+<!--<div  style="display: none" id="form_delete">-->
+   <!--{# display possibility of delete #}-->
+   <!--<form action='{% url "musicians:del_instru" %}' method="post">-->
+      <!--{% csrf_token %}-->
+      <!--<div class="row valign-wrapper">-->
+         <!--<div class="col s6">-->
+            <!--{{ del_instru_form.as_p }}-->
+         <!--</div>-->
+         <!--<div class="col s6 center-align ">-->
+            <!--<button  class="btn-floating btn-small waves-effect waves-light custom-btn">-->
+            <!--<i class="material-icons">delete</i>  </button>-->
+         <!--</div>-->
+      <!--</div>-->
+   <!--</form>-->
+<!--</div>-->
 
-<div style="display: none"  id="form_add">
-   <form action='{% url "musicians:add_instru" %}' method="post"  >
-      {% csrf_token %}
-      <div class="row valign-wrapper">
-         <div class="col s6">
-            {{ instru_form.as_p }}
-         </div>
-         <div class="col s6 center-align ">
-            <button class="btn-floating btn-small waves-effect waves-light custom-btn " type="submit" >
-            <i class="material-icons">add</i></button>
-         </div>
-      </div>
-   </form>
-</div>
+<!--<div style="display: none"  id="form_add">-->
+   <!--<form action='{% url "musicians:add_instru" %}' method="post"  >-->
+      <!--{% csrf_token %}-->
+      <!--<div class="row valign-wrapper">-->
+         <!--<div class="col s6">-->
+            <!--{{ instru_form.as_p }}-->
+         <!--</div>-->
+         <!--<div class="col s6 center-align ">-->
+            <!--<button class="btn-floating btn-small waves-effect waves-light custom-btn " type="submit" >-->
+            <!--<i class="material-icons">add</i></button>-->
+         <!--</div>-->
+      <!--</div>-->
+   <!--</form>-->
+<!--</div>-->
 
-</div>
+<!--</div>-->
 
 
 <!--local form-->
