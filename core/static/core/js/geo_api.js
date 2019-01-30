@@ -2,7 +2,7 @@ $("#first").click(function() {
 
   $("#first").hide();
   $("#cp").show();
-  $("#btn_send").show();
+  //$("#btn_send").show();
   //empty id_code
   $('#id_code').val('');
 
@@ -11,7 +11,7 @@ $("#first").click(function() {
 
       var $code = $('#id_code').val();
 
-      // valid cp coder
+      // valid cp code
       var $return = validateZip($code);
       if ($return === true) {
           var url = createURL($code);

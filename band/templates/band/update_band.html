@@ -15,97 +15,43 @@
 </div>
 {% endfor %}
 {% endif %}
-<div class="row">
-   <div>
-      <a href='{% url "musicians:profile" %}' class="waves-effect waves-light btn custom-btn custom-text" >
-      <i class="material-icons left">equalizer</i> Profil </a>
-   </div>
-</div>
+
+   <form action='{% url "band:add_band" %}' method="post" enctype="multipart/form-data" >
+         {% csrf_token %}
+         {% include 'core/form_errors.html' with form=form %}
+
+
 <div class="row valign-wrapper">
    <!--avatar form-->
    <div class="col s5">
-      <form action='{% url "musicians:update_avatar" %}' method="post" enctype="multipart/form-data" >
-         {% csrf_token %}
-         {% if user.userprofile.avatar %}
-         <img alt="Avatar" class="circle responsive-img" src="{{ user.userprofile.avatar.url }}" />
-         {% else %}
-         <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" />
-         {% endif %}
-         {{ avatar_form.as_p }}
-         <button id='submit_avatar' class="btn-floating btn-small waves-effect waves-light custom-btn"" type="submit" >
-         <i class="material-icons">check</i></button>
-      </form>
+
+
+         {{ form.avatar }}
+
    </div>
    <!--profile form-->
    <div class="col s7">
-      <form action='{% url "band:update_band" %}' method="post"  >
-         {% csrf_token %}
 
-        {% include 'core/form_errors.html' with form=profile_form %}
 
-         {{ profile_form.as_p }}
-         <button id = 'submit_profile' class="btn-floating btn-small waves-effect waves-light custom-btn" " type="submit" >
-         <i class="material-icons">check</i></button>
+         {{ form.name }}
+         {{ form.bio }}
 
-      </form>
+
    </div>
 </div>
 
  <div class="row valign-wrapper">
 
-<!--&lt;!&ndash;instru form&ndash;&gt;-->
-<!--<div class="col s5 ">-->
-<!--{# display list and level of instrument #}-->
-<!--<h4 >Instrument : </h4>-->
-<!--<ul>-->
-   <!--{% for i in user.instrument_set.all %}-->
-   <!--<li>{{i.instrument}} : {{i.level}}</li>-->
-   <!--{% endfor %}-->
-<!--</ul>-->
-<!--<div id='trigger_button' class="row valign-wrapper">-->
-   <!--{% if user.instrument_set.all.count < 3 %}-->
-   <!--{# to display add possibility only for three instruments #}-->
-   <!--<button id = "add" class="btn-floating btn-small waves-effect waves-light custom-btn"">-->
-   <!--<i class="material-icons">add</i>  </button>-->
-   <!--{% endif %}-->
-   <!--{% if user.instrument_set.all %}-->
-   <!--<button id = "delete" class="btn-floating btn-small waves-effect waves-light custom-btn"">-->
-   <!--<i class="material-icons">delete</i>  </button>-->
-   <!--{% endif %}-->
-<!--</div>-->
+<!--instru form-->
+<div class="col s5 ">
 
-<!--<div  style="display: none" id="form_delete">-->
-   <!--{# display possibility of delete #}-->
-   <!--<form action='{% url "musicians:del_instru" %}' method="post">-->
-      <!--{% csrf_token %}-->
-      <!--<div class="row valign-wrapper">-->
-         <!--<div class="col s6">-->
-            <!--{{ del_instru_form.as_p }}-->
-         <!--</div>-->
-         <!--<div class="col s6 center-align ">-->
-            <!--<button  class="btn-floating btn-small waves-effect waves-light custom-btn">-->
-            <!--<i class="material-icons">delete</i>  </button>-->
-         <!--</div>-->
-      <!--</div>-->
-   <!--</form>-->
-<!--</div>-->
+<h5 >Type de groupe : </h5>
+   {{ form.type }}
+<h5 >Genre musical : </h5>
+   {{ form.musical_genre }}
 
-<!--<div style="display: none"  id="form_add">-->
-   <!--<form action='{% url "musicians:add_instru" %}' method="post"  >-->
-      <!--{% csrf_token %}-->
-      <!--<div class="row valign-wrapper">-->
-         <!--<div class="col s6">-->
-            <!--{{ instru_form.as_p }}-->
-         <!--</div>-->
-         <!--<div class="col s6 center-align ">-->
-            <!--<button class="btn-floating btn-small waves-effect waves-light custom-btn " type="submit" >-->
-            <!--<i class="material-icons">add</i></button>-->
-         <!--</div>-->
-      <!--</div>-->
-   <!--</form>-->
-<!--</div>-->
 
-<!--</div>-->
+</div>
 
 
 <!--local form-->
@@ -113,20 +59,19 @@
    <div class="row">
       <div class="col s7">
          <span class="tooltipped" data-position="bottom" data-tooltip="Je suis là">Localisation :</span>
-         <span>{{user.userprofile.town}}, {{user.userprofile.county_name}}</span>
+
       </div>
       <div class="col s3">
-         <!--<input id="first" type="button" value="Change">-->
-         <button id="first" class="waves-effect waves-light btn custom-btn custom-text ">change</button>
+          <input id="first" type="button" class="btn custom-btn custom-text " value="trouver">
       </div>
    </div>
    <div class="row">
-      <form action='{% url "musicians:update_location" %}' method="post"  >
+
          {% csrf_token %}
          <div style="display: none"  id="cp" >
             <div class="col s7">
-               {{ local_form.code |add_label_class:"Code postal" }}
-               {{ local_form.code|append_attr:"class:validate" }}
+               {{ form.code|add_label_class:"Code postal" }}
+               {{ form.code|append_attr:"class:validate" }}
             </div>
             <div class="col s3">
                <input id="send" type="button" class="btn custom-btn custom-text" value ='MAJ'>
@@ -134,17 +79,28 @@
          </div>
          <div  style="display: none" id="town" >
             <div class="col s7">
-               {{ local_form.town }}
-               {{ local_form.county_name}}
+               {{ form.town }}
+               {{ form.county_name}}
             </div>
-            <button id='local_submit' class="btn-floating btn-large waves-effect waves-light custom-btn " type="submit" >
-            <i class="material-icons">check</i></button>
+
          </div>
-      </form>
+
+
    </div>
-</div>
-</div>
-</div>
+
+
+   </div>
+ </div>
+
+
+
+   <div class="row">
+
+      <button id='form_submit' class="btn-floating btn-large waves-effect waves-light custom-btn " type="submit" >
+            <i class="material-icons">check</i></button>
+   </div>
+
+</form>
 
 <!-- Modal Structure in case of a bad input cp -->
 <div id="bad_cp" class="modal">

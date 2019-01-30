@@ -27,6 +27,46 @@ class Band(models.Model):
         ( REP , 'Groupe de Reprises'),
     )
 
+    BLU = 'Blues'
+    CHO = 'Chorale'
+    ELE = 'Electro'
+    FOL = 'Folk'
+    FUN = 'Funk'
+    JAZ = 'Jazz'
+    MET = 'Metal'
+    MUS = 'Musique du Monde'
+    POP = 'Pop'
+    PUN = 'Punk'
+    RAP = 'Rap'
+    REG = 'Reggae'
+    ROC = "Rock 'n' roll"
+    SKA = 'Ska'
+    SOU = 'Soul'
+    VAR = 'Variété'
+
+    MUSICAL_GENRE_CHOICE = (
+        (BLU, 'Blues'),
+        (CHO, 'Chorale'),
+        (ELE, 'Electro'),
+        (FOL, 'Folk'),
+        (FUN, 'Funk'),
+        (JAZ, 'Jazz'),
+        (MET, 'Metal'),
+        (MUS, 'Musique du Monde'),
+        (POP, 'Pop'),
+        (PUN, 'Punk'),
+        (RAP, 'Rap'),
+        (REG, 'Reggae'),
+        (ROC, "Rock 'n' roll"),
+        (SKA, 'Ska'),
+        (SOU, 'Soul'),
+        (VAR, 'Variété'),
+    )
+
+
+
+
+
     name = models.CharField('Nom du Groupe',
                             max_length=80,
                             default='En cours de création',
@@ -44,7 +84,8 @@ class Band(models.Model):
     avatar = models.ImageField(null=True, blank=True, upload_to='band_avatar/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    type = models.CharField('Type', max_length=80, choices=TYPE_OF_BAND)
+    type = models.CharField('Type', max_length=80, choices=TYPE_OF_BAND, blank=False, null=True)
+    musical_genre = models.CharField('Genre musical', max_length=80, choices=MUSICAL_GENRE_CHOICE, blank=False, null=True)
     # created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     owner = models.ForeignKey(User, on_delete=models.PROTECT)
 
@@ -117,47 +158,47 @@ class UserBand(models.Model):
     #     # some stuff
 
 
-class MusicalGenre (models.Model):
-    ''' Musical genre of the Band '''
-
-    BLU = 'Blues'
-    CHO = 'Chorale'
-    ELE = 'Electro'
-    FOL = 'Folk'
-    FUN = 'Funk'
-    JAZ = 'Jazz'
-    MET = 'Metal'
-    MUS = 'Musique du Monde'
-    POP = 'Pop'
-    PUN = 'Punk'
-    RAP = 'Rap'
-    REG = 'Reggae'
-    ROC = "Rock 'n' roll"
-    SKA = 'Ska'
-    SOU = 'Soul'
-    VAR = 'Variété'
-
-    MUSICAL_GENRE_CHOICE = (
-        (BLU, 'Blues'),
-        (CHO, 'Chorale'),
-        (ELE, 'Electro'),
-        (FOL, 'Folk'),
-        (FUN, 'Funk'),
-        (JAZ, 'Jazz'),
-        (MET, 'Metal'),
-        (MUS, 'Musique du Monde'),
-        (POP, 'Pop'),
-        (PUN, 'Punk'),
-        (RAP, 'Rap'),
-        (REG, 'Reggae'),
-        (ROC, "Rock 'n' roll"),
-        (SKA, 'Ska'),
-        (SOU, 'Soul'),
-        (VAR, 'Variété'),
-    )
-    musical_genre = models.CharField('Genre musical', max_length=80, choices=MUSICAL_GENRE_CHOICE)
-    band = models.ForeignKey(Band, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.musical_genre
+# class MusicalGenre (models.Model):
+#     ''' Musical genre of the Band '''
+#
+#     BLU = 'Blues'
+#     CHO = 'Chorale'
+#     ELE = 'Electro'
+#     FOL = 'Folk'
+#     FUN = 'Funk'
+#     JAZ = 'Jazz'
+#     MET = 'Metal'
+#     MUS = 'Musique du Monde'
+#     POP = 'Pop'
+#     PUN = 'Punk'
+#     RAP = 'Rap'
+#     REG = 'Reggae'
+#     ROC = "Rock 'n' roll"
+#     SKA = 'Ska'
+#     SOU = 'Soul'
+#     VAR = 'Variété'
+#
+#     MUSICAL_GENRE_CHOICE = (
+#         (BLU, 'Blues'),
+#         (CHO, 'Chorale'),
+#         (ELE, 'Electro'),
+#         (FOL, 'Folk'),
+#         (FUN, 'Funk'),
+#         (JAZ, 'Jazz'),
+#         (MET, 'Metal'),
+#         (MUS, 'Musique du Monde'),
+#         (POP, 'Pop'),
+#         (PUN, 'Punk'),
+#         (RAP, 'Rap'),
+#         (REG, 'Reggae'),
+#         (ROC, "Rock 'n' roll"),
+#         (SKA, 'Ska'),
+#         (SOU, 'Soul'),
+#         (VAR, 'Variété'),
+#     )
+#     musical_genre = models.CharField('Genre musical', max_length=80, choices=MUSICAL_GENRE_CHOICE)
+#     band = models.ForeignKey(Band, on_delete=models.CASCADE)
+#
+#     def __str__(self):
+#         return self.musical_genre
 

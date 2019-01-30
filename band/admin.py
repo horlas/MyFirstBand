@@ -1,15 +1,15 @@
 from django.contrib import admin
 
-from band.models import Band, MusicalGenre, UserBand
+from band.models import Band, UserBand
 from django.utils.translation import ugettext_lazy as _
 from django.forms import ModelForm
 
 
 
-class MusicalGenreForm(ModelForm):
-    class Meta:
-        model = MusicalGenre
-        exclude = ['band']
+# class MusicalGenreForm(ModelForm):
+#     class Meta:
+#         model = MusicalGenre
+#         exclude = ['band']
 
 
 
@@ -30,15 +30,15 @@ class BandAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(MusicalGenre)
-class MusicalGenreAdmin(admin.ModelAdmin):
-
-    fieldsets =  (
-        (None, {'fields':('band',)
-                }),
-        (_('Genre musical'),{'fields': ('musical_genre', )}),
-
-    )
+# @admin.register(MusicalGenre)
+# class MusicalGenreAdmin(admin.ModelAdmin):
+#
+#     fieldsets =  (
+#         (None, {'fields':('band',)
+#                 }),
+#         (_('Genre musical'),{'fields': ('musical_genre', )}),
+#
+#     )
 
 
 @admin.register(UserBand)
