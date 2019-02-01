@@ -1,10 +1,10 @@
 from django.forms import ModelForm, Select, Form, ModelChoiceField, fields
-from band.models import Band, UserBand
+from band.models import Band
 
 class ProfileBandForm(ModelForm):
     class Meta:
         model = Band
-        exclude = ['owner']
+        exclude = ['owner', 'members']
 
         widgets = {
             'town': Select()

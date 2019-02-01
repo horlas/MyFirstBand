@@ -11,10 +11,11 @@ from django.contrib import messages
 from django.views.generic.list import ListView
 # from django.views.generic import CreateView
 from band.forms import ProfileBandForm
+from band.models import Membership
 
 
 from band.forms import *
-from band.models import Band, UserBand
+from band.models import Band
 
 # Create your views here.
 
@@ -24,23 +25,9 @@ class BandListView(ListView, LoginRequiredMixin):
     template_name = 'band_list.html'
     context_object_name = 'list of user bands'
     def get_queryset(self):
-        return Band.objects.filter(userband__member=self.request.user)
+        return Band.objects.filter(members=self.request.user)
 
 
-# class UpdateBandView(TemplateView, LoginRequiredMixin):
-#     ''' this view is in charge of the forms 'get' only ,
-#      the forms are filled with user data'''
-#
-#     template_name = 'band/update_band.html'
-#
-#     def get(self, request, *args, **kwargs):
-#
-#         profile_form = ProfileBandForm(self.request.GET or None,
-#                                    )
-#
-#         context = self.get_context_data(**kwargs)
-#         context['profile_form'] = profile_form
-#         return self.render_to_response(context)
 
 
 class BandCreateView(CreateView, SuccessMessageMixin, LoginRequiredMixin):
@@ -55,12 +42,12 @@ class BandCreateView(CreateView, SuccessMessageMixin, LoginRequiredMixin):
         messages.success(self.request, (" Félicitations ! Votre groupe a été créé ! "))
         return super().form_valid(form)
 
-# Todo : add the creator of the band to member of the band
-# Todo ; errors forms are not displayed
-# Todo : witch fields are required
-# Todo : unique name band doesn't work
+
+
+
+
 # Todo : Update Band View
 # Todo : add members
 # Todo : Change owner
-# Todo : delete band if the request user is owner 
+# Todo : delete band if the request user is owner
 

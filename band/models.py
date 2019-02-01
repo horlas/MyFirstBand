@@ -74,7 +74,7 @@ class Band(models.Model):
 
                             )
 
-    bio = models.TextField("Courte description",
+    bio = models.TextField("Description du groupe",
                            max_length=500,
                            blank=True)
 
@@ -84,19 +84,23 @@ class Band(models.Model):
     avatar = models.ImageField(null=True, blank=True, upload_to='band_avatar/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    type = models.CharField('Type', max_length=80, choices=TYPE_OF_BAND, blank=False, null=True)
-    musical_genre = models.CharField('Genre musical', max_length=80, choices=MUSICAL_GENRE_CHOICE, blank=False, null=True)
-    # created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    owner = models.ForeignKey(User, on_delete=models.PROTECT)
+    type = models.CharField('Type de groupe', max_length=80, choices=TYPE_OF_BAND, blank=True, null=True)
+
+    owner = models.ForeignKey(User, on_delete=models.PROTECT, related_name='owner_band')
+    members = models.ManyToManyField(User, through='Membership')
 
     # Here we instantiate a Fieltracker to track any fields specially avatar field
     tracker = FieldTracker()
 
-
+    def __str__(self):
+        return self.name
 
 
     def save(self, *args, **kwargs):
-        super().save()
+        # to manage add the forst member is the creator of the band
+
+        super().save(*args, **kwargs)
+
 
         # we get here the self avatar condition
         # in case of there is no self.avatar as example
@@ -143,62 +147,62 @@ class Band(models.Model):
             os.remove(old_avatar)
 
 
-class UserBand(models.Model):
-    ''' Musicians or Members of the band '''
-    member = models.ForeignKey(User, on_delete=models.CASCADE)
+class Membership(models.Model):
+
+    musician = models.ForeignKey(User, on_delete=models.CASCADE)
+    band = models.ForeignKey(Band, on_delete=models.CASCADE)
+    date_joined = models.DateField(auto_now_add=True)
+    invite_reason = models.CharField(max_length=64)
+
+    @receiver(post_save, sender=Band)
+    def create_first_member(sender, instance, created, **kwargs):
+        if created:
+            first_member = Membership(musician = instance.owner,
+                                      band = instance,
+                                      invite_reason = "band's fouder")
+            first_member.save()
+
+class MusicalGenre (models.Model):
+    ''' Musical genre of the Band '''
+
+    BLU = 'Blues'
+    CHO = 'Chorale'
+    ELE = 'Electro'
+    FOL = 'Folk'
+    FUN = 'Funk'
+    JAZ = 'Jazz'
+    MET = 'Metal'
+    MUS = 'Musique du Monde'
+    POP = 'Pop'
+    PUN = 'Punk'
+    RAP = 'Rap'
+    REG = 'Reggae'
+    ROC = "Rock 'n' roll"
+    SKA = 'Ska'
+    SOU = 'Soul'
+    VAR = 'Variété'
+
+    MUSICAL_GENRE_CHOICE = (
+        (BLU, 'Blues'),
+        (CHO, 'Chorale'),
+        (ELE, 'Electro'),
+        (FOL, 'Folk'),
+        (FUN, 'Funk'),
+        (JAZ, 'Jazz'),
+        (MET, 'Metal'),
+        (MUS, 'Musique du Monde'),
+        (POP, 'Pop'),
+        (PUN, 'Punk'),
+        (RAP, 'Rap'),
+        (REG, 'Reggae'),
+        (ROC, "Rock 'n' roll"),
+        (SKA, 'Ska'),
+        (SOU, 'Soul'),
+        (VAR, 'Variété'),
+    )
+    musical_genre = models.CharField('Genre musical', max_length=80, choices=MUSICAL_GENRE_CHOICE)
     band = models.ForeignKey(Band, on_delete=models.CASCADE)
 
-    # @receiver(post_save, sender=Band)
-    # def create_member(sender, instance, created, **kwargs):
-    #     if created:
-    #         Member.objects.create(member=instance.owner, band=instance)
-    #
-    # @receiver(post_save, sender=Band)
-    # def save_member(sender, instance, **kwargs):
-    #     # some stuff
-
-
-# class MusicalGenre (models.Model):
-#     ''' Musical genre of the Band '''
-#
-#     BLU = 'Blues'
-#     CHO = 'Chorale'
-#     ELE = 'Electro'
-#     FOL = 'Folk'
-#     FUN = 'Funk'
-#     JAZ = 'Jazz'
-#     MET = 'Metal'
-#     MUS = 'Musique du Monde'
-#     POP = 'Pop'
-#     PUN = 'Punk'
-#     RAP = 'Rap'
-#     REG = 'Reggae'
-#     ROC = "Rock 'n' roll"
-#     SKA = 'Ska'
-#     SOU = 'Soul'
-#     VAR = 'Variété'
-#
-#     MUSICAL_GENRE_CHOICE = (
-#         (BLU, 'Blues'),
-#         (CHO, 'Chorale'),
-#         (ELE, 'Electro'),
-#         (FOL, 'Folk'),
-#         (FUN, 'Funk'),
-#         (JAZ, 'Jazz'),
-#         (MET, 'Metal'),
-#         (MUS, 'Musique du Monde'),
-#         (POP, 'Pop'),
-#         (PUN, 'Punk'),
-#         (RAP, 'Rap'),
-#         (REG, 'Reggae'),
-#         (ROC, "Rock 'n' roll"),
-#         (SKA, 'Ska'),
-#         (SOU, 'Soul'),
-#         (VAR, 'Variété'),
-#     )
-#     musical_genre = models.CharField('Genre musical', max_length=80, choices=MUSICAL_GENRE_CHOICE)
-#     band = models.ForeignKey(Band, on_delete=models.CASCADE)
-#
-#     def __str__(self):
-#         return self.musical_genre
+    def __str__(self):
+        return self.musical_genre
 

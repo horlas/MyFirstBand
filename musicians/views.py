@@ -97,6 +97,9 @@ class UpdateDataView(FormView, SuccessMessageMixin):
                 self.get_context_data(profile_form=profile_form))
 
 
+# Todo : errors forms are  not  displayed
+
+
 class UpdateLocalView(FormView, SuccessMessageMixin):
 
     form_class = LocalForm

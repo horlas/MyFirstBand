@@ -2,63 +2,61 @@
 {% load static %}
 {% load widget_tweaks %}
 {% block content %}
-
+{% include 'core/display_messages.html' %}
 <main>
 
 <div class="container " xmlns="http://www.w3.org/1999/html">
    <div class="row"></div>
    <div class="row"></div>
-   {% if messages %}
-   {% for message in messages %}
-   <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" {% endif %}>
-   <span>{{ message }}</span>
-</div>
-{% endfor %}
-{% endif %}
+
+   <div class="col s7">
 
    <form action='{% url "band:add_band" %}' method="post" enctype="multipart/form-data" >
          {% csrf_token %}
          {% include 'core/form_errors.html' with form=form %}
 
 
-<div class="row valign-wrapper">
-   <!--avatar form-->
-   <div class="col s5">
+   <!--profile form-->
 
 
+
+         {{ form.name|add_label_class:"custom-label"  }}
+         {{ form.name }}
+      <div class="row"></div>
+            <div class="row"></div>
+      <div class="row"></div>
+         {{ form.bio|add_label_class:"custom-label"  }}
+         {{ form.bio|add_class:"materialize-textarea" }}
+      <div class="row"></div>
+            <div class="row"></div>
+      <div class="row"></div>
+
+      <!--avatar form-->
+
+         {{ form.avatar|add_label_class:"custom-label"  }}
+   </br>
+      <div class="row"></div>
          {{ form.avatar }}
 
-   </div>
-   <!--profile form-->
-   <div class="col s7">
+<div class="row"></div>
+            <div class="row"></div>
+      <div class="row"></div>
 
-
-         {{ form.name }}
-         {{ form.bio }}
-
-
-   </div>
-</div>
-
- <div class="row valign-wrapper">
-
-<!--instru form-->
-<div class="col s5 ">
-
-<h5 >Type de groupe : </h5>
+   {{ form.type|add_label_class:"custom-label"   }}
    {{ form.type }}
-<h5 >Genre musical : </h5>
-   {{ form.musical_genre }}
+
+<div class="row"></div>
+      <div class="row"></div>
+      <div class="row"></div>
 
 
-</div>
 
 
 <!--local form-->
-<div class="col s7">
+
    <div class="row">
       <div class="col s7">
-         <span class="tooltipped" data-position="bottom" data-tooltip="Je suis là">Localisation :</span>
+         <label class="custom-label">Localisation :</label>
 
       </div>
       <div class="col s3">
@@ -70,7 +68,7 @@
          {% csrf_token %}
          <div style="display: none"  id="cp" >
             <div class="col s7">
-               {{ form.code|add_label_class:"Code postal" }}
+               {{ form.code|add_label_class:"custom-label"  }}
                {{ form.code|append_attr:"class:validate" }}
             </div>
             <div class="col s3">
@@ -79,7 +77,11 @@
          </div>
          <div  style="display: none" id="town" >
             <div class="col s7">
+               <div class="row"></div>
+               {{ form.town|add_label_class:"custom-label"  }}
                {{ form.town }}
+               <div class="row"></div>
+               {{ form.county_name|add_label_class:"custom-label"  }}
                {{ form.county_name}}
             </div>
 
@@ -89,10 +91,11 @@
    </div>
 
 
-   </div>
- </div>
 
 
+      <div class="row"></div>
+            <div class="row"></div>
+      <div class="row"></div>
 
    <div class="row">
 
@@ -101,6 +104,8 @@
    </div>
 
 </form>
+         </div>
+</div>
 
 <!-- Modal Structure in case of a bad input cp -->
 <div id="bad_cp" class="modal">

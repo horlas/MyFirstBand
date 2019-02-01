@@ -41,7 +41,7 @@
       <form action='{% url "musicians:update_data" %}' method="post"  >
          {% csrf_token %}
 
-        {% include 'core/form_errors.html' with form=profil_form %}
+        {% include 'core/form_errors.html' with form=profile_form %}
 
          {{ profile_form.as_p }}
          <button id = 'submit_profile' class="btn-floating btn-small waves-effect waves-light custom-btn" " type="submit" >

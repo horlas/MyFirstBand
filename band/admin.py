@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from band.models import Band, UserBand
+from band.models import Band, Membership
 from django.utils.translation import ugettext_lazy as _
 from django.forms import ModelForm
 
@@ -41,16 +41,18 @@ class BandAdmin(admin.ModelAdmin):
 #     )
 
 
-@admin.register(UserBand)
-class UserBandAdmin(admin.ModelAdmin):
+@admin.register(Membership)
+class MembershipAdmin(admin.ModelAdmin):
 
-    fields = ('member', 'band')
+    # fields = ('musician', 'band')
 
-    # fieldsets =  (
-    #     (None, {'fields':('band',)
-    #             }),
-    #     (_('Genre musical'),{'fields': ('musical_genrel', )}),
-    #
-    # )
+    fieldsets =  (
+        (None, {'fields':('band',)}),
+        (_('Membre'),{'fields': ('musician', 'invite_reason', )}
+                    ,),
+
+    )
+    readonly_fields = ("date_joined",)
+
 
 # Register your models here.
