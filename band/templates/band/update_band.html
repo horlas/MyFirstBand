@@ -9,21 +9,18 @@
    <div class="row"></div>
    <div class="row"></div>
 
-   <div class="col s7">
+   <div class="col s7 ">
 
    <form action='{% url "band:add_band" %}' method="post" enctype="multipart/form-data" >
          {% csrf_token %}
          {% include 'core/form_errors.html' with form=form %}
 
-
    <!--profile form-->
-
-
 
          {{ form.name|add_label_class:"custom-label"  }}
          {{ form.name }}
       <div class="row"></div>
-            <div class="row"></div>
+      <div class="row"></div>
       <div class="row"></div>
          {{ form.bio|add_label_class:"custom-label"  }}
          {{ form.bio|add_class:"materialize-textarea" }}
