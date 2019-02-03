@@ -26,6 +26,7 @@ class BandAdmin(admin.ModelAdmin):
         (_('Information du Groupe'), {'fields':('bio','code', 'county_name', 'town', 'type', 'avatar', )}),
 
         (_('Propriétaire du Groupe'), {'fields': ('owner',)}),
+        # (_('Slug du Groupe'), {'fields': ('slug',)}),
 
     )
 

@@ -35,7 +35,7 @@
          {{ band.town }} , {{ band.county_name }}
 
       </p>
-      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+      <a href='{% url "band:band_detail" band.slug  %}' class="secondary-content"><i class="material-icons">grade</i></a>
     </li>
     {% endfor %}
       </ul>

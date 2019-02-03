@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+
+{% block content %}
+
+{% if sidenav_band %}
+    <p>YES</p>
+ {% endif %}
+
+
+<h1>{{ object.name }}</h1>
+<p>{{ object.bio }}</p>
+<p>Localisation: {{ object.town }} {{ object.county_name }}  </p>
+<p>Published: {{ object.created_at|date }}</p>
+
+<p>Type de groupe: {{ object.type }}</p>
+<p>Membre: {{ object.created_at|date }}</p>
+
+
+
+
+
+
+{% endblock %}

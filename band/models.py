@@ -11,6 +11,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
 import os
 from django.conf import settings
+from django.utils.text import slugify
 
 # Create your models here.
 
@@ -88,6 +89,7 @@ class Band(models.Model):
 
     owner = models.ForeignKey(User, on_delete=models.PROTECT, related_name='owner_band')
     members = models.ManyToManyField(User, through='Membership')
+    slug = models.SlugField(max_length=150,  null=True)
 
     # Here we instantiate a Fieltracker to track any fields specially avatar field
     tracker = FieldTracker()
@@ -95,10 +97,10 @@ class Band(models.Model):
     def __str__(self):
         return self.name
 
-
     def save(self, *args, **kwargs):
-        # to manage add the forst member is the creator of the band
 
+        self.slug = slugify(self.name)
+        super(Band, self).save()
         super().save(*args, **kwargs)
 
 

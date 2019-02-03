@@ -51,7 +51,7 @@
 
 
 
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and not sidenav_band%}
     {% include "core/sidenav_connected.html" %}
     {% endif %}
     {% block content %} {% endblock %}

@@ -9,6 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.contrib import messages
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 # from django.views.generic import CreateView
 from band.forms import ProfileBandForm
 from band.models import Membership
@@ -43,10 +44,20 @@ class BandCreateView(CreateView, SuccessMessageMixin, LoginRequiredMixin):
         return super().form_valid(form)
 
 
+class BandDetailView(DetailView, LoginRequiredMixin):
+
+    model = Band
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['sidenav_band'] = 'sidenav_band'
+        return context
 
 
 
 # Todo : Update Band View
+# Todo : Detailview
+# Todo : SidenavBand
 # Todo : add members
 # Todo : Change owner
 # Todo : delete band if the request user is owner

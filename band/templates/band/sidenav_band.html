@@ -1,0 +1,78 @@
+{% load static %}
+{% block content %}
+<div class="container">
+    <a href="#" data-target="nav-mobile" class="top-nav sidenav-trigger show-on-large">
+        <i class="material-icons">menu</i></a>
+</div>
+
+<ul id="nav-mobile" class="sidenav sidenav-fixed" style="transform: translateX(0px);">
+
+    <li class="logo">
+        <a href="{% url 'core:accueil' %}" class="brand-logo">
+          <img id="logo" alt="logo" style = 'margin: 20px' class='responsive-img' src="{% static 'core/img/logo_brand3.png' %}">
+      </a>
+    </li>
+
+    <div class="row"></div>
+    <div class="row"></div>
+    <div class="row"></div>
+     <div class="row"></div>
+
+    <li><div class="user-view">
+        <a href="{% url 'musicians:profile' %}" class="tooltipped" data-tooltip="Mon compte" >
+            <div class="background">
+                <img src="{% static 'core/img/bg_sidenav.jpg' %}">
+            </div>
+      {% if user.userprofile.avatar %}
+        <img alt="Avatar" class="circle responsive-img" src="{{ user.userprofile.avatar.url }}" />
+            {% else %}
+        <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" />
+      {% endif %}
+      <span class="custom-text name"> {{user.userprofile.username}} </span>
+      <span class="custom-text e-mail">{{user.email}}</span>
+       </a>
+    </div></li>
+
+    <li>
+        <a id='announcement' class="waves-effect custom-text" href="">
+            <i class="material-icons custom-icons">announcement</i>
+            Mes annonces</a>
+    </li>
+
+    <li><div class="divider"></div></li>
+    <li>
+        <a id='group' class="waves-effect custom-text" href='{% url "band:list_bands" %}'>
+            <i class="material-icons custom-icons">group_work</i>
+            Mes groupes</a>
+    </li>
+    <li><div class="divider"></div></li>
+        <li>
+        <a id='edit-compte' class="waves-effect custom-text" href="{% url 'musicians:update_profile' %}">
+            <i class="material-icons custom-icons">edit</i>
+            Editer mon compte</a>
+    </li>
+
+     <li><div class="divider"></div></li>
+
+    <li>
+        <a id='logout' class="waves-effect custom-text" href="{% url 'authentication:logout' %}">
+            <i class="material-icons custom-icons">eject</i>
+            Se deconnecter</a>
+    </li>
+  </ul>
+
+
+  <!--<a href="#" data-target="slide-out" class="sidenav-trigger show-on-large">-->
+      <!--<i class="material-icons">menu</i></a>-->
+
+
+
+
+<!--<script>-->
+ <!--$(document).ready(function(){-->
+    <!--$('.sidenav').sidenav();-->
+  <!--});-->
+
+<!--</script>-->
+
+{% endblock %}
