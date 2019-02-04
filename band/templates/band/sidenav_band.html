@@ -16,40 +16,70 @@
     <div class="row"></div>
     <div class="row"></div>
     <div class="row"></div>
-     <div class="row"></div>
 
     <li><div class="user-view">
-        <a href="{% url 'musicians:profile' %}" class="tooltipped" data-tooltip="Mon compte" >
+
             <div class="background">
-                <img src="{% static 'core/img/bg_sidenav.jpg' %}">
+                <img src="{% static 'core/img/bg_sidenav_band.jpg' %}">
             </div>
-      {% if user.userprofile.avatar %}
-        <img alt="Avatar" class="circle responsive-img" src="{{ user.userprofile.avatar.url }}" />
+      {% if object.avatar %}
+        <img alt="Avatar" class="circle responsive-img" src="{{ object.avatar.url }}" />
             {% else %}
-        <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" />
+        <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0_band.jpg' %}" />
       {% endif %}
-      <span class="custom-text name"> {{user.userprofile.username}} </span>
-      <span class="custom-text e-mail">{{user.email}}</span>
-       </a>
+     </br>
+      <h5 class="custom-text " style = "text-transform: uppercase">{{object.name}}</h5>
+
     </div></li>
 
     <li>
         <a id='announcement' class="waves-effect custom-text" href="">
             <i class="material-icons custom-icons">announcement</i>
-            Mes annonces</a>
+            Les annonces du groupe</a>
     </li>
 
+
     <li><div class="divider"></div></li>
-    <li>
-        <a id='group' class="waves-effect custom-text" href='{% url "band:list_bands" %}'>
-            <i class="material-icons custom-icons">group_work</i>
-            Mes groupes</a>
+
+        <li>
+        <a id='history' class="waves-effect custom-text" href="">
+            <i class="material-icons custom-icons">access_time</i>
+            Historique</a>
     </li>
-    <li><div class="divider"></div></li>
+
+     <li><div class="divider"></div></li>
+
+
+        <li>
+        <a id='calendar' class="waves-effect custom-text" href="">
+            <i class="material-icons custom-icons">folder_special</i>
+            Calendrier</a>
+    </li>
+
+     <li><div class="divider"></div></li>
+
+       <li>
+        <a id='setlist' class="waves-effect custom-text" href="">
+            <i class="material-icons custom-icons">library_music</i>
+            Setlist</a>
+    </li>
+
+     <li><div class="divider"></div></li>
+
         <li>
         <a id='edit-compte' class="waves-effect custom-text" href="{% url 'musicians:update_profile' %}">
             <i class="material-icons custom-icons">edit</i>
-            Editer mon compte</a>
+            Editer le groupe</a>
+    </li>
+
+     <li><div class="divider"></div></li>
+
+
+
+        <li>
+        <a id='' class="waves-effect custom-text" href="{% url 'musicians:profile' %}">
+            <i class="material-icons custom-icons">my_location</i>
+            Compte musicien</a>
     </li>
 
      <li><div class="divider"></div></li>

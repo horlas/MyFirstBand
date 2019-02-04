@@ -12,6 +12,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 # from django.views.generic import CreateView
 from band.forms import ProfileBandForm
+from musicians.models import Instrument
 from band.models import Membership
 
 
@@ -51,11 +52,21 @@ class BandDetailView(DetailView, LoginRequiredMixin):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['sidenav_band'] = 'sidenav_band'
+        members = Membership.objects.filter(band=self.object.id)
+        # data_instru ={}
+        # for m in members:
+        #     instru = Instrument.objects.filter(musician=m.musician).first()
+        #
+        #     data_instru[m.musician] = instru
+        # context['instru'] = data_instru
+        context['members'] = members
+        # print(context['instru'])
         return context
 
 
 
 # Todo : Update Band View
+# Todo : add the instrument to member
 # Todo : Detailview
 # Todo : SidenavBand
 # Todo : add members

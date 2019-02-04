@@ -53,6 +53,8 @@
 
     {% if user.is_authenticated and not sidenav_band%}
     {% include "core/sidenav_connected.html" %}
+    {% elif sidenav_band %}
+    {% include "band/sidenav_band.html" %}
     {% endif %}
     {% block content %} {% endblock %}
       {% block script %} {% endblock %}

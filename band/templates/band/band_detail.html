@@ -6,22 +6,84 @@
 
 {% block content %}
 
-{% if sidenav_band %}
-    <p>YES</p>
- {% endif %}
+
+<main>
+
+    <div class="container" >
+    <div class="row"></div>
+    <div class="row">
+      <div class="col s12  ">
+
+          <div class="row valign-wrapper">
+            <div class="col s4">
+             {% if object.avatar %}
+             <img alt="Avatar" class="circle responsive-img" src="{{ object.avatar.url }}" />
+            {% else %}
+            <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0_band.jpg' %}" />
+            </br>
+                <span>Vous pouvez mettre à jour votre avatar</span>
+            {% endif %}
+            </div>
+            <div class="col s8 black-text">
+              <h4 >
+                {{ object.name }}
+              </h4>
+                {% if not object.town %}
+                <span>Vous pouvez mettre à jour votre présentation</span>
+                {% else %}
+                <blockquote >{{ object.bio }}</blockquote>
+                {% endif %}
+            </div>
+          </div>
+
+    <div class="row">
+      <div class='col s8 offset-s4'>
+          <h6>Localisation : </h6>
+          {% if not object.town %}
+          <span>Vous pouvez mettre à jour votre localisation</span>
+          {% else %}
+           <div class="row"></div>
+            <span>{{object.town}} {{object.county_name}}</span>
+          {% endif %}
+
+          <h6>Type et genre musical : </h6>
+          {% if not object.type and not object.musical_genre %}
+          <span>Vous pouvez mettre à jour votre type ou genre musical </span>
+          {% else %}
+           <div class="row"></div>
+            <span>{{object.type}} {{object.musical_genre}}</span>
+          {% endif %}
+
+<ul class="collection with-header">
+
+    <li class="collection-header"><h6>Membres</h6></li>
+
+    {% for member in members %}
+    <li class="collection-item avatar ">
+       {% if member.musician.userprofile.avatar %}
+      <img src="{{ member.musician.userprofile.avatar.url }}" alt="" class="circle">
+        {% else %}
+       <img src="{% static 'core/img/0.jpg' %}" alt="" class="circle">
+        {% endif %}
+        <span class="title">{{ member.musician.userprofile.username }}</span>
+        <p> {{ member.invite_reason }} </br>
+            {{ member.date_joined }}
+
+        </p>
+        <a href='{% url "band:band_detail" band.slug  %}' class="secondary-content"><i class="material-icons">grade</i></a>
+    </li>
+    {% endfor %}
+</ul>
 
 
-<h1>{{ object.name }}</h1>
-<p>{{ object.bio }}</p>
-<p>Localisation: {{ object.town }} {{ object.county_name }}  </p>
-<p>Published: {{ object.created_at|date }}</p>
-
-<p>Type de groupe: {{ object.type }}</p>
-<p>Membre: {{ object.created_at|date }}</p>
 
 
 
 
+</main>
 
+
+
+</main>
 
 {% endblock %}

@@ -31,9 +31,16 @@
        <img src="{% static 'core/img/0_band.jpg' %}" alt="" class="circle">
         {% endif %}
       <span class="title">{{ band.name }}</span>
-      <p> {{ band.type }} <br>
+        {% if not band.type %}
+        <p> En cours de création <br>
+        {% else %}
+        <p> {{ band.type }} <br>
+        {% endif %}
+        {% if not band.town %}
+        <p> Localité inconnue <br>
+        {% else %}
          {{ band.town }} , {{ band.county_name }}
-
+        {% endif %}
       </p>
       <a href='{% url "band:band_detail" band.slug  %}' class="secondary-content"><i class="material-icons">grade</i></a>
     </li>
