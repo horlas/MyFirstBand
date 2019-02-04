@@ -1,0 +1,50 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'core/display_messages.html' %}
+<main>
+
+<div class="container " xmlns="http://www.w3.org/1999/html">
+   <div class="row"></div>
+   <div class="row"></div>
+
+   <div class="col s7 ">
+
+   <div>
+      <a href='{% url "band:band_detail" band.slug %}' class="waves-effect waves-light btn custom-btn custom-text" >
+      <i class="material-icons left">cancel</i></a>
+   </div>
+
+   <form action='{% url "band:edit_band" band.slug %}' method="post" enctype="multipart/form-data" >
+   {% csrf_token %}
+   {% include 'band/form.html' %}
+
+   <div class="row">
+      <button id='formedit_submit' class="btn-floating btn-large waves-effect waves-light custom-btn " type="submit" >
+            <i class="material-icons">save</i></button>
+   </div>
+
+</form>
+         </div>
+</div>
+
+<!-- Modal Structure in case of a bad input cp -->
+<div id="bad_cp" class="modal">
+   <div class="modal-content">
+      <h4>Mauvais code postal</h4>
+      <p>Veuillez le resaisir</p>
+   </div>
+   <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">OK</a>
+   </div>
+</div>
+</main>
+
+{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript" src="{% static 'core/js/geo_api.js' %}"></script>
+
+{% endblock %}
