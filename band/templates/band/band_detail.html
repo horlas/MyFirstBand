@@ -28,7 +28,8 @@
               <h4 >
                 {{ object.name }}
               </h4>
-                {% if not object.town %}
+                <p>Créer sur myFirstBand le {{ object.created_at }}</p>
+                {% if not object.bio %}
                 <span>Vous pouvez mettre à jour votre présentation</span>
                 {% else %}
                 <blockquote >{{ object.bio }}</blockquote>
@@ -50,10 +51,10 @@
           {% if not object.type and not object.musical_genre %}
           <span>Vous pouvez mettre à jour votre type ou genre musical </span>
           {% else %}
-           <div class="row"></div>
+
             <span>{{object.type}} {{object.musical_genre}}</span>
           {% endif %}
-
+  <div class="row"></div>
 <ul class="collection with-header">
 
     <li class="collection-header"><h6>Membres</h6></li>

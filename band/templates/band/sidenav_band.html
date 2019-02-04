@@ -18,6 +18,7 @@
     <div class="row"></div>
 
     <li><div class="user-view">
+    <a href="{% url 'band:band_detail' object.slug%}" class="tooltipped" data-tooltip="Info groupe" >
 
             <div class="background">
                 <img src="{% static 'core/img/bg_sidenav_band.jpg' %}">
@@ -29,7 +30,7 @@
       {% endif %}
      </br>
       <h5 class="custom-text " style = "text-transform: uppercase">{{object.name}}</h5>
-
+        </a>
     </div></li>
 
     <li>

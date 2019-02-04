@@ -11,18 +11,24 @@
 
    <div class="col s7 ">
 
-   <div>
-      <a href='{% url "band:band_detail" band.slug %}' class="waves-effect waves-light btn custom-btn custom-text" >
-      <i class="material-icons left">cancel</i></a>
-   </div>
+
 
    <form action='{% url "band:edit_band" band.slug %}' method="post" enctype="multipart/form-data" >
    {% csrf_token %}
    {% include 'band/form.html' %}
 
    <div class="row">
-      <button id='formedit_submit' class="btn-floating btn-large waves-effect waves-light custom-btn " type="submit" >
-            <i class="material-icons">save</i></button>
+      <button id='formedit_submit' class=" waves-effect waves-light btn custom-btn custom-text" type="submit" >
+            <i class="material-icons left">save</i>Enregistrer</button>
+
+
+      <button href='{% url "band:band_detail" band.slug %}' class="waves-effect waves-light btn custom-btn custom-text" >
+      <i class="material-icons left">cancel</i>Cancel</button>
+
+
+
+
+
    </div>
 
 </form>

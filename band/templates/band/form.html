@@ -1,4 +1,5 @@
 {% load widget_tweaks %}
+{% load static %}
          {% include 'core/form_errors.html' with form=form %}
 
    <!--profile form-->
@@ -15,6 +16,14 @@
       <div class="row"></div>
 
       <!--avatar form-->
+        {% if object.avatar %}
+         <img alt="Avatar" class="circle responsive-img" src="{{ object.avatar.url }}" />
+         {% else %}
+         <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0_band.jpg' %}" />
+         {% endif %}
+
+
+
 
          {{ form.avatar|add_label_class:"custom-label"  }}
    </br>
