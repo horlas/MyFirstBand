@@ -1,0 +1,111 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+
+<main>
+
+<div class="container " xmlns="http://www.w3.org/1999/html">
+   <div class="row"></div>
+   <div class="row"></div>
+   {% if messages %}
+   {% for message in messages %}
+   <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" {% endif %}>
+   <span>{{ message }}</span>
+</div>
+{% endfor %}
+{% endif %}
+<div class="row">
+
+</div>
+<div class="row valign-wrapper">
+
+
+
+
+      <div class="row">
+    <div class="col s12">
+       <h4> Ajouter des membres</h4>
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">textsms</i>
+          <input type="text" id="user-input" class="autocomplete">
+          <label for="user-input" class="custom-label">Chercher</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+      <!--<form action='' method="post" enctype="multipart/form-data" >-->
+         <!--{% csrf_token %}-->
+         <!--{#% include 'core/form_errors.html' with form=profile_form %#}-->
+
+         <!--<button id='add_member' class="btn-floating btn-small waves-effect waves-light custom-btn"" type="submit" >-->
+         <!--<i class="material-icons">check</i></button>-->
+      <!--</form>-->
+
+
+
+   <!--change owner form-->
+   <!--<div class="col s7">-->
+      <!--<form action='' method="post"  >-->
+         <!--{% csrf_token %}-->
+
+        <!--{#% include 'core/form_errors.html' with form=profile_form %#}-->
+
+
+         <!--<button id = 'submit_profile' class="btn-floating btn-small waves-effect waves-light custom-btn" " type="submit" >-->
+         <!--<i class="material-icons">check</i></button>-->
+
+      <!--</form>-->
+   <!--</div>-->
+<!--</div>-->
+
+ <!--<div class="row valign-wrapper">-->
+
+<!--&lt;!&ndash;delete member form&ndash;&gt;-->
+<!--<div class="col s5 ">-->
+ <!--<p> Here the posiibilitie of deleted member</p>-->
+<!--</div>-->
+
+ <!--&lt;!&ndash;delete group form&ndash;&gt;-->
+<!--<div class="col s5 ">-->
+ <!--<p> Here the posiibilitie of deleted group</p>-->
+<!--</div>-->
+
+<!--</div>-->
+</div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+   <script>
+$(function() {
+            $.ajax({
+                url: "{% url 'band:search' %}",
+                type: "GET",
+                dataType: "json",
+
+                success: function( response ){
+                    var userList = response;
+                    var dataUser = {};
+                    for (var i = 0; i < userList.length; i++) {
+                        dataUser[userList[i].value] = null; //countryArray[i].flag or null
+                    }
+                console.log(dataUser);
+                $('#user-input').autocomplete({
+                     data : dataUser,
+                     minLength: 2,
+                     });
+               }
+             });
+            });
+   </script>
+
+{% endblock %}

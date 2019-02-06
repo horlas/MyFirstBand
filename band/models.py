@@ -133,10 +133,15 @@ class Band(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-
-        self.slug = slugify(self.name)
-        super(Band, self).save()
         super().save(*args, **kwargs)
+        if not self.slug:
+            self.slug = slugify(self.name)
+            super(Band, self).save()
+        if self.tracker.has_changed('name'):
+            self.slug = slugify(self.name)
+            super(Band, self).save()
+
+
 
 
         # we get here the self avatar condition

@@ -28,7 +28,7 @@ class UserProfile(models.Model):
     )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    username = models.CharField("Nom", max_length=60, blank=True)
+    username = models.CharField("Nom", max_length=60, blank=True, unique=True)
     bio = models.TextField("Courte description", max_length=500, blank=True)
     code = models.CharField("code postal", max_length=5, blank=True)
     county_name = models.CharField("Nom du département", max_length=60, blank=True)
