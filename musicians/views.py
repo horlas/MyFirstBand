@@ -15,7 +15,7 @@ from musicians.models import Instrument
 
 # Create your views here.
 @login_required
-def profile(request):
+def profile(request,pk):
     if request.user.userprofile.birth_year:
         age = get_age(request.user.userprofile.birth_year)
         age_str = '{} ans'.format(age)
@@ -23,16 +23,16 @@ def profile(request):
             'age' : age_str
             }
 
-        return render(request, 'musicians/profile.html', datas)
+        return render(request, 'musicians/profile.html', {'profile_to_display':request.user.id}, datas)
     else:
-        return render(request, 'musicians/profile.html')
+        return render(request, 'musicians/profile.html', {'profile_to_display':request.user.id})
 
 
-class UpdateProfilView(TemplateView):
+class UpdateProfilView(LoginRequiredMixin, TemplateView):
 
     template_name = 'musicians/update_profile.html'
 
-    @method_decorator(login_required)
+
     def get(self, request, *args, **kwargs):
         avatar_form = AvatarForm(self.request.GET or None,
                                  instance=request.user.userprofile)
@@ -66,14 +66,12 @@ class UpdateAvatarView(FormView, SuccessMessageMixin):
         if avatar_form.is_valid():
             avatar_form.save()
             messages.success(self.request, (" Votre image a été  mise à jour!"))
-            return redirect('musicians:update_profile') #, self.get_context_data(success=True))
+            return redirect(reverse_lazy('musicians:update_profile', kwargs={'pk': self.request.user.id})) #, self.get_context_data(success=True))
 
         else:
             avatar_form = self.form_class(instance=request.user.userprofile)
-
-            return self.render_to_response(
-               self.get_context_data(avatar_form =avatar_form))
-
+            return self.render_to_response(self.get_context_data(avatar_form =avatar_form))
+            # Todo : check if the user.id must be in the redirect url
 
 class UpdateDataView(FormView, SuccessMessageMixin):
 
@@ -88,7 +86,7 @@ class UpdateDataView(FormView, SuccessMessageMixin):
         if profile_form.is_valid():
             profile_form.save()
             messages.success(self.request , (" Vos données ont été mises à jour!"))
-            return redirect('musicians:update_profile')
+            return redirect(reverse_lazy('musicians:update_profile', kwargs={'pk': self.request.user.id}))
 
         else:
             profile_form = self.form_class(instance=request.user.userprofile)
@@ -114,7 +112,7 @@ class UpdateLocalView(FormView, SuccessMessageMixin):
 
             local_form.save()
             messages.success(self.request, (" Votre localité a été mise à jour!"))
-            return redirect('musicians:update_profile')
+            return redirect(reverse_lazy('musicians:update_profile', kwargs={'pk': self.request.user.id}))
 
         else:
             local_form = self.form_class(instance=request.user.userprofile)
@@ -128,7 +126,9 @@ class InstruCreateView(LoginRequiredMixin, CreateView, SuccessMessageMixin):
     model = Instrument
     fields = ['instrument', 'level']
     template_name = 'musicians/update_profile.html'
-    success_url = reverse_lazy('musicians:update_profile')
+
+    def get_success_url(self):
+        return reverse_lazy('musicians:update_profile', kwargs={'pk': self.request.user.id})
 
     def form_valid(self, instru_form):
         instru_form.instance.musician = self.request.user
@@ -136,13 +136,12 @@ class InstruCreateView(LoginRequiredMixin, CreateView, SuccessMessageMixin):
         return super().form_valid(instru_form)
 
 
-class InstruDeleteView(FormView, SuccessMessageMixin):
+class InstruDeleteView(LoginRequiredMixin, FormView, SuccessMessageMixin):
     '''View to delete instrument based on a Formwview because with deleteview
     we can not have the select option. So we use a custom form
     witch display a queryset : request. user instrument'''
 
     template_name = 'musicians/update_profile.html'
-    success_url = reverse_lazy('musicians:update_profile')
 
     @method_decorator(login_required)
     @transaction.atomic
@@ -150,11 +149,12 @@ class InstruDeleteView(FormView, SuccessMessageMixin):
         del_instru_form = InstruDeleteForm(request.user, request.POST)
         # get instrument id user wants to delete
         delete_id = request.POST['instrument']
+        print(self.success_url)
         if del_instru_form.is_valid():
             delete_instrument = Instrument.objects.get(id=delete_id)
             delete_instrument.delete()
             messages.success(self.request, ("Votre Instrument a été supprimé ! "))
-            return redirect(self.success_url)
+            return redirect(reverse_lazy('musicians:update_profile', kwargs={'pk': self.request.user.id}))
 
 
 

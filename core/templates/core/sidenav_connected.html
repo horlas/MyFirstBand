@@ -19,7 +19,7 @@
      <div class="row"></div>
 
     <li><div class="user-view">
-        <a href="{% url 'musicians:profile' %}" class="tooltipped" data-tooltip="Mon compte" >
+        <a href="{% url 'musicians:profile' user.pk %}" class="tooltipped" data-tooltip="Mon compte" >
             <div class="background">
                 <img src="{% static 'core/img/bg_sidenav.jpg' %}">
             </div>
@@ -47,7 +47,7 @@
     </li>
     <li><div class="divider"></div></li>
         <li>
-        <a id='edit-compte' class="waves-effect custom-text" href="{% url 'musicians:update_profile' %}">
+        <a id='edit-compte' class="waves-effect custom-text" href="{% url 'musicians:update_profile' user.pk  %}">
             <i class="material-icons custom-icons">edit</i>
             Editer mon compte</a>
     </li>

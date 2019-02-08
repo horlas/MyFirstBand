@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -13,7 +12,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.utils import timezone
 # from django.views.generic import CreateView
-from band.forms import ProfileBandForm
+from band.forms import ProfileBandForm, MemberCreateForm
 from musicians.models import Instrument
 from band.models import Membership
 from musicians.models import UserProfile, User
@@ -81,7 +80,6 @@ class BandUpdateView(LoginRequiredMixin, UpdateView):
         ''' To launch sidenav band'''
         context = super().get_context_data(**kwargs)
         context['sidenav_band'] = 'sidenav_band'
-
         return context
 
     def form_valid(self, form):
@@ -95,11 +93,70 @@ class BandUpdateView(LoginRequiredMixin, UpdateView):
 
 # ManageBandView must have forms : change owner, add and delete members and maybe delete group ...
 
-class ManageBandView(TemplateView):
+class ManageBandView(LoginRequiredMixin, DetailView):
+    template_name = 'band/manage_band.html'
+    model = Band
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        # launch membership
+        members = Membership.objects.filter(band=self.object.id)
+        context['members'] = members
+        # launch sidenav_bar
+        context['sidenav_band'] = 'sidenav_band'
+        # launch add_member_form
+
+        member_form = MemberCreateForm(self.request.GET or None)
+        context['member_form'] = member_form
+        return context
+
+
+
+class AddMemberView(LoginRequiredMixin, FormView, SuccessMessageMixin):
+    ''' View to add a member to a band, here is the post form.
+    We create the member without Createview because we need to grab
+    band name from the manage band view. We need also to add some code to
+    get the musician name by an autocomplete script'''
+    form_class = MemberCreateForm
     template_name = 'band/manage_band.html'
 
+    def post(self, request, *args, **kwargs):
+        member_create_form = self.form_class(request.POST)
+        if member_create_form.is_valid():
+            # get the band slug to redirect to manage view
+            band = Band.objects.get(name=request.POST['band'])
+            slug = band.slug
+            # we get the User instance through Userprofile.username
+            try:
+                musician = User.objects.get(userprofile__username=request.POST['musician'])
+
+            except User.DoesNotExist:
+                # member_create_form = self.form_class(request.POST)
+                messages.error(self.request, ("{} ne fait pas partie de MyFirstBand . ".format(request.POST['musician'])))
+                return redirect(reverse_lazy('band:manage_band', kwargs={'slug': slug}))
+
+            # musician = User.objects.get(userprofile__username=request.POST['musician'])
+            # get the band
+            band = Band.objects.get(name=request.POST['band'],)
+            # create the new member
+            Membership.objects.update_or_create(band=band,
+                                                musician=musician,
+                                                defaults={'invite_reason':request.POST['raison_invitation']},)
+
+            messages.success(self.request, ("{} a été ajouté au groupe ! ".format(request.POST['musician'],)))
+            return redirect(reverse_lazy('band:manage_band', kwargs={'slug': slug}))
+
+        else:
+            member_create_form = self.form_class(request.POST)
+            return render(
+                self.get_context_data(member_form=member_create_form))
+
+
+# Todo : link to each profile , must do a public profile view
 
 def autocomplete_username(request):
+    ''' Ajax view for autocomplete name of member field in add_member_form'''
 
     if request.is_ajax():
         q = request.GET.get('term', '')
@@ -115,8 +172,18 @@ def autocomplete_username(request):
         results = 'fail'
     return JsonResponse(results, safe=False)
 
+
+class MembershipDelete(DetailView):
+
+    model = Membership
+    success_url = reverse_lazy()
+
+
 # Todo : views manage band
-# Todo : add members
+# Todo : profil public link
+# Todo : error Toast
+# Todo: put Js in an other directory
+# Todo : deleteview
 # Todo : Change owner
 # Todo : delete band if the request user is owner
 

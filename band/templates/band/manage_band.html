@@ -21,25 +21,86 @@
 <div class="row valign-wrapper">
 
 
-
-
-      <div class="row">
     <div class="col s12">
-       <h4> Ajouter des membres</h4>
-      <div class="row">
-        <div class="input-field col s12">
+
+        <div>
+             <h5> Membres du groupe </h5>
+            <div class="divider"></div>
+            <div class="row"></div>
+            <ul class="collection with-header">
+                {% for member in members %}
+             <li class="collection-item avatar ">
+                {% if member.musician.userprofile.avatar %}
+                <img src="{{ member.musician.userprofile.avatar.url }}" alt="" class="circle">
+                {% else %}
+                <img src="{% static 'core/img/0.jpg' %}" alt="" class="circle">
+                {% endif %}
+               <span class="title">{{ member.musician.userprofile.username }}</span>
+                <p> {{ member.invite_reason }} </br>
+                    {{ member.date_joined }}
+                <a href="{% url 'musicians:profile' member.musician.userprofile.user.pk %}" class="secondary-content"><i class="material-icons">grade</i></a>
+            </li>
+                {% endfor %}
+            </ul>
+
+   </div>
+    <div>
+       <h5> Ajouter des membres</h5>
+        <div class="divider"></div>
+        <form action='{% url "band:add_member" %}' method="post"  >
+        {% csrf_token %}
+        {% include 'core/form_errors.html' with form=member_form %}
+        {% render_field member_form.band type="hidden" value=object.name %}
+           <div class="input-field ">
           <i class="material-icons prefix">textsms</i>
-          <input type="text" id="user-input" class="autocomplete">
-          <label for="user-input" class="custom-label">Chercher</label>
+          {% render_field member_form.musician class="autocomplete" %}
+          {{ member_form.musician |add_label_class:"custom-label"}}
+          <!--<input type="text" id="user-input" class="autocomplete">-->
+          <!--<label for="id_musician" class="custom-label">Chercher le nom du membre à ajouter</label>-->
+           </div>
+        <div class="input-field ">
+         {{ member_form.raison_invitation |add_label_class:"custom-label"}}
+         {{ member_form.raison_invitation }}
         </div>
-      </div>
+         <!--<label for="id_raison_invitation" class="custom-label">Raison pour laquelle le musicien rejoint le Groupe</label>-->
+
+         <button id = 'submit_profile' class="btn-floating btn-small waves-effect waves-light custom-btn" " type="submit" >
+         <i class="material-icons">check</i></button>
+      </form>
     </div>
+
+        <div>
+            <h5> Ajouter des membres</h5>
+            <div class="divider"></div>
+            <div class="row"></div>
+            <ul class="collection with-header">
+                {% for member in members %}
+             <li class="collection-item avatar ">
+                {% if member.musician.userprofile.avatar %}
+                <img src="{{ member.musician.userprofile.avatar.url }}" alt="" class="circle">
+                {% else %}
+                <img src="{% static 'core/img/0.jpg' %}" alt="" class="circle">
+                {% endif %}
+               <span class="title">{{ member.musician.userprofile.username }}</span>
+                <p> {{ member.invite_reason }} </br>
+                    {{ member.date_joined }}
+                <a href="{% url 'band:del_member' member.musician %}" class="secondary-content"><i class="material-icons">delete</i></a>
+            </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+
+
+
+
   </div>
 
 
 
 
 
+</div>
 
       <!--<form action='' method="post" enctype="multipart/form-data" >-->
          <!--{% csrf_token %}-->
@@ -79,14 +140,30 @@
 <!--</div>-->
 
 <!--</div>-->
+
+<!-- Modal Structure in case of a bad input cp -->
+<div id="confirm_delate" class="modal">
+   <div class="modal-content">
+       <form method="post">{% csrf_token %}
+        <h4>Are you sure you want to delete "{{ object }}"?</h4>
+        <div class="modal-footer">
+        <input type="submit" value="Confirm">
+       </div>
+    </form>
+   </div>
+</div>
+
+
+
 </div>
 </div>
 
 {% endblock %}
 
 {% block script %}
-   <script>
-$(function() {
+
+ <script >
+     $(function() {
             $.ajax({
                 url: "{% url 'band:search' %}",
                 type: "GET",
@@ -99,13 +176,13 @@ $(function() {
                         dataUser[userList[i].value] = null; //countryArray[i].flag or null
                     }
                 console.log(dataUser);
-                $('#user-input').autocomplete({
+                $('#id_musician').autocomplete({
                      data : dataUser,
                      minLength: 2,
                      });
                }
              });
             });
-   </script>
+ </script>
 
 {% endblock %}

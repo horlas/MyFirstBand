@@ -20,12 +20,8 @@ $("#first").click(function() {
               function (data) {
 
                     if (data.length != 0){
-
-
-                            $.each(data, function (index, value) {
-
-
-                             $("#id_town").append($("<option value=\"" +value.nom+ "\">" + value.nom + "</option>"));
+                         $.each(data, function (index, value) {
+                            $("#id_town").append($("<option value=\"" +value.nom+ "\">" + value.nom + "</option>"));
                                 $(document).ready(function () {
                                 $('select').formSelect();
                                  });
@@ -33,9 +29,7 @@ $("#first").click(function() {
                              $('#id_county_name').val(value.departement.nom);
 
                             });
-
-
-                            $("#send").hide();
+                         $("#send").hide();
                             $("#town").show();
                           } else {
                              // show the modal

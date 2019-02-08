@@ -12,5 +12,7 @@ urlpatterns = [
     path('edit/<slug:slug>', BandUpdateView.as_view(), name='edit_band'),
     path('manage/<slug:slug>', ManageBandView.as_view(), name='manage_band'),
     path('ajax_calls/search/', autocomplete_username, name='search'),
+    path('add_member/submit', AddMemberView.as_view(), name='add_member'),
+    path('delete/<int:pk>', MembershipDelete.as_view(), name='del_member')
 
 ]
