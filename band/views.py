@@ -107,10 +107,7 @@ class ManageBandView(LoginRequiredMixin, DetailView):
         # launch add_member_form
         member_form = MemberCreateForm(self.request.GET or None)
         context['member_form'] = member_form
-        # launch change owner form
-        print(self.object.id)
-        owner_form = ChangeOwnerForm(self.object.id)
-        context['owner_form'] = owner_form
+
         return context
 
 
@@ -124,9 +121,6 @@ class AddMemberView(LoginRequiredMixin, FormView, SuccessMessageMixin):
     template_name = 'band/manage_band.html'
 
     def post(self, request, *args, **kwargs):
-        band_object = request.GET.get('band_id')
-        print(band_object)
-
         member_create_form = self.form_class(request.POST)
         if member_create_form.is_valid():
             # get the band slug to redirect to manage view
@@ -156,7 +150,7 @@ class AddMemberView(LoginRequiredMixin, FormView, SuccessMessageMixin):
                 self.get_context_data(member_form=member_create_form))
 
 
-# Todo : link to each profile , must do a public profile view
+# Todo : link to each profile , must be a public profile view
 
 def autocomplete_username(request):
     ''' Ajax view for autocomplete name of member field in add_member_form'''
@@ -185,33 +179,22 @@ class MembershipDelete(LoginRequiredMixin, DeleteView):
         messages.success(self.request, ('{} a été supprimé!').format(self.object.musician.userprofile.username))
         return referer_url
 
-
-
-    # def get_object(self, queryset=None):
-    #     id_= self.kwargs.get("member.id")
-    #     print(id_)to
-    #     return get_object_or_404(Membership, id=id_)
-
-# class ChangeOwnerView(LoginRequiredMixin, FormView, SuccessMessageMixin):
-#     ''' View to change owner of band'''
-#
-#     form_class = ChangeOwnerForm
-#     template_name = 'band/manage_band.html'
-
 @login_required()
 def change_owner(request):
     name_new_owner = request.POST['owner_name']
+    new_owner = User.objects.get(userprofile__username=name_new_owner)
     band_id = request.POST['band']
-
-    print(name_new_owner, band_id)
-
+    band = Band.objects.get(id=band_id)
+    band.owner = new_owner
+    band.save()
+    messages.success(request, '{} est le nouveau propriétaire du groupe!'.format(name_new_owner))
+    slug = band.slug
+    return redirect(reverse_lazy('band:manage_band', kwargs={'slug': slug}))
 
 
 # Todo : views manage band
 # Todo : profil public link
 # Todo : error Toast
 # Todo: put Js in an other directory
-# Todo : deleteview
-# Todo : Change owner
 # Todo : delete band if the request user is owner and if there is no member any more except the owner
 
