@@ -33,10 +33,7 @@ $("#first").click(function() {
                             $("#town").show();
                           } else {
                              // show the modal
-                              var elem = document.querySelector('.modal');
-                              var instance = M.Modal.init(elem);
-                              instance.open();
-                                }
+                              options is not defined
 
               });
 

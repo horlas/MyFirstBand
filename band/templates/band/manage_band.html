@@ -70,12 +70,12 @@
     </div>
 
         <div>
-            <h5> Ajouter des membres</h5>
+            <h5> Supprimer des membres</h5>
             <div class="divider"></div>
             <div class="row"></div>
             <ul class="collection with-header">
                 {% for member in members %}
-             <li class="collection-item avatar ">
+             <li class="collection-item avatar toto " >
                 {% if member.musician.userprofile.avatar %}
                 <img src="{{ member.musician.userprofile.avatar.url }}" alt="" class="circle">
                 {% else %}
@@ -84,7 +84,23 @@
                <span class="title">{{ member.musician.userprofile.username }}</span>
                 <p> {{ member.invite_reason }} </br>
                     {{ member.date_joined }}
-                <a href="{% url 'band:del_member' member.musician %}" class="secondary-content"><i class="material-icons">delete</i></a>
+                    {{ member.id }}
+
+                    <!-- ici le bouton qui ouvre la modal -->
+                 <button class="secondary-content modal-trigger" onclick='initModal("{{ member.id }}");'> <i class="material-icons">delete</i></button>
+
+                 <!-- Modal Structure in case of a bad input cp -->
+                <div id="confirm_delete{{ member.id }}" class="modal">
+                    <div class="modal-content">
+                        <form method="post" action="{% url 'band:del_member' member.id %}">
+                        {% csrf_token %}
+                    <h4>Are you sure you want to delete "{{ object.musician.userprofile.username }}"?</h4>
+                <div class="modal-footer">
+                <input type="submit" value="Confirm">
+                </div>
+                    </form>
+                </div>
+                </div>
             </li>
                 {% endfor %}
             </ul>
@@ -141,17 +157,7 @@
 
 <!--</div>-->
 
-<!-- Modal Structure in case of a bad input cp -->
-<div id="confirm_delate" class="modal">
-   <div class="modal-content">
-       <form method="post">{% csrf_token %}
-        <h4>Are you sure you want to delete "{{ object }}"?</h4>
-        <div class="modal-footer">
-        <input type="submit" value="Confirm">
-       </div>
-    </form>
-   </div>
-</div>
+
 
 
 
@@ -163,6 +169,9 @@
 {% block script %}
 
  <script >
+
+     // function witch call the view autocomplete_username
+     // in order to fill name of MFB Member
      $(function() {
             $.ajax({
                 url: "{% url 'band:search' %}",
@@ -175,7 +184,7 @@
                     for (var i = 0; i < userList.length; i++) {
                         dataUser[userList[i].value] = null; //countryArray[i].flag or null
                     }
-                console.log(dataUser);
+                //console.log(dataUser);
                 $('#id_musician').autocomplete({
                      data : dataUser,
                      minLength: 2,
@@ -183,6 +192,44 @@
                }
              });
             });
- </script>
+
+
+
+    // Trigger a Modal witch contains confirmation for deletation of a member
+
+
+
+  $(".toto" ).each(function(index){
+
+        console.log($('.modal-trigger')[index]);
+        var b = $('.modal-trigger')[index];
+        //console.log(b);
+        console.log($('.modal')[index]);
+
+        b.click(function() {
+        alert('Hourra');
+        //var elem = $('.modal')[index];
+        //console.log($('.modal')[index])
+        //var instance = M.Modal.init(elem);
+        //instance.open();
+
+
+
+       //$(document).ready(function(){
+       // $(".modal").modal();
+       // });
+       });
+        });
+
+// test function init modal
+function initModal(member_id) {
+        //var id_modal = 'confirm_delete' + member_id ;
+        //console.log(id_modal);
+        var elem = document.getElementById('confirm_delete' + member_id);
+        var instance = M.Modal.init(elem);
+        instance.open();
+        }
+
+</script>
 
 {% endblock %}

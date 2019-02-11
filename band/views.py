@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView, FormView, CreateView
@@ -9,7 +9,7 @@ from django.db import transaction
 from django.contrib import messages
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, DeleteView
 from django.utils import timezone
 # from django.views.generic import CreateView
 from band.forms import ProfileBandForm, MemberCreateForm
@@ -173,10 +173,23 @@ def autocomplete_username(request):
     return JsonResponse(results, safe=False)
 
 
-class MembershipDelete(DetailView):
+class MembershipDelete(DeleteView):
 
     model = Membership
-    success_url = reverse_lazy()
+    # template_name = 'band/member_confirm_delete.html'
+
+    def get_success_url(self):
+        referer_url = self.request.META.get('HTTP_REFERER')
+        messages.success(self.request, ('Member a été supprimé!'))
+        return referer_url
+
+
+
+    # def get_object(self, queryset=None):
+    #     id_= self.kwargs.get("member.id")
+    #     print(id_)
+    #     return get_object_or_404(Membership, id=id_)
+
 
 
 # Todo : views manage band
