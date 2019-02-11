@@ -8,13 +8,7 @@
 <div class="container " xmlns="http://www.w3.org/1999/html">
    <div class="row"></div>
    <div class="row"></div>
-   {% if messages %}
-   {% for message in messages %}
-   <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" {% endif %}>
-   <span>{{ message }}</span>
-</div>
-{% endfor %}
-{% endif %}
+   {% include 'core/display_messages.html' %}
 <div class="row">
    <div>
       <a href='{% url "musicians:profile" user.pk%}' class="waves-effect waves-light btn custom-btn custom-text" >

@@ -13,9 +13,8 @@ from musicians.forms import ProfileForm, AvatarForm, LocalForm, InstruDeleteForm
 from musicians.models import Instrument
 
 
-# Create your views here.
 @login_required
-def profile(request,pk):
+def profile(request, pk):
     if request.user.userprofile.birth_year:
         age = get_age(request.user.userprofile.birth_year)
         age_str = '{} ans'.format(age)
@@ -32,8 +31,8 @@ class UpdateProfilView(LoginRequiredMixin, TemplateView):
 
     template_name = 'musicians/update_profile.html'
 
-
     def get(self, request, *args, **kwargs):
+
         avatar_form = AvatarForm(self.request.GET or None,
                                  instance=request.user.userprofile)
         profile_form = ProfileForm(self.request.GET or None,
@@ -72,6 +71,7 @@ class UpdateAvatarView(FormView, SuccessMessageMixin):
             avatar_form = self.form_class(instance=request.user.userprofile)
             return self.render_to_response(self.get_context_data(avatar_form =avatar_form))
             # Todo : check if the user.id must be in the redirect url
+
 
 class UpdateDataView(FormView, SuccessMessageMixin):
 
@@ -116,7 +116,6 @@ class UpdateLocalView(FormView, SuccessMessageMixin):
 
         else:
             local_form = self.form_class(instance=request.user.userprofile)
-
             return render(self.get_context_data(local_form=local_form))
 
 
@@ -142,14 +141,11 @@ class InstruDeleteView(LoginRequiredMixin, FormView, SuccessMessageMixin):
     witch display a queryset : request. user instrument'''
 
     template_name = 'musicians/update_profile.html'
-
-    @method_decorator(login_required)
     @transaction.atomic
     def post(self, request, *args, **kwargs):
         del_instru_form = InstruDeleteForm(request.user, request.POST)
         # get instrument id user wants to delete
         delete_id = request.POST['instrument']
-        print(self.success_url)
         if del_instru_form.is_valid():
             delete_instrument = Instrument.objects.get(id=delete_id)
             delete_instrument.delete()

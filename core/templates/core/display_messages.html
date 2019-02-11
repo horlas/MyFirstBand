@@ -1,13 +1,14 @@
-{% block content %}
+
 {% if messages %}
    {% for message in messages %}
-<div class="containers">
-   <h1>
+
    <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" {% endif %}>
-   <span>{{ message }}</span>
+      <script>
+                    M.toast({html: "{{ message }}"  });
+      </script>
+
 </div>
-      </h1>
-</div>
+
+
 {% endfor %}
 {% endif %}
-{% endblock %}

@@ -43,11 +43,12 @@
           {% if not object.town %}
           <span>Vous pouvez mettre à jour votre localisation</span>
           {% else %}
-           <div class="row"></div>
+
             <span>{{object.town}} {{object.county_name}}</span>
           {% endif %}
-
+             <div class="row"></div>
           <h6>Type et genre musical : </h6>
+
           {% if not object.type and not object.musical_genre %}
           <span>Vous pouvez mettre à jour votre type ou genre musical </span>
           {% else %}

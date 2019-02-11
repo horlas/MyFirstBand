@@ -5,6 +5,7 @@ from django.views.generic import TemplateView, FormView, CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 from django.db import transaction
 from django.contrib import messages
 from django.views.generic.list import ListView
@@ -16,9 +17,6 @@ from band.forms import ProfileBandForm, MemberCreateForm
 from musicians.models import Instrument
 from band.models import Membership
 from musicians.models import UserProfile, User
-from django.http import JsonResponse
-
-
 from band.forms import *
 from band.models import Band
 
@@ -56,8 +54,8 @@ class BandDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['sidenav_band'] = 'sidenav_band'
         members = Membership.objects.filter(band=self.object.id)
+
         # data_instru ={}
         # for m in members:
         #     instru = Instrument.objects.filter(musician=m.musician).first()
@@ -65,7 +63,8 @@ class BandDetailView(LoginRequiredMixin, DetailView):
         #     data_instru[m.musician] = instru
         # context['instru'] = data_instru
         context['members'] = members
-        # print(context['instru'])
+        context['sidenav_band'] = 'sidenav_band'
+
         return context
         # Todo : add the instrument to member
 
@@ -106,9 +105,12 @@ class ManageBandView(LoginRequiredMixin, DetailView):
         # launch sidenav_bar
         context['sidenav_band'] = 'sidenav_band'
         # launch add_member_form
-
         member_form = MemberCreateForm(self.request.GET or None)
         context['member_form'] = member_form
+        # launch change owner form
+        print(self.object.id)
+        owner_form = ChangeOwnerForm(self.object.id)
+        context['owner_form'] = owner_form
         return context
 
 
@@ -122,6 +124,9 @@ class AddMemberView(LoginRequiredMixin, FormView, SuccessMessageMixin):
     template_name = 'band/manage_band.html'
 
     def post(self, request, *args, **kwargs):
+        band_object = request.GET.get('band_id')
+        print(band_object)
+
         member_create_form = self.form_class(request.POST)
         if member_create_form.is_valid():
             # get the band slug to redirect to manage view
@@ -135,8 +140,6 @@ class AddMemberView(LoginRequiredMixin, FormView, SuccessMessageMixin):
                 # member_create_form = self.form_class(request.POST)
                 messages.error(self.request, ("{} ne fait pas partie de MyFirstBand . ".format(request.POST['musician'])))
                 return redirect(reverse_lazy('band:manage_band', kwargs={'slug': slug}))
-
-            # musician = User.objects.get(userprofile__username=request.POST['musician'])
             # get the band
             band = Band.objects.get(name=request.POST['band'],)
             # create the new member
@@ -173,22 +176,34 @@ def autocomplete_username(request):
     return JsonResponse(results, safe=False)
 
 
-class MembershipDelete(DeleteView):
+class MembershipDelete(LoginRequiredMixin, DeleteView):
 
     model = Membership
-    # template_name = 'band/member_confirm_delete.html'
 
     def get_success_url(self):
         referer_url = self.request.META.get('HTTP_REFERER')
-        messages.success(self.request, ('Member a été supprimé!'))
+        messages.success(self.request, ('{} a été supprimé!').format(self.object.musician.userprofile.username))
         return referer_url
 
 
 
     # def get_object(self, queryset=None):
     #     id_= self.kwargs.get("member.id")
-    #     print(id_)
+    #     print(id_)to
     #     return get_object_or_404(Membership, id=id_)
+
+# class ChangeOwnerView(LoginRequiredMixin, FormView, SuccessMessageMixin):
+#     ''' View to change owner of band'''
+#
+#     form_class = ChangeOwnerForm
+#     template_name = 'band/manage_band.html'
+
+@login_required()
+def change_owner(request):
+    name_new_owner = request.POST['owner_name']
+    band_id = request.POST['band']
+
+    print(name_new_owner, band_id)
 
 
 
@@ -198,5 +213,5 @@ class MembershipDelete(DeleteView):
 # Todo: put Js in an other directory
 # Todo : deleteview
 # Todo : Change owner
-# Todo : delete band if the request user is owner
+# Todo : delete band if the request user is owner and if there is no member any more except the owner
 

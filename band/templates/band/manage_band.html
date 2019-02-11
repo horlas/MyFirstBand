@@ -8,13 +8,7 @@
 <div class="container " xmlns="http://www.w3.org/1999/html">
    <div class="row"></div>
    <div class="row"></div>
-   {% if messages %}
-   {% for message in messages %}
-   <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" {% endif %}>
-   <span>{{ message }}</span>
-</div>
-{% endfor %}
-{% endif %}
+   {% include 'core/display_messages.html' %}
 <div class="row">
 
 </div>
@@ -44,6 +38,7 @@
             </ul>
 
    </div>
+        <!-- add Members -->
     <div>
        <h5> Ajouter des membres</h5>
         <div class="divider"></div>
@@ -69,13 +64,16 @@
       </form>
     </div>
 
+        <!-- Delete members -->
         <div>
             <h5> Supprimer des membres</h5>
+            <span > Le propriétaire du groupe ne peut pas etre supprimé. </span></br>
+            <span > Si vous désirez supprimé ce membre il faut d'abord changer le propriétaire.</span>
             <div class="divider"></div>
             <div class="row"></div>
             <ul class="collection with-header">
                 {% for member in members %}
-             <li class="collection-item avatar toto " >
+             <li class="collection-item avatar" >
                 {% if member.musician.userprofile.avatar %}
                 <img src="{{ member.musician.userprofile.avatar.url }}" alt="" class="circle">
                 {% else %}
@@ -86,24 +84,62 @@
                     {{ member.date_joined }}
                     {{ member.id }}
 
-                    <!-- ici le bouton qui ouvre la modal -->
-                 <button class="secondary-content modal-trigger" onclick='initModal("{{ member.id }}");'> <i class="material-icons">delete</i></button>
+             <!-- Trigger of the delete modal except in case of the member is the owner, we can not delete owner  -->
+                {% if member.musician.userprofile.user != member.band.owner %}
 
-                 <!-- Modal Structure in case of a bad input cp -->
+                 <a href="#" class="secondary-content" onclick='initModal("{{ member.id }}");'> <i class="material-icons">delete</i></a>
+                    {% endif %}
+                 <!-- Modal Structure witch call Deleteview -->
                 <div id="confirm_delete{{ member.id }}" class="modal">
                     <div class="modal-content">
                         <form method="post" action="{% url 'band:del_member' member.id %}">
                         {% csrf_token %}
-                    <h4>Are you sure you want to delete "{{ object.musician.userprofile.username }}"?</h4>
-                <div class="modal-footer">
-                <input type="submit" value="Confirm">
-                </div>
+                        <h4> Voulez vous supprimer {{ member.musician.userprofile.username }} du groupe ?</h4>
+                        <div class="modal-footer">
+                            <a href="#" class="modal-close waves-light btn red" >Non</a>
+                            <button class="waves-effect waves-light btn" type="submit">Oui</button>
+                        </div>
                     </form>
                 </div>
                 </div>
             </li>
                 {% endfor %}
             </ul>
+        </div>
+
+
+        <!-- Change Owner -->
+
+        <div>
+            <h5> Changer le propriétaire du groupe </h5>
+            <div id='band_id'>{{ band.id }}</div>
+            <div class="divider"></div>
+            <div class="row"></div>
+            <!--<div class="row valign-wrapper">-->
+            <form action='{% url "band:change_owner" %}' method="post"  >
+            {% csrf_token %}
+             <div class="input-field col s12">
+            <select name="owner_name">
+             <option value="" disabled selected>Chosissez un membre</option>
+               {% for member in members %}
+            <option value="{{ member.musician.userprofile.username }}">{{ member.musician.userprofile.username }}</option>
+                {% endfor %}
+            </select>
+            <label>Selectionnez un membre</label>
+            </div>
+                <input type="hidden" value='{{ band.id }}' name = 'band'>
+
+            <div class="col 1 offset-s11" >
+            <button id = 'submit_change_owner' class="btn-floating btn-small waves-effect waves-light custom-btn" type="submit" >
+            <i class="material-icons">check</i></button>
+            </div>
+         </form>
+        </div>
+      </div>
+
+
+
+
 
         </div>
 
@@ -117,46 +153,6 @@
 
 
 </div>
-
-      <!--<form action='' method="post" enctype="multipart/form-data" >-->
-         <!--{% csrf_token %}-->
-         <!--{#% include 'core/form_errors.html' with form=profile_form %#}-->
-
-         <!--<button id='add_member' class="btn-floating btn-small waves-effect waves-light custom-btn"" type="submit" >-->
-         <!--<i class="material-icons">check</i></button>-->
-      <!--</form>-->
-
-
-
-   <!--change owner form-->
-   <!--<div class="col s7">-->
-      <!--<form action='' method="post"  >-->
-         <!--{% csrf_token %}-->
-
-        <!--{#% include 'core/form_errors.html' with form=profile_form %#}-->
-
-
-         <!--<button id = 'submit_profile' class="btn-floating btn-small waves-effect waves-light custom-btn" " type="submit" >-->
-         <!--<i class="material-icons">check</i></button>-->
-
-      <!--</form>-->
-   <!--</div>-->
-<!--</div>-->
-
- <!--<div class="row valign-wrapper">-->
-
-<!--&lt;!&ndash;delete member form&ndash;&gt;-->
-<!--<div class="col s5 ">-->
- <!--<p> Here the posiibilitie of deleted member</p>-->
-<!--</div>-->
-
- <!--&lt;!&ndash;delete group form&ndash;&gt;-->
-<!--<div class="col s5 ">-->
- <!--<p> Here the posiibilitie of deleted group</p>-->
-<!--</div>-->
-
-<!--</div>-->
-
 
 
 
@@ -195,33 +191,7 @@
 
 
 
-    // Trigger a Modal witch contains confirmation for deletation of a member
-
-
-
-  $(".toto" ).each(function(index){
-
-        console.log($('.modal-trigger')[index]);
-        var b = $('.modal-trigger')[index];
-        //console.log(b);
-        console.log($('.modal')[index]);
-
-        b.click(function() {
-        alert('Hourra');
-        //var elem = $('.modal')[index];
-        //console.log($('.modal')[index])
-        //var instance = M.Modal.init(elem);
-        //instance.open();
-
-
-
-       //$(document).ready(function(){
-       // $(".modal").modal();
-       // });
-       });
-        });
-
-// test function init modal
+// Trigger a Modal witch contains confirmation for deletation of a member
 function initModal(member_id) {
         //var id_modal = 'confirm_delete' + member_id ;
         //console.log(id_modal);
@@ -229,6 +199,12 @@ function initModal(member_id) {
         var instance = M.Modal.init(elem);
         instance.open();
         }
+
+
+// Initialization select
+$(document).ready(function(){
+    $('select').formSelect();
+  });
 
 </script>
 
