@@ -11,23 +11,48 @@ from django.contrib import messages
 from core.utils import get_age
 from musicians.forms import ProfileForm, AvatarForm, LocalForm, InstruDeleteForm, InstruCreateForm
 from musicians.models import Instrument
+from band.models import Band
+from authentication.models import User
 
+
+def public_profile(request, pk):
+    datas = {}
+    # return user id for the url
+    datas['profile_to_display'] = pk
+
+    user = User.objects.get(id=pk)
+    datas['user'] = user
+
+    # return elements for band displaying
+    bands = Band.objects.filter(members=user)
+    datas['bands'] = bands
+    if user.userprofile.birth_year:
+        # return musician age
+        age = get_age(user.userprofile.birth_year)
+        age_str = '{} ans'.format(age)
+        datas['age'] = age_str
+
+    return render(request, 'musicians/profile.html',  datas)
 
 @login_required
 def profile(request, pk):
+    datas = {}
+    # return user id for the url
+    datas['profile_to_display'] = request.user.id
+    # return elements for band displaying
+    bands = Band.objects.filter(members=request.user)
+    datas['bands'] = bands
     if request.user.userprofile.birth_year:
+        # return musician age
         age = get_age(request.user.userprofile.birth_year)
         age_str = '{} ans'.format(age)
-        datas = {
-            'age' : age_str
-            }
+        datas['age'] = age_str
 
-        return render(request, 'musicians/profile.html', {'profile_to_display':request.user.id}, datas)
-    else:
-        return render(request, 'musicians/profile.html', {'profile_to_display':request.user.id})
+    return render(request, 'musicians/profile.html',  datas)
 
 
 class UpdateProfilView(LoginRequiredMixin, TemplateView):
+    ''' Update or set the datas witch concern the musician'''
 
     template_name = 'musicians/update_profile.html'
 

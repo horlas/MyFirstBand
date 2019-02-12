@@ -5,6 +5,7 @@ app_name = 'musicians'
 
 urlpatterns = [
 
+    path('public_profile/<int:pk>', views.public_profile, name='public_profile'),
     path('profile/<int:pk>', views.profile, name='profile'),
     path('update_profile/<int:pk>', views.UpdateProfilView.as_view(), name='update_profile'),
     path('update_avatar/submit', views.UpdateAvatarView.as_view(), name='update_avatar'),

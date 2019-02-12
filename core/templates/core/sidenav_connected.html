@@ -19,17 +19,17 @@
      <div class="row"></div>
 
     <li><div class="user-view">
-        <a href="{% url 'musicians:profile' user.pk %}" class="tooltipped" data-tooltip="Mon compte" >
+        <a href="{% url 'musicians:profile' request.user.pk %}" class="tooltipped" data-tooltip="Mon compte" >
             <div class="background">
                 <img src="{% static 'core/img/bg_sidenav.jpg' %}">
             </div>
-      {% if user.userprofile.avatar %}
-        <img alt="Avatar" class="circle responsive-img" src="{{ user.userprofile.avatar.url }}" />
+      {% if request.user.userprofile.avatar %}
+        <img alt="Avatar" class="circle responsive-img" src="{{ request.user.userprofile.avatar.url }}" />
             {% else %}
         <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" />
       {% endif %}
-      <span class="custom-text name"> {{user.userprofile.username}} </span>
-      <span class="custom-text e-mail">{{user.email}}</span>
+      <span class="custom-text name"> {{request.user.userprofile.username}} </span>
+      <span class="custom-text e-mail">{{request.user.email}}</span>
        </a>
     </div></li>
 
@@ -47,7 +47,7 @@
     </li>
     <li><div class="divider"></div></li>
         <li>
-        <a id='edit-compte' class="waves-effect custom-text" href="{% url 'musicians:update_profile' user.pk  %}">
+        <a id='edit-compte' class="waves-effect custom-text" href="{% url 'musicians:update_profile' request.user.pk  %}">
             <i class="material-icons custom-icons">edit</i>
             Editer mon compte</a>
     </li>
