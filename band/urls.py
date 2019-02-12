@@ -14,6 +14,7 @@ urlpatterns = [
     path('ajax_calls/search/', autocomplete_username, name='search'),
     path('add_member/submit', AddMemberView.as_view(), name='add_member'),
     path('delete_member/<int:pk>', MembershipDelete.as_view(), name='del_member'),
-    path('change_owner/submit', change_owner, name='change_owner')
+    path('change_owner/submit', change_owner, name='change_owner'),
+    path('delete_band/<int:pk>', BandDeleteView.as_view(), name='del_band')
 
 ]

@@ -28,9 +28,9 @@
       <div class='col s8 offset-s4'>
 
             <ul>
-                        {% for i in user.instrument_set.all %}
-                        <li>{{i.instrument}} </li>
-                        {% endfor %}
+            {% for i in user.instrument_set.all %}
+            <li>{{i.instrument}} </li>
+            {% endfor %}
             </ul>
             <span > {{age}}  </span>
 

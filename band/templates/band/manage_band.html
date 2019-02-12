@@ -60,7 +60,7 @@
          <!--<label for="id_raison_invitation" class="custom-label">Raison pour laquelle le musicien rejoint le Groupe</label>-->
 
            <div class="col 1 offset-s11" >
-         <button id = 'submit_profile' class="btn-floating btn-small waves-effect waves-light custom-btn" " type="submit" >
+         <button id = 'submit_profile' class="btn-floating btn-small waves-effect waves-light custom-btn" type="submit" >
          <i class="material-icons">check</i></button>
            </div>
       </form>
@@ -89,7 +89,7 @@
              <!-- Trigger of the delete modal except in case of the member is the owner, we can not delete owner  -->
                 {% if member.musician.userprofile.user != member.band.owner %}
 
-                 <a href="#" class="secondary-content" onclick='initModal("{{ member.id }}");'> <i class="material-icons">delete</i></a>
+                 <a href="#" class="secondary-content" onclick='initModalMember("{{ member.id }}");'> <i class="material-icons">delete</i></a>
                     {% endif %}
                  <!-- Modal Structure witch call Deleteview -->
                 <div id="confirm_delete{{ member.id }}" class="modal">
@@ -109,14 +109,13 @@
             </ul>
         </div>
 
-
         <!-- Change Owner -->
 
         <div>
             <h5> Changer le propriétaire du groupe </h5>
             <div class="divider"></div>
             <div class="row"></div>
-            <!--<div class="row valign-wrapper">-->
+
             <form action='{% url "band:change_owner" %}' method="post"  >
             {% csrf_token %}
              <div class="input-field col s12">
@@ -136,18 +135,41 @@
             </div>
          </form>
         </div>
-      </div>
 
 
-
-
-
+        <!-- Delete Band -->
+     <div>
+            <h5> Supprimer le groupe </h5>
+            <div class="divider"></div>
+            <div class="row"></div>
+            <span > Seul le propriétaire du groupe peut supprimer le groupe </span></br>
+            <span > Le groupe ne doit plus contenir de membres. </span>
+        <div class="col 2 offset-s10" >
+         <a class="waves-effect waves-light btn custom-btn custom-text" onclick='initModalBand("{{ band.id }}");'><i class="material-icons">delete_forever</i>Supprimer</a>
         </div>
+                 <!-- Modal Structure witch call Deleteview -->
+                <div id="confirm_delete_band{{ band.id }}" class="modal">
+                    <div class="modal-content">
+                        <form method="post" action="{% url 'band:del_band' band.id %}">
+                        {% csrf_token %}
+                        <h4> Voulez vous supprimer {{ band.name }} ? Vous perdrez toutes les données du groupe.</h4>
+                        <div class="modal-footer">
+                            <a href="#" class="modal-close waves-light btn red" >Non</a>
+                            <button class="waves-effect waves-light btn" type="submit">Oui</button>
+                        </div>
+                    </form>
+                </div>
+                </div>
 
 
 
 
-  </div>
+
+     </div>
+          </div>
+</div>
+</div>
+
 
 
 
@@ -193,9 +215,7 @@
 
 
 // Trigger a Modal witch contains confirmation for deletation of a member
-function initModal(member_id) {
-        //var id_modal = 'confirm_delete' + member_id ;
-        //console.log(id_modal);
+function initModalMember(member_id) {
         var elem = document.getElementById('confirm_delete' + member_id);
         var instance = M.Modal.init(elem);
         instance.open();
@@ -206,6 +226,17 @@ function initModal(member_id) {
 $(document).ready(function(){
     $('select').formSelect();
   });
+
+// Trigger a Modal witch contains confirmation for deletation of a band
+function initModalBand(band_id) {
+        console.log(band_id)
+        var elem = document.getElementById('confirm_delete_band' + band_id);
+        var instance = M.Modal.init(elem);
+        instance.open();
+        }
+
+
+
 
 </script>
 

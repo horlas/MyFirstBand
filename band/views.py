@@ -56,12 +56,12 @@ class BandDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         members = Membership.objects.filter(band=self.object.id)
 
-        # data_instru ={}
-        # for m in members:
-        #     instru = Instrument.objects.filter(musician=m.musician).first()
-        #
-        #     data_instru[m.musician] = instru
-        # context['instru'] = data_instru
+        data_instru ={}
+        for m in members:
+            instru = Instrument.objects.filter(musician=m.musician).first()
+
+            data_instru[m.musician] = instru
+        context['instru'] = data_instru
         context['members'] = members
         context['sidenav_band'] = 'sidenav_band'
 
@@ -192,9 +192,38 @@ def change_owner(request):
     return redirect(reverse_lazy('band:manage_band', kwargs={'slug': slug}))
 
 
-# Todo : views manage band
+class BandMixin(LoginRequiredMixin, object):
+    model = Band
+
+    def get_context_data(self, **kwargs):
+        kwargs.update({'object_name': 'Band'})
+        return kwargs
+
+    def dispatch(self, *args, **kwargs):
+        return super(BandMixin, self).dispatch(*args, **kwargs)
+
+
+class BandDeleteView(BandMixin, DeleteView):
+
+    success_url = reverse_lazy('band:list_bands')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.owner != self.request.user:
+            messages.error(self.request, " Seul le propriétaire du groupe peut supprimer le groupe. ")
+            return redirect(reverse_lazy('band:manage_band', kwargs={'slug': self.object.slug}))
+        elif self.object.owner == self.request.user and self.object.members.count() > 1:
+            messages.error(self.request, " Le groupe ne doit pas contenir de membres excepté le propriétaire. ")
+            return redirect(reverse_lazy('band:manage_band', kwargs={'slug': self.object.slug}))
+        else:
+            self.object.delete()
+            messages.success(self.request, '{} a été supprimé'.format(self.object.name))
+            return redirect(self.success_url)
+
+
+
 # Todo : profil public link
 # Todo : error Toast
 # Todo: put Js in an other directory
-# Todo : delete band if the request user is owner and if there is no member any more except the owner
+
 

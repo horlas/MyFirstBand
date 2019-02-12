@@ -204,47 +204,5 @@ class Membership(models.Model):
                                       invite_reason = "band's fouder")
             first_member.save()
 
-# class MusicalGenre (models.Model):
-#     ''' Musical genre of the Band '''
-#
-#     BLU = 'Blues'
-#     CHO = 'Chorale'
-#     ELE = 'Electro'
-#     FOL = 'Folk'
-#     FUN = 'Funk'
-#     JAZ = 'Jazz'
-#     MET = 'Metal'
-#     MUS = 'Musique du Monde'
-#     POP = 'Pop'
-#     PUN = 'Punk'
-#     RAP = 'Rap'
-#     REG = 'Reggae'
-#     ROC = "Rock 'n' roll"
-#     SKA = 'Ska'
-#     SOU = 'Soul'
-#     VAR = 'Variété'
-#
-#     MUSICAL_GENRE_CHOICE = (
-#         (BLU, 'Blues'),
-#         (CHO, 'Chorale'),
-#         (ELE, 'Electro'),
-#         (FOL, 'Folk'),
-#         (FUN, 'Funk'),
-#         (JAZ, 'Jazz'),
-#         (MET, 'Metal'),
-#         (MUS, 'Musique du Monde'),
-#         (POP, 'Pop'),
-#         (PUN, 'Punk'),
-#         (RAP, 'Rap'),
-#         (REG, 'Reggae'),
-#         (ROC, "Rock 'n' roll"),
-#         (SKA, 'Ska'),
-#         (SOU, 'Soul'),
-#         (VAR, 'Variété'),
-#     )
-#     musical_genre = models.CharField('Genre musical', max_length=80, choices=MUSICAL_GENRE_CHOICE)
-#     band = models.ForeignKey(Band, on_delete=models.CASCADE)
-#
-#     def __str__(self):
-#         return self.musical_genre
+
 

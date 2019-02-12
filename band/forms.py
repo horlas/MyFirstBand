@@ -21,18 +21,3 @@ class MemberCreateForm(Form):
     raison_invitation = CharField(max_length=64, label= "Raison pour laquelle le musicien rejoint le groupe" )
 
 
-class ChangeOwnerForm(Form):
-    ''' Form to send a queryset among the members of the band to choose owner of the band'''
-
-    # here we use a dummy `queryset`, because ModelChoiceField
-    # requires some queryset
-    membre = ModelChoiceField(queryset=Membership.objects.none(), empty_label=None)
-    # choice = (('1', 'First',), ('2', 'Second',))
-    # member = forms.ChoiceField(widget=forms.RadioSelect, choices=choice)
-
-    def __init__(self, band_id, *args, **kwargs):
-        super(ChangeOwnerForm, self).__init__(*args, **kwargs)
-        print('{} youyou'.format(band_id))
-        self.fields['membre'].queryset = Membership.objects.filter(band=band_id)
-
-
