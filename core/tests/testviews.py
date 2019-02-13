@@ -44,6 +44,9 @@ class AccueilTest(MyTestCase):
         welcome_message = self.session.get(self.url).xpath('//h4[@id="title"]/text()').extract_first()
         self.assertEqual(welcome_message , 'Bienvenue sur My First Band ')
 
+        # display last entrues of musicians
+
+
 
 
 class NavBarTest(MyTestCase):

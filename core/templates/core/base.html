@@ -68,7 +68,7 @@
 
       {% elif user.is_authenticated and sidenav_band  %}
       {% include "band/sidenav_band.html" %}
-{% elif user.is_authenticated and not sidenav_band  %}
+       {% elif user.is_authenticated and not sidenav_band  %}
       {% include "core/sidenav_connected.html" %}
 
     {% endif %}

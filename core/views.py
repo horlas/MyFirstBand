@@ -19,6 +19,7 @@ def accueil(request):
 
     return render(request, 'core/index.html', context)
 
+
 class BandProfileView(DetailView):
 
     model = Band
