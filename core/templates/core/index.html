@@ -7,7 +7,7 @@
 <div class="container">
 <h4>Bienvenue sur My First Band {{user.userprofile.username}} ! </h4>
     <div class="divider"></div>
-<div class="section ">
+<section id='musicians'>
 <h5> Nouveaux musiciens </h5>
 <div class="divider"></div>
 
@@ -31,13 +31,56 @@
             {% endfor %}
          </ul>
          <p>{{ member.userprofile.town }} {{ member.userprofile.county_name }}</p>
-         <!--<p>{{ member.userprofile.bio|truncatechars_html:50 }}</p>-->
+
       </div>
    </div>
 </div>
 {% endfor %}
 </div>
+</section>
+   <section id="bands">
+      <h5> Nouveaux groupes </h5>
+<div class="divider"></div>
+
+<div class="row">
+{% for band in last_bands %}
+<div class="col s3 m4">
+   <div class="card">
+      <div class="card-image">
+         {% if band.avatar %}
+         <img class="circle responsive-img" src="{{ band.avatar.url }}">
+         {% else %}
+         <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0_band.jpg' %}" />
+         {% endif %}
+         <span class="card-title custom-bg custom-text">{{ band.name }}</span>
+      <a href='{% url "core:band_profile_public" band.slug  %}'  class="btn-floating halfway-fab waves-effect waves-light custom-btn-pink"><i class="material-icons">add</i></a>
+      </div>
+      <div class="card-content custom-bg custom-text"">
+        <p>{{ band.bio|truncatewords_html:20 }}</p>
+      <div class="row"></div>
+      <div class="divider"></div>
+      <p>{{ band.type }} {{ band.musical_genre }}</p>
+         <p>{{ band.town }} {{ band.county_name }}</p>
+
+      </div>
+   </div>
 </div>
+{% endfor %}
 </div>
+
+
+
+
+
+
+
+   </section>
+
+</div>
+
+
+
+
+
 </main>
 {% endblock %}

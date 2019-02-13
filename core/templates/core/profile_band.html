@@ -20,8 +20,8 @@
              <img alt="Avatar" class="circle responsive-img" src="{{ object.avatar.url }}" />
             {% else %}
             <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0_band.jpg' %}" />
-            </br>
-                <span>Vous pouvez mettre à jour votre avatar</span>
+
+
             {% endif %}
             </div>
             <div class="col s8 black-text">
@@ -29,32 +29,23 @@
                 {{ object.name }}
               </h4>
                 <p>Créer sur myFirstBand le {{ object.created_at }}</p>
-                {% if not object.bio %}
-                <span>Vous pouvez mettre à jour votre présentation</span>
-                {% else %}
+
                 <blockquote >{{ object.bio }}</blockquote>
-                {% endif %}
+
             </div>
           </div>
 
     <div class="row">
       <div class='col s8 offset-s4'>
           <h6>Localisation : </h6>
-          {% if not object.town %}
-          <span>Vous pouvez mettre à jour votre localisation</span>
-          {% else %}
 
             <span>{{object.town}} {{object.county_name}}</span>
-          {% endif %}
+
              <div class="row"></div>
           <h6>Type et genre musical : </h6>
 
-          {% if not object.type and not object.musical_genre %}
-          <span>Vous pouvez mettre à jour votre type ou genre musical </span>
-          {% else %}
-
             <span>{{object.type}} {{object.musical_genre}}</span>
-          {% endif %}
+
   <div class="row"></div>
 <ul class="collection with-header">
 
@@ -68,26 +59,14 @@
        <img src="{% static 'core/img/0.jpg' %}" alt="" class="circle">
         {% endif %}
         <span class="title">{{ member.musician.userprofile.username }}</span>
-        <p> {{ member.invite_reason }} </br>
-            {{ member.date_joined }}
-
-        </p>
+        <p> {{ member.date_joined }} </p>
         <a href='{% url "musicians:public_profile" member.musician.userprofile.user.id  %}' class="secondary-content"><i class="material-icons">grade</i></a>
     </li>
     {% endfor %}
 </ul>
       </div>
 
-        {% if not object.bio or not object.type or not object.musical_genre or not object.avatar %}
-
-        <div class="row">
-    <div class="col s10 offset-s1">
-    <a class="waves-effect waves-light btn custom-btn custom-text" href='{% url "band:edit_band" band.slug %}' ><i class="material-icons left">add</i>Mettre à jour le  groupe</a>
-    </div>
-</div>
-{% endif %}
-
-</main>
+  </main>
 
 
 {% endblock %}
