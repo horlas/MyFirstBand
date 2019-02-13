@@ -114,13 +114,15 @@ class UpdateDataView(FormView, SuccessMessageMixin):
             return redirect(reverse_lazy('musicians:update_profile', kwargs={'pk': self.request.user.id}))
 
         else:
+            print("oy")
             profile_form = self.form_class(instance=request.user.userprofile)
 
-            return render(
+            return render(request, self.template_name,
                 self.get_context_data(profile_form=profile_form))
 
 
 # Todo : errors forms are  not  displayed
+
 
 
 class UpdateLocalView(FormView, SuccessMessageMixin):
@@ -139,9 +141,14 @@ class UpdateLocalView(FormView, SuccessMessageMixin):
             messages.success(self.request, (" Votre localité a été mise à jour!"))
             return redirect(reverse_lazy('musicians:update_profile', kwargs={'pk': self.request.user.id}))
 
+
         else:
+
             local_form = self.form_class(instance=request.user.userprofile)
+
             return render(self.get_context_data(local_form=local_form))
+
+
 
 
 class InstruCreateView(LoginRequiredMixin, CreateView, SuccessMessageMixin):

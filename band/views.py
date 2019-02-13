@@ -111,7 +111,6 @@ class ManageBandView(LoginRequiredMixin, DetailView):
         return context
 
 
-
 class AddMemberView(LoginRequiredMixin, FormView, SuccessMessageMixin):
     ''' View to add a member to a band, here is the post form.
     We create the member without Createview because we need to grab
@@ -150,8 +149,6 @@ class AddMemberView(LoginRequiredMixin, FormView, SuccessMessageMixin):
                 self.get_context_data(member_form=member_create_form))
 
 
-# Todo : link to each profile , must be a public profile view
-
 def autocomplete_username(request):
     ''' Ajax view for autocomplete name of member field in add_member_form'''
 
@@ -178,6 +175,7 @@ class MembershipDelete(LoginRequiredMixin, DeleteView):
         referer_url = self.request.META.get('HTTP_REFERER')
         messages.success(self.request, ('{} a été supprimé!').format(self.object.musician.userprofile.username))
         return referer_url
+
 
 @login_required()
 def change_owner(request):
@@ -208,6 +206,7 @@ class BandDeleteView(BandMixin, DeleteView):
     success_url = reverse_lazy('band:list_bands')
 
     def delete(self, request, *args, **kwargs):
+
         self.object = self.get_object()
         if self.object.owner != self.request.user:
             messages.error(self.request, " Seul le propriétaire du groupe peut supprimer le groupe. ")

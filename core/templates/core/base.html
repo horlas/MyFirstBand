@@ -32,10 +32,6 @@
       <!-- Materiallize CSS JavaScript -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-
-
-
-
       <!--Import Vue.JS-->
         <script src="https://unpkg.com/vue"></script>
 
@@ -60,14 +56,29 @@
     <body class="bg-test">
 
 
+    <!-- to manage sidenav bar -->
+    <div id="sidebar">
+    {% block sidebar %}
+      <!-- si il n'y a pas connection -->
 
-    {% if user.is_authenticated and not sidenav_band%}
-    {% include "core/sidenav_connected.html" %}
-    {% elif sidenav_band %}
-    {% include "band/sidenav_band.html" %}
+      {% if not user.is_authenticated  %}
+      {% include "core/sidenav.html" %}
+
+
+
+      {% elif user.is_authenticated and sidenav_band  %}
+      {% include "band/sidenav_band.html" %}
+{% elif user.is_authenticated and not sidenav_band  %}
+      {% include "core/sidenav_connected.html" %}
+
     {% endif %}
+
+    {% endblock %}
+
+    </div>
+
     {% block content %} {% endblock %}
-      {% block script %} {% endblock %}
+    {% block script %} {% endblock %}
 
 
     </body>

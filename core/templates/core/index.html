@@ -1,49 +1,43 @@
 
-{% extends './base.html' %}
+
+{% extends 'core/base.html' %}
 {% load static %}
-
 {% block content %}
-
-{% if not user.is_authenticated %}
-     {% include "core/navbar.html" %}
-    {% endif %}
-
 <main>
-
-
 <div class="container">
-    <div class="row">
-        <div class="col s12  ">
+<h4>Bienvenue sur My First Band {{user.userprofile.username}} ! </h4>
+    <div class="divider"></div>
+<div class="section ">
+<h5> Nouveaux musiciens </h5>
+<div class="divider"></div>
 
-            <h4 id="title " class="center-align">Bienvenue sur My First Band </br>
-                                                 {{user.userprofile.username}}</h4>
-
-
-
+<div class="row">
+{% for member in last_users %}
+<div class="col s3 m4">
+   <div class="card">
+      <div class="card-image">
+         {% if member.userprofile.avatar %}
+         <img class="circle responsive-img" src="{{ member.userprofile.avatar.url }}">
+         {% else %}
+         <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" />
+         {% endif %}
+         <span class="card-title custom-bg custom-text">{{ member.userprofile.username }}</span>
+         <a href='{% url "musicians:public_profile" member.id  %}'  class="btn-floating halfway-fab waves-effect waves-light custom-btn-pink"><i class="material-icons">add</i></a>
+      </div>
+      <div class="card-content custom-bg custom-text"">
+         <ul>
+            {% for i in member.instrument_set.all %}
+            <li>{{i.instrument}} </li>
+            {% endfor %}
+         </ul>
+         <p>{{ member.userprofile.town }} {{ member.userprofile.county_name }}</p>
+         <!--<p>{{ member.userprofile.bio|truncatechars_html:50 }}</p>-->
+      </div>
+   </div>
 </div>
-    </div>
+{% endfor %}
 </div>
-
+</div>
+</div>
 </main>
-
-<script>
-<!--new Vue({-->
-  <!--delimiters: ['[[', ']]'],-->
-  <!--el: '#title',-->
-  <!--data: {-->
-    <!--title: 'Bienvenue sur My First Band ',-->
-
-
-  <!--}-->
-<!--})-->
-
-
-</script>
-
-
-
-
-
-
-
 {% endblock %}
