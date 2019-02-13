@@ -15,24 +15,7 @@ from band.models import Band
 from authentication.models import User
 
 
-def public_profile(request, pk):
-    datas = {}
-    # return user id for the url
-    datas['profile_to_display'] = pk
 
-    user = User.objects.get(id=pk)
-    datas['user'] = user
-
-    # return elements for band displaying
-    bands = Band.objects.filter(members=user)
-    datas['bands'] = bands
-    if user.userprofile.birth_year:
-        # return musician age
-        age = get_age(user.userprofile.birth_year)
-        age_str = '{} ans'.format(age)
-        datas['age'] = age_str
-
-    return render(request, 'musicians/profile.html',  datas)
 
 @login_required
 def profile(request, pk):

@@ -22,7 +22,7 @@
          <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" />
          {% endif %}
          <span class="card-title custom-bg custom-text">{{ member.userprofile.username }}</span>
-         <a href='{% url "musicians:public_profile" member.id  %}'  class="btn-floating halfway-fab waves-effect waves-light custom-btn-pink"><i class="material-icons">add</i></a>
+         <a href='{% url "core:musician_profile" member.id  %}'  class="btn-floating halfway-fab waves-effect waves-light custom-btn-pink"><i class="material-icons">add</i></a>
       </div>
       <div class="card-content custom-bg custom-text"">
          <ul>
@@ -53,7 +53,7 @@
          <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0_band.jpg' %}" />
          {% endif %}
          <span class="card-title custom-bg custom-text">{{ band.name }}</span>
-      <a href='{% url "core:band_profile_public" band.slug  %}'  class="btn-floating halfway-fab waves-effect waves-light custom-btn-pink"><i class="material-icons">add</i></a>
+      <a href='{% url "core:band_profile" band.slug  %}'  class="btn-floating halfway-fab waves-effect waves-light custom-btn-pink"><i class="material-icons">add</i></a>
       </div>
       <div class="card-content custom-bg custom-text"">
         <p>{{ band.bio|truncatewords_html:20 }}</p>

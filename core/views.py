@@ -5,6 +5,7 @@ from musicians.models import Instrument
 from django.views.generic.detail import DetailView
 
 from musicians.models import UserProfile
+from core.utils import get_age
 
 # Create your views here.
 
@@ -21,7 +22,7 @@ def accueil(request):
 class BandProfileView(DetailView):
 
     model = Band
-    template_name = 'core/profile_band.html'
+    template_name = 'core/profile_public_band.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -36,3 +37,29 @@ class BandProfileView(DetailView):
         context['members'] = members
         return context
         # Todo : add the instrument to member
+
+
+class MusicianProfileView(DetailView):
+
+    model = UserProfile
+    template_name = 'core/profile_public_musician.html'
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        # return elements for band displaying
+        bands = Band.objects.filter(members=self.object.id)
+
+        context['bands'] = bands
+        # return element for intsrument displaying because
+        # Instrument table has no link with userprofile
+        instruments = Instrument.objects.filter(musician=self.object.id)
+        context['instruments'] = instruments
+        if self.object.birth_year:
+            # return musician age
+            age = get_age(self.object.birth_year)
+            age_str = '{} ans'.format(age)
+            context['age'] = age_str
+
+        return context

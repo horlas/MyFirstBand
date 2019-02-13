@@ -60,7 +60,7 @@
         {% endif %}
         <span class="title">{{ member.musician.userprofile.username }}</span>
         <p> {{ member.date_joined }} </p>
-        <a href='{% url "musicians:public_profile" member.musician.userprofile.user.id  %}' class="secondary-content"><i class="material-icons">grade</i></a>
+        <a href='{% url "core:musician_profile" member.musician.userprofile.user.id  %}' class="secondary-content"><i class="material-icons">grade</i></a>
     </li>
     {% endfor %}
 </ul>
