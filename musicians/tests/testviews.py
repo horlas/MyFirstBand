@@ -6,7 +6,7 @@ from django.test.client import Client
 from authentication.models import User
 from musicians.models import UserProfile, Instrument
 from musicians.forms import ProfileForm, AvatarForm, LocalForm, InstruCreateForm, InstruDeleteForm
-from musicians.views import profile
+from musicians.views import profile, UpdateAvatarView
 from core.utils import get_age
 from django.core.files.uploadedfile import SimpleUploadedFile
 import requests
@@ -56,8 +56,8 @@ class ProfileViewTest(MyTestCase):
     ''' Test profile view '''
 
     def test_profile_page(self):
-
-        request = self.factory.get('/musicians/profile/')
+        pk = self.test_user.pk
+        request = self.factory.get('/musicians/profile/{}'.format(pk))
         request.user = self.test_user
         profile_user = self.userprofile
 
@@ -79,7 +79,7 @@ class ProfileViewTest(MyTestCase):
 
         return_age = '{} ans'.format(get_age(1948))
 
-        response = profile(request)
+        response = profile(request, pk)
         self.assertEqual(response.status_code, 200)
 
         # test if the age is correctly returned
@@ -125,7 +125,7 @@ class UpdateProfilViewTest(MyTestCase):
         # login = self.client.login(username=self.email, password=self.password)
         # test if the user is logged
         self.assertEqual(self.login, True)
-        response = self.client.get('/musicians/update_profile/')
+        response = self.client.get('/musicians/update_profile/{}'.format(self.test_user.pk))
         # test the status code
         self.assertEqual(response.status_code, 200)
 
@@ -155,8 +155,15 @@ class UpdateProfilViewTest(MyTestCase):
         self.assertIsInstance(response.context['instru_form'], InstruCreateForm)
         self.assertIsInstance(response.context['del_instru_form'], InstruDeleteForm)
 
-
         # Now let's test each form post
+
+    def test_avatar_form_bis(self):
+        test_img = SimpleUploadedFile('test.png', b'file_content', content_type='/test_img/test.png')
+        img = {'avatar': test_img}
+        request = self.factory.post(reverse('musicians:update_avatar'), img)
+        request.user = self.test_user
+        response = UpdateAvatarView.as_view()(request)
+        self.assertEqual(response.status_code, 200)
 
     def test_avatar_form_post(self):
         # test if the user is logged
@@ -168,24 +175,26 @@ class UpdateProfilViewTest(MyTestCase):
         url = reverse("musicians:update_avatar")
 
         # In Python 3.5+, you must use the bytes object instead of str. Replace "file_content" with b"file_content"
-        test_img = SimpleUploadedFile('test.png', b'file_content', content_type='/test_img.test.png')
+        test_img = SimpleUploadedFile('test.png', b'file_content', content_type='/test_img/test.png')
+
         img = {'avatar' : test_img}
         #  post the form with test img
-        response = self.client.post('musicians/update_avatar/submit', img, follow=True)
+        response = self.client.post(url, img, follow=True)
+        print(response.redirect_chain)
 
         # Todo : the post form doesn't redirect to the update_profil page
 
-        # self.assertEqual(response.status_code, 200)
-        # response['location']
+        self.assertEqual(response.status_code, 200)
+        # print(response['location'])
 
         # self.assertRegex(response.redirect_chain, r'/users/profile/$')
         # self.assertRedirects(
         #     response,
-        #     expected_url=reverse("musicians:update_profile"),
-        #     status_code=302,
-        #     target_status_code=200
+        #     expected_url=reverse("musicians:update_profile", kwargs={'pk': self.test_user.pk} ),
+        #      status_code=302,
+        #      target_status_code=200
         # )
-        image_src = response.context.get('image_src')
+        # image_src = response.context.get('image_src')
         # print(image_src)
 
     def test_post_profile_form(self):
@@ -196,7 +205,7 @@ class UpdateProfilViewTest(MyTestCase):
         response = self.client.post(url, data, follow=True)
         self.assertRedirects(
             response,
-            expected_url=reverse('musicians:update_profile'),
+            expected_url=reverse('musicians:update_profile', kwargs={'pk': self.test_user.pk}),
             status_code=302,
             target_status_code=200
         )
@@ -236,7 +245,7 @@ class UpdateProfilViewTest(MyTestCase):
         response = self.client.post(url, data, follow=True)
         self.assertRedirects(
             response,
-            expected_url=reverse('musicians:update_profile'),
+            expected_url=reverse('musicians:update_profile',  kwargs={'pk': self.test_user.pk}),
             status_code=302,
             target_status_code=200
         )
@@ -258,7 +267,7 @@ class UpdateProfilViewTest(MyTestCase):
         response = self.client.post(url, data, follow=True)
         self.assertRedirects(
             response,
-            expected_url=reverse('musicians:update_profile'),
+            expected_url=reverse('musicians:update_profile', kwargs={'pk': self.test_user.pk}),
             status_code=302,
             target_status_code=200
         )
@@ -284,7 +293,7 @@ class UpdateProfilViewTest(MyTestCase):
         response = self.client.post(url, data, follow=True)
         self.assertRedirects(
             response,
-            expected_url=reverse('musicians:update_profile'),
+            expected_url=reverse('musicians:update_profile', kwargs={'pk': self.test_user.pk}),
             status_code=302,
             target_status_code=200
         )
@@ -293,13 +302,3 @@ class UpdateProfilViewTest(MyTestCase):
         # print(len(after_instru))
         self.assertEqual(len(after_instru), len(before_instru)-1)
         self.assertNotContains(response, 'Pianiste : Debutant')
-
-
-
-
-
-
-
-
-
-

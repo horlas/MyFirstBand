@@ -14,9 +14,6 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from core.utils import current_year
 
 
-
-
-# Create your models here.
 class UserProfile(models.Model):
     '''
     Custom User Profile
@@ -28,7 +25,7 @@ class UserProfile(models.Model):
     )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    username = models.CharField("Nom", max_length=60, blank=True, unique=True)
+    username = models.CharField("Nom", max_length=60, unique=True)
     bio = models.TextField("Courte description", max_length=500, blank=True)
     code = models.CharField("code postal", max_length=5, blank=True)
     county_name = models.CharField("Nom du département", max_length=60, blank=True)
@@ -115,6 +112,7 @@ class Instrument(models.Model):
     ACC = 'Accordéoniste'
     BASS = 'Bassiste'
     BATT = 'Batteur'
+    CHAT = 'Chanteur'
     CUIV = 'Cuivriste'
     CLAR = 'Clarinetiste'
     CLAV = 'Clavieriste'
@@ -132,6 +130,7 @@ class Instrument(models.Model):
         (ACC , 'Accordéoniste'),
         (BASS , 'Bassiste'),
         (BATT , 'Batteur'),
+        (CHAT , 'Chanteur(se)'),
         (CUIV , 'Cuivriste'),
         (CLAR , 'Clarinetiste'),
         (CLAV , 'Clavieriste'),

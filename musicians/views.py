@@ -15,8 +15,6 @@ from band.models import Band
 from authentication.models import User
 
 
-
-
 @login_required
 def profile(request, pk):
     datas = {}
@@ -105,8 +103,6 @@ class UpdateDataView(FormView, SuccessMessageMixin):
 
 
 # Todo : errors forms are  not  displayed
-
-
 
 class UpdateLocalView(FormView, SuccessMessageMixin):
 

@@ -24,8 +24,7 @@ from band.models import Band
 
 
 class BandListView(LoginRequiredMixin, ListView):
-
-    ''' this view is in charge of list the band witch member is the request user'''
+    '''this view is in charge of list the band witch member is the request user'''
 
     template_name = 'band_list.html'
     context_object_name = 'list of user bands'

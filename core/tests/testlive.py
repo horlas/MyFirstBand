@@ -98,6 +98,7 @@ class MySeleniumTests(StaticLiveServerTestCase):
 
         # he wants to update his profil
         print('he updates his profil')
+        print(self.request.user.id)
         self.selenium.find_element_by_xpath('//a[@href="/musicians/profile/"]').click()
         self.webdriver_wait()
         time.sleep(4)

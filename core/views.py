@@ -12,9 +12,10 @@ from core.utils import get_age
 
 def accueil(request):
     context = {}
-    last_user = User.objects.all()[:6]
+    last_user = User.objects.all().order_by('-id')[:6]
+    # Todo : when user sign up , we don't need to display an empty profil
     context['last_users'] = last_user
-    last_band = Band.objects.all()[:6]
+    last_band = Band.objects.all().order_by('-id')[:6]
     context['last_bands'] = last_band
 
     return render(request, 'core/index.html', context)
