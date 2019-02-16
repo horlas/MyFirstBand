@@ -144,8 +144,7 @@ class AddMemberView(LoginRequiredMixin, FormView, SuccessMessageMixin):
 
         else:
             member_create_form = self.form_class(request.POST)
-            return render(
-                self.get_context_data(member_form=member_create_form))
+            return render(request, self.template_name, context=self.get_context_data(member_form=member_create_form))
 
 
 def autocomplete_username(request):
@@ -220,8 +219,8 @@ class BandDeleteView(BandMixin, DeleteView):
 
 
 
-# Todo : profil public link
-# Todo : error Toast
+
+
 # Todo: put Js in an other directory
 
 

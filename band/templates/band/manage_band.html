@@ -30,7 +30,7 @@
                 <img src="{% static 'core/img/0.jpg' %}" alt="" class="circle">
                 {% endif %}
                <span class="title">{{ member.musician.userprofile.username }}</span>
-                <p> {{ member.invite_reason }} </br>
+                <p> {{ member.invite_reason }} <br>
                     {{ member.date_joined }}
                 <a href="{% url 'core:musician_profile' member.musician.userprofile.user.pk %}" class="secondary-content"><i class="material-icons">grade</i></a>
             </li>
@@ -69,7 +69,7 @@
         <!-- Delete members -->
         <div>
             <h5> Supprimer des membres</h5>
-            <span > Le propriétaire du groupe ne peut pas etre supprimé. </span></br>
+            <span > Le propriétaire du groupe ne peut pas etre supprimé. </span><br>
             <span > Si vous désirez supprimé ce membre il faut d'abord changer le propriétaire.</span>
             <div class="divider"></div>
             <div class="row"></div>
@@ -82,7 +82,7 @@
                 <img src="{% static 'core/img/0.jpg' %}" alt="" class="circle">
                 {% endif %}
                <span class="title">{{ member.musician.userprofile.username }}</span>
-                <p> {{ member.invite_reason }} </br>
+                <p> {{ member.invite_reason }} <br>
                     {{ member.date_joined }}
                     {{ member.id }}
 
@@ -142,7 +142,7 @@
             <h5> Supprimer le groupe </h5>
             <div class="divider"></div>
             <div class="row"></div>
-            <span > Seul le propriétaire du groupe peut supprimer le groupe </span></br>
+            <span > Seul le propriétaire du groupe peut supprimer le groupe </span><br>
             <span > Le groupe ne doit plus contenir de membres. </span>
         <div class="col 2 offset-s10" >
          <a class="waves-effect waves-light btn custom-btn custom-text" onclick='initModalBand("{{ band.id }}");'><i class="material-icons">delete_forever</i>Supprimer</a>
@@ -174,14 +174,6 @@
 
 
 
-
-</div>
-
-
-
-
-</div>
-</div>
 
 {% endblock %}
 

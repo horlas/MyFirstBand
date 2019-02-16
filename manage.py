@@ -19,9 +19,9 @@ if __name__ == '__main__':
     if is_testing:
         import coverage
 
-        cov = coverage.coverage(source=['core', 'authentication', 'musicians'],
+        cov = coverage.coverage(source=['core', 'authentication', 'musicians', 'band'],
                                 omit=['*/tests/*', '*/forms.py', '*/migrations/*', '*/__init__.py', '*/admin.py',
-                                      '*/urls.py', '*/apps.py'])
+                                        '*/urls.py', '*/apps.py'])
         cov.set_option('report:show_missing', True)
         cov.erase()
         cov.start()

@@ -180,7 +180,6 @@ class UpdateProfilViewTest(MyTestCase):
         img = {'avatar' : test_img}
         #  post the form with test img
         response = self.client.post(url, img, follow=True)
-        print(response.redirect_chain)
 
         # Todo : the post form doesn't redirect to the update_profil page
 
