@@ -202,9 +202,8 @@
         "groups": [],
         "user_permissions": []
     }
-}
-]
-[
+},
+
 {
     "model": "musicians.userprofile",
     "pk": 1,
