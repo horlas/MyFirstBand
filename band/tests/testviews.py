@@ -387,7 +387,7 @@ class AutocompleteTest(MyTestCase):
         self.assertEqual(response.status_code, 200)
         # test the return of ajax call
         response_content = str(response.content, encoding='utf8')
-        self.assertJSONEqual(response_content, [{"id": 4, "label": "Super Tatie", "value": "Super Tatie"}, {"id": 5, "label": "Super Toto", "value": "Super Toto"}] )
+        self.assertJSONEqual(response_content, [{"id": self.test_user.id, "label": "Super Tatie", "value": "Super Tatie"}, {"id": self.test_user2.id, "label": "Super Toto", "value": "Super Toto"}] )
 
 
 class MembershipDeleteTest(MyTestCase):

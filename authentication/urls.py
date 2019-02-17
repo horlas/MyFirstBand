@@ -9,7 +9,7 @@ urlpatterns = [
 
     path('signup/', views.signup, name='signup'),
     # path('logout/', views.logout_view, name='logout'),
-    path ('accounts/login/', auth_views.LoginView.as_view(template_name='authentication/login.html', authentication_form=CustomLoginForm)),
+    path ('accounts/login/', auth_views.LoginView.as_view(template_name='authentication/login.html', authentication_form=CustomLoginForm), name='login'),
     path ('accounts/', include('django.contrib.auth.urls')),
 
 

@@ -21,10 +21,10 @@ def signup(request):
 
     return render(request, 'authentication/signup.html', {'form': form})
 
+
 def logout_view(request):
+    # cf : https://docs.djangoproject.com/fr/2.1/topics/auth/default/#how-to-log-a-user-out
     logout(request)
     messages.success(request, ('Vous etes déconnecté'))
     return redirect('core:accueil')
 
-# def login_view(request):
-#     form = LoginForm(request.POST)
