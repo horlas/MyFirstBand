@@ -7,8 +7,9 @@ from authentication.models import User
 from musicians.models import UserProfile, Instrument
 from band.models import Band, Membership
 from band.forms import ProfileBandForm
-from band.views import BandUpdateView, AddMemberView, autocomplete_username, MembershipDelete
+from band.views import BandUpdateView, AddMemberView, autocomplete_username, MembershipDelete, BandDeleteView, change_owner
 from django.contrib.messages.storage.fallback import FallbackStorage
+from django.contrib.messages import get_messages
 from django.contrib.sessions.middleware import SessionMiddleware
 import json
 
@@ -41,11 +42,11 @@ class MyTestCase(TestCase):
         self.userprofile.save()
 
         # add a second members to test some features
-        self.email3 = 'paul@gmail.com'
-        self.password3 = 'aqwz7418'
-        self.test_user3 = User.objects.create_user(self.email3, self.password3)
-        self.test_user3.userprofile.username = 'Super Toto'
-        self.test_user3.userprofile.save()
+        self.email2 = 'paul@gmail.com'
+        self.password2 = 'aqwz7418'
+        self.test_user2 = User.objects.create_user(self.email2, self.password2)
+        self.test_user2.userprofile.username = 'Super Toto'
+        self.test_user2.userprofile.save()
 
         # her instruments
         self.instrument = Instrument.objects.create(instrument='Contrebassiste',
@@ -121,7 +122,6 @@ class BandCreateTest(MyTestCase):
                                    'musical_genre' : 'Rap' }
         self.login = self.client.login(username=self.email, password=self.password)
         self.url = '/band/add/'
-        # self.response = self.client.get('/band/add/')
 
     def test_bandadd_page(self):
         ''' Test the get response and connected user'''
@@ -174,13 +174,11 @@ class BandDetailTest(MyTestCase):
 
     def setUp(self):
         super(BandDetailTest, self).setUp()
-
         self.login = self.client.login(username=self.email, password=self.password)
         self.url = '/band/{}'.format(self.band_test.slug)
 
     def test_band_detail_page(self):
         ''' Test the get response and connected user'''
-
         self.assertEqual(self.login, True)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
@@ -191,7 +189,7 @@ class BandDetailTest(MyTestCase):
         list_template = [t.name for t in response.templates]
         assert 'band/band_detail.html' in list_template
         assert 'band/sidenav_band.html' in list_template
-        # because avatar is not umpload we have the button'mettre à jour'
+        # because avatar is not upload we have the button'mettre à jour'
         self.assertContains(response, 'Mettre à jour le  groupe')
         # link to the profil member to ensure that members are displayed
         self.assertContains(response, ' href=\'/core/musician_public/')
@@ -202,13 +200,10 @@ class BandUpdateTest(MyTestCase):
     def setUp(self):
         super(BandUpdateTest, self).setUp()
         self.test_img = SimpleUploadedFile('test.png', b'file_content', content_type='/test_img/test.png')
-
         self.fake_data_updateband = {'name': 'Noname',
-                                  'bio': 'Something great about the band',
-
-                                  'type': 'Groupe de Compos',
-                                  'musical_genre': 'Rap'}
-
+                                     'bio' : 'Something great about the band',
+                                     'type' : 'Groupe de Compos',
+                                     'musical_genre': 'Rap'}
         self.login = self.client.login(username=self.email, password=self.password)
         self.url = '/band/edit/{}'.format(self.band_test.slug)
 
@@ -242,7 +237,7 @@ class BandUpdateTest(MyTestCase):
             status_code=302,
             target_status_code=200
         )
-        # todo : Post avatar there is for the moment no solution
+    # todo : Post avatar there is for the moment no solution
     # def test_post_bandupdate_avatar_form(self):
     #     ''' Test only the upload of avatar with Factory request'''
     #     img = {'avatar' : self.test_img}
@@ -275,15 +270,15 @@ class ManageBandTest(MyTestCase):
     def setUp(self):
         super(ManageBandTest, self).setUp()
         # add a second members to test some features
-        self.email2 = 'jean-pierre@gmail.com'
-        self.password2 = 'aqwz7418'
-        self.test_user2 = User.objects.create_user(self.email2, self.password2)
+        self.email3 = 'jean-pierre@gmail.com'
+        self.password3 = 'aqwz7418'
+        self.test_user3 = User.objects.create_user(self.email3, self.password3)
         # his profil to test get info
-        self.userprofile2 = UserProfile.objects.get(user=self.test_user2)
-        self.userprofile2.username = 'Jean-Pierre'
-        self.userprofile2.save()
+        self.userprofile3 = UserProfile.objects.get(user=self.test_user3)
+        self.userprofile3.username = 'Jean-Pierre'
+        self.userprofile3.save()
         # add test_user2 to the band
-        member2 = Membership(musician=self.test_user2,
+        member2 = Membership(musician=self.test_user3,
                              band= self.band_test)
         member2.save()
 
@@ -351,7 +346,7 @@ class AddMemberTest(MyTestCase):
 
         # count before create membership
         before = Membership.objects.count()
-        data = {'musician' : self.test_user3.userprofile.username,
+        data = {'musician' : self.test_user2.userprofile.username,
                 'raison_invitation' : 'super chouette',
                 'band' : self.band_test}
 
@@ -366,13 +361,15 @@ class AddMemberTest(MyTestCase):
         # adding messages
         messages = FallbackStorage(request)
         setattr(request, '_messages', messages)
-        for m in messages:
-            print(m)
-
         response = AddMemberView.as_view()(request)
+        # test the success message
+        for m in messages:
+            message = str(m)
+        self.assertEqual(message, 'Super Toto a été ajouté au groupe ! ')
+        # test the redirection
         self.assertEqual(response.status_code, 302)
         after = Membership.objects.count()
-        # the membership is well create
+        # test the membership is well created
         self.assertEqual(after, before+1)
 
 class AutocompleteTest(MyTestCase):
@@ -397,15 +394,6 @@ class MembershipDeleteTest(MyTestCase):
 
     def setUp(self):
         super(MembershipDeleteTest, self).setUp()
-        # add a second members to test some features
-        self.email2 = 'jean-pierre@gmail.com'
-        self.password2 = 'aqwz7418'
-        self.test_user2 = User.objects.create_user(self.email2, self.password2)
-        # his profil to test get info
-        self.userprofile2 = UserProfile.objects.get(user=self.test_user2)
-        self.userprofile2.username = 'Jean-Pierre'
-        self.userprofile2.save()
-        # add test_user2 to the band
         self.member2 = Membership(musician=self.test_user2,
                              band=self.band_test)
         self.member2.save()
@@ -431,49 +419,129 @@ class MembershipDeleteTest(MyTestCase):
         # ensure that the member is deleted
         t1 = Membership.objects.filter(musician=self.test_user2).exists()
         self.assertFalse(t1, False)
-        # request.user = self.test_user
-        #     # print(self.member2.pk)
-        # response = MembershipDelete.as_view()(request)
-        # self.assertEqual(response.status_code, 302)
-        # url = '/band/delete_member/{}'.format(m.id)
-        # response = self.client.post(url, follow=True)
-        # print(response.status_code)
-        # self.assertContains(response, 'sdfsfdsf')
 
-    # def test_delete_member(self):
-    #     before = Membership.objects.filter(band=self.band_test).count()
-    #
-    #     # url = reverse('band:del_member', kwargs = {'int': self.member2.pk})
-    #     # url = '/band/delete_member/{}'.format(self.member2.pk)
-    #     request = self.factory.post(reverse('band:del_member'), kwargs={'int': self.member2.pk})
-    #     request.user = self.test_user
-    #     # print(self.member2.pk)
-    #     response = MembershipDelete.as_view()(request)
-    #     self.assertEqual(response.status_code, 302)
-    #     #
+class BandDeleteTest(MyTestCase):
+    ''' We test the feature : delete a band '''
 
-# todo : test deleteview always return 404
+    def test_delete_band_error_1(self):
+        ''' we test when there are still several members in the band : request user can not delete the band'''
+        # we ensure that the band exists
+        band = Band.objects.filter(id=self.band_test.id).exists()
+        self.assertTrue(band, True)
+        # we add an other member
+        member2 = Membership(musician=self.test_user2,
+                                  band=self.band_test)
+        member2.save()
+        request = self.factory.post('band/delete_band/', args={'pk': self.band_test.id})
+        # adding connected user
+        request.user = self.test_user
+        # adding session
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        request.session.save()
+        # adding messages
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+        # test the view
+        response = BandDeleteView.as_view()(request, pk=self.band_test.id)
+        # test the redirection
+        self.assertEqual(response.status_code, 302)
+        # test message
+        for m in messages:
+            message_error = str(m)
+        self.assertEqual(message_error, 'Le groupe ne doit pas contenir de membres excepté le propriétaire.' )
+        band1 = Band.objects.filter(id=self.band_test.id).exists()
+        # the band is not deleted
+        self.assertTrue(band1, True)
 
-# class BandDeleteTest(MyTestCase):
-#     ''' We test the feature : delete a member . First we add the member'''
-#
-#     def setUp(self):
-#         super(BandDeleteTest, self).setUp()
-#         # add a second members to test some features
-#         self.email2 = 'jean-pierre@gmail.com'
-#         self.password2 = 'aqwz7418'
-#         self.test_user2 = User.objects.create_user(self.email2, self.password2)
-#         # his profil to test get info
-#         self.userprofile2 = UserProfile.objects.get(user=self.test_user2)
-#         self.userprofile2.username = 'Jean-Pierre'
-#         self.userprofile2.save()
-#         # add test_user2 to the band
-#         self.member2 = Membership(musician=self.test_user2,
-#                              band=self.band_test)
-#         self.member2.save()
-#
-#
-#     def test_delete_band(self):
+    def test_delete_band_error_2(self):
+        ''' we test when the request user is not the band's owner and he want to delete it'''
+        # we ensure that the band exists
+        band = Band.objects.filter(id=self.band_test.id).exists()
+        self.assertTrue(band, True)
+        request = self.factory.post('band/delete_band/', args={'pk': self.band_test.id})
+        # adding connected user witch is not the owner of the band
+        request.user = self.test_user2
+        # adding session
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        request.session.save()
+        # adding messages
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+        # test the view
+        response = BandDeleteView.as_view()(request, pk=self.band_test.id)
+        # test the redirection
+        self.assertEqual(response.status_code, 302)
+        # test message
+        for m in messages:
+            message_error = str(m)
+        self.assertEqual(message_error, 'Seul le propriétaire du groupe peut supprimer le groupe. ')
+        band1 = Band.objects.filter(id=self.band_test.id).exists()
+        # the band is not deleted
+        self.assertTrue(band1, True)
+
+    def test_delete_band(self):
+        ''' we test when the request user is the osner and there no member in the band'''
+        # we ensure that the band exists
+        band = Band.objects.filter(id=self.band_test.id).exists()
+        self.assertTrue(band, True)
+        request = self.factory.post('band/delete_band/', args={'pk': self.band_test.id})
+        # adding connected user witch is not the owner of the band
+        request.user = self.test_user
+        # adding session
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        request.session.save()
+        # adding messages
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+        # test the view
+        response = BandDeleteView.as_view()(request, pk=self.band_test.id)
+        # test the redirection
+        self.assertEqual(response.status_code, 302)
+        # test message
+        for m in messages:
+            message = str(m)
+        self.assertEqual(message, 'Pink Floyd a été supprimé')
+        band1 = Band.objects.filter(id=self.band_test.id).exists()
+        # the band is deleted
+        self.assertFalse(band1, False)
+
+class ChangeOwnerTest(MyTestCase):
+
+    def test_change_oner(self):
+        # test the actual owner
+        self.assertEqual(self.band_test.owner, self.test_user)
+        # add a second menber to the band
+        self.member2 = Membership(musician=self.test_user2,
+                                  band=self.band_test)
+        self.member2.save()
+        # data posted : name of member2 in order ton name him the owner
+        data = {'owner_name' : self.member2.musician.userprofile.username,
+                'band' : self.band_test.id}
+        # make request factory
+        request = self.factory.post('band:change_owner', data)
+        # adding connected user witch is not the owner of the band
+        request.user = self.test_user
+        # adding session
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        request.session.save()
+        # adding messages
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+        # test the view
+        response = change_owner(request)
+        # test the redirection
+        self.assertEqual(response.status_code, 302)
+        # test message
+        for m in messages:
+            message = str(m)
+        self.assertEqual(message, 'Super Toto est le nouveau propriétaire du groupe!')
+        # test the new owner for that we have to query the database on other time
+        band = Band.objects.get(name = 'Pink Floyd')
+        self.assertEqual(band.owner, self.test_user2)
 
 
 

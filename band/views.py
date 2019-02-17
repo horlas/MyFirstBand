@@ -189,6 +189,7 @@ def change_owner(request):
 
 
 class BandMixin(LoginRequiredMixin, object):
+
     model = Band
 
     def get_context_data(self, **kwargs):
@@ -204,13 +205,12 @@ class BandDeleteView(BandMixin, DeleteView):
     success_url = reverse_lazy('band:list_bands')
 
     def delete(self, request, *args, **kwargs):
-
         self.object = self.get_object()
         if self.object.owner != self.request.user:
-            messages.error(self.request, " Seul le propriétaire du groupe peut supprimer le groupe. ")
+            messages.error(self.request, "Seul le propriétaire du groupe peut supprimer le groupe. ")
             return redirect(reverse_lazy('band:manage_band', kwargs={'slug': self.object.slug}))
         elif self.object.owner == self.request.user and self.object.members.count() > 1:
-            messages.error(self.request, " Le groupe ne doit pas contenir de membres excepté le propriétaire. ")
+            messages.error(self.request, "Le groupe ne doit pas contenir de membres excepté le propriétaire.")
             return redirect(reverse_lazy('band:manage_band', kwargs={'slug': self.object.slug}))
         else:
             self.object.delete()
