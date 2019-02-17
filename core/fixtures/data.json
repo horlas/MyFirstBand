@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
         "password": "pbkdf2_sha256$120000$7OZ5xgu0AYYh$7+/6vHbEi1eDWRhxYzY3u+ONo3skD48ddC5I/YwztUQ=",
-        "last_login": "2019-02-06T11:10:37.237Z",
+        "last_login": "2019-02-17T19:08:42.485Z",
         "is_superuser": true,
         "first_name": "",
         "last_name": "",
@@ -21,7 +21,7 @@
     "pk": 2,
     "fields": {
         "password": "pbkdf2_sha256$120000$egAFoE7CE678$GGz2HGAqPLhdwddTEutsbulusJceANm7g4lVzxt24m4=",
-        "last_login": null,
+        "last_login": "2019-02-13T10:35:35.100Z",
         "is_superuser": false,
         "first_name": "",
         "last_name": "",
@@ -38,7 +38,7 @@
     "pk": 3,
     "fields": {
         "password": "pbkdf2_sha256$120000$8nuBIkgi2rPT$3w0xjqejUXCvam0mRLsy4GcCY2rJXYMEh++tdkbPD3Q=",
-        "last_login": "2019-01-28T15:58:58.507Z",
+        "last_login": "2019-02-14T09:38:58.531Z",
         "is_superuser": false,
         "first_name": "",
         "last_name": "",
@@ -72,7 +72,7 @@
     "pk": 5,
     "fields": {
         "password": "pbkdf2_sha256$120000$QavwSbR7r9Ma$f8JqJj7JpZ/0TvQWBEGIojw1ammp5+5kVeZxPu0ycd4=",
-        "last_login": "2019-01-14T09:49:32.260Z",
+        "last_login": "2019-02-15T09:22:23.484Z",
         "is_superuser": false,
         "first_name": "",
         "last_name": "",
@@ -89,7 +89,7 @@
     "pk": 6,
     "fields": {
         "password": "pbkdf2_sha256$120000$LqGx7YgyVMZN$oQ0oh40sNDUt98165mYDNZuVW6CdCGkAvNsFdOD8EjM=",
-        "last_login": "2019-01-21T12:16:50.154Z",
+        "last_login": "2019-02-13T19:23:24.163Z",
         "is_superuser": false,
         "first_name": "",
         "last_name": "",
@@ -106,7 +106,7 @@
     "pk": 7,
     "fields": {
         "password": "pbkdf2_sha256$120000$ynOn6pkmtWdJ$DhHofQhl+3MiDuee/yKiCUSWMaAsGzi6dUu1o4+WiMg=",
-        "last_login": "2019-01-27T22:19:16.931Z",
+        "last_login": "2019-02-16T14:42:32.908Z",
         "is_superuser": false,
         "first_name": "",
         "last_name": "",
@@ -120,27 +120,10 @@
 },
 {
     "model": "authentication.user",
-    "pk": 8,
-    "fields": {
-        "password": "pbkdf2_sha256$120000$MH2DNs6h6hZN$7XURsv0AEnNLg0qPV7F8qlpmDwaiMMNPB+tVDPSqukc=",
-        "last_login": "2019-01-18T12:58:35.534Z",
-        "is_superuser": false,
-        "first_name": "",
-        "last_name": "",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2019-01-18T09:52:14.871Z",
-        "email": "tom@gmail.com",
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "authentication.user",
     "pk": 9,
     "fields": {
         "password": "pbkdf2_sha256$120000$m8eJ96gih7d6$EKOObMh4zB/rbCraL9YEhH7qMizqtFgJlwnxf8AR/Y8=",
-        "last_login": "2019-01-22T13:27:31.622Z",
+        "last_login": "2019-02-15T14:14:01.782Z",
         "is_superuser": false,
         "first_name": "",
         "last_name": "",
@@ -148,23 +131,6 @@
         "is_active": true,
         "date_joined": "2019-01-19T10:38:38.148Z",
         "email": "cedric.brion@gmail.com",
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "authentication.user",
-    "pk": 10,
-    "fields": {
-        "password": "pbkdf2_sha256$120000$MYP8cMIQV12B$4qNSjd9ZghMYSDdyyP/ES5byrc3Dl48lUaN4U7uHGl8=",
-        "last_login": "2019-01-21T20:30:06.890Z",
-        "is_superuser": false,
-        "first_name": "",
-        "last_name": "",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2019-01-21T20:30:06.528Z",
-        "email": "test@horlmail.com",
         "groups": [],
         "user_permissions": []
     }
@@ -188,68 +154,51 @@
 },
 {
     "model": "authentication.user",
-    "pk": 12,
+    "pk": 26,
     "fields": {
-        "password": "pbkdf2_sha256$120000$I7byutsK5GTh$SiCn+cs/ZoXYbyRnkRHVoGebUY1rZIDQ8pChl9t+eus=",
-        "last_login": "2019-01-22T10:35:34.656Z",
+        "password": "pbkdf2_sha256$120000$TbZYVmaH0Eb6$dC87VeyXDCMUdTxi5Hdn69VMkZAfrtp7la1frieN4GE=",
+        "last_login": "2019-02-14T12:01:45.110Z",
         "is_superuser": false,
         "first_name": "",
         "last_name": "",
         "is_staff": false,
         "is_active": true,
-        "date_joined": "2019-01-22T10:35:34.385Z",
-        "email": "test23@free.fr",
+        "date_joined": "2019-02-14T12:01:44.970Z",
+        "email": "maeva@gmail.com",
         "groups": [],
         "user_permissions": []
     }
 },
 {
     "model": "authentication.user",
-    "pk": 13,
+    "pk": 27,
     "fields": {
-        "password": "aqwz7418",
-        "last_login": null,
+        "password": "pbkdf2_sha256$120000$ZPOqd9EKjkLA$If+M5IjUUA+xSoEY9YL5kGVvkiDEM9qFveW8ca64fgk=",
+        "last_login": "2019-02-14T12:25:24.669Z",
         "is_superuser": false,
         "first_name": "",
         "last_name": "",
         "is_staff": false,
         "is_active": true,
-        "date_joined": "2019-01-22T14:46:30.294Z",
-        "email": "test@hotmail.com",
+        "date_joined": "2019-02-14T12:25:24.486Z",
+        "email": "sebastien@gmail.com",
         "groups": [],
         "user_permissions": []
     }
 },
 {
     "model": "authentication.user",
-    "pk": 16,
+    "pk": 28,
     "fields": {
-        "password": "pbkdf2_sha256$120000$hCV5dJNAv2dI$lP8lX1v84fK1jWxesTY2IAuNNfz7nAZGzZMriCpVKwM=",
-        "last_login": "2019-01-23T07:15:11.687Z",
+        "password": "pbkdf2_sha256$120000$48Mu1FbXmjq5$yZxEYr8C+xrLzJfgvYcUgFb3xv5TRtD38BLgsXN3WUM=",
+        "last_login": "2019-02-14T14:31:41.581Z",
         "is_superuser": false,
         "first_name": "",
         "last_name": "",
         "is_staff": false,
         "is_active": true,
-        "date_joined": "2019-01-23T07:15:11.488Z",
-        "email": "test45@free.fr",
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "authentication.user",
-    "pk": 17,
-    "fields": {
-        "password": "pbkdf2_sha256$120000$uWdZNGyRBi58$VfpKtN3yB0RGtdMR2m7W6+z5uwusPtszqWPryTYcT5M=",
-        "last_login": "2019-01-23T11:10:38.884Z",
-        "is_superuser": false,
-        "first_name": "",
-        "last_name": "",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2019-01-23T11:10:38.684Z",
-        "email": "compte@free.fr",
+        "date_joined": "2019-02-14T14:17:28.855Z",
+        "email": "Roxanne@gmail.com",
         "groups": [],
         "user_permissions": []
     }
@@ -262,15 +211,15 @@
     "fields": {
         "user": 1,
         "username": "Aur\u00e9lia I'm the big boss of Lima!",
-        "bio": "Je suis en train de coder ce site! et c'est super cooool",
-        "code": "82000",
-        "county_name": "Tarn-et-Garonne",
-        "town": "Montauban",
-        "birth_year": 1976,
-        "avatar": "user_avatar/2019-01-11-1_6yZQUcw.jpg",
+        "bio": "Je suis en train de coder ce site! et c'est super cooool . Vivement les vacances!",
+        "code": "34070",
+        "county_name": "H\u00e9rault",
+        "town": "Montpellier",
+        "birth_year": 1975,
+        "avatar": "user_avatar/2019-02-07-1_W1fOHgU.jpg",
         "gender": "F",
         "created_at": "2018-12-31T12:13:01.436Z",
-        "updated_at": "2019-02-06T11:11:23.393Z"
+        "updated_at": "2019-02-17T19:08:42.494Z"
     }
 },
 {
@@ -279,15 +228,15 @@
     "fields": {
         "user": 2,
         "username": "Toto35",
-        "bio": "",
-        "code": "",
-        "county_name": "",
-        "town": "",
-        "birth_year": null,
-        "avatar": "",
+        "bio": "Toto est un groupe de rock am\u00e9ricain cr\u00e9\u00e9 en 1976 par Jeff Porcaro (batterie) et David Paich (clavier), auxquels se joignent Steve Lukather (guitare), Steve Porcaro (claviers), David Hungate (basse) et Bobby Kimball (chant). Apr\u00e8s des d\u00e9buts prometteurs, le groupe atteint la cons\u00e9cration dans les ann\u00e9es 1980 avec son album Toto IV. En 1982, Mike Porcaro remplace David Hungate \u00e0 la basse. En moins de dix ans, Toto change plusieurs fois de chanteur principal, engageant Fergie Frederiksen,",
+        "code": "66000",
+        "county_name": "Pyr\u00e9n\u00e9es-Orientales",
+        "town": "Perpignan",
+        "birth_year": 1962,
+        "avatar": "user_avatar/2019-02-13-2.jpg",
         "gender": "H",
         "created_at": "2018-12-31T12:14:05.848Z",
-        "updated_at": "2019-02-05T10:17:29.856Z"
+        "updated_at": "2019-02-13T10:37:32.040Z"
     }
 },
 {
@@ -296,7 +245,7 @@
     "fields": {
         "user": 3,
         "username": "Super Tatie",
-        "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrusddsds sdsdsdsllamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "bio": "Sur la proposition de son fr\u00e8re Eddie travaillant dans le milieu de la musique, elle rencontre Daniel Filipacchi, producteur de disques pour RCA Records et Decca, qui la fait enregistrer au printemps 1961 un duo avec Frankie Jordan Panne d'essence, \u00e0 la suite du d\u00e9sistement de derni\u00e8re minute de la chanteuse Gillian Hills12. Ayant quitt\u00e9 le lyc\u00e9e H\u00e9l\u00e8ne-Boucher deux mois avant de passer son bac pour se consacrer pleinement \u00e0 ses d\u00e9buts dans la chanson, ce premier succ\u00e8s lui permet d'entamer une",
         "code": "34070",
         "county_name": "H\u00e9rault",
         "town": "Montpellier",
@@ -304,7 +253,7 @@
         "avatar": "user_avatar/2019-01-09-3_xrw0ydc.jpg",
         "gender": "F",
         "created_at": "2018-12-31T12:18:53.876Z",
-        "updated_at": "2019-01-28T15:58:58.516Z"
+        "updated_at": "2019-02-14T09:42:02.014Z"
     }
 },
 {
@@ -338,7 +287,7 @@
         "avatar": "user_avatar/2019-01-11-5_3f1E9zv.jpg",
         "gender": "H",
         "created_at": "2019-01-06T22:08:42.221Z",
-        "updated_at": "2019-01-14T14:46:44.913Z"
+        "updated_at": "2019-02-15T09:22:23.494Z"
     }
 },
 {
@@ -355,7 +304,7 @@
         "avatar": "user_avatar/2019-01-14-6.jpg",
         "gender": "H",
         "created_at": "2019-01-09T11:16:35.270Z",
-        "updated_at": "2019-01-21T12:16:50.169Z"
+        "updated_at": "2019-02-13T19:23:24.181Z"
     }
 },
 {
@@ -372,24 +321,7 @@
         "avatar": "user_avatar/2019-01-15-7.jpg",
         "gender": "H",
         "created_at": "2019-01-09T19:30:08.140Z",
-        "updated_at": "2019-01-27T22:19:16.940Z"
-    }
-},
-{
-    "model": "musicians.userprofile",
-    "pk": 8,
-    "fields": {
-        "user": 8,
-        "username": "Tom",
-        "bio": "Thomas John Woodward, dit Tom Jones, n\u00e9 le 7 juin 1940 \u00e0 Pontypridd (Pays de Galles), est un chanteur Gallois tr\u00e8s populaire durant les ann\u00e9es 1960 et 1970. Il conna\u00eet un regain de succ\u00e8s mondial, surtout en Europe, \u00e0 la fin des ann\u00e9es 1990 notamment avec la chanson Sex Bomb. Depuis 1965, il aurait vendu plus de 100 millions de disques1. Il fut \u00e9galement \u00e9lu artiste du mill\u00e9naire par le magazine Rock & Folk (no 26 de septembre 1999)2.",
-        "code": "91610",
-        "county_name": "Essonne",
-        "town": "Ballancourt-sur-Essonne",
-        "birth_year": 1978,
-        "avatar": "user_avatar/2019-01-18-8_06GQlWh.jpg",
-        "gender": "H",
-        "created_at": "2019-01-18T09:52:15.484Z",
-        "updated_at": "2019-01-18T12:58:35.543Z"
+        "updated_at": "2019-02-16T14:42:32.973Z"
     }
 },
 {
@@ -406,7 +338,7 @@
         "avatar": "user_avatar/2019-01-19-9.jpg",
         "gender": "H",
         "created_at": "2019-01-19T10:38:38.914Z",
-        "updated_at": "2019-01-22T13:27:31.632Z"
+        "updated_at": "2019-02-15T14:14:01.792Z"
     }
 },
 {
@@ -428,45 +360,53 @@
 },
 {
     "model": "musicians.userprofile",
-    "pk": 14,
+    "pk": 24,
     "fields": {
-        "user": 16,
-        "username": "",
-        "bio": "",
-        "code": "",
-        "county_name": "",
-        "town": "",
-        "birth_year": null,
-        "avatar": "",
-        "gender": "",
-        "created_at": "2019-01-23T07:15:11.645Z",
-        "updated_at": "2019-01-23T07:15:11.696Z"
+        "user": 26,
+        "username": "Maeva",
+        "bio": "L'\u00e9criture nouvelle de Roda-Gil est empreinte de nostalgie et d'herm\u00e9tisme militant. Elle est alors associ\u00e9e \u00e0 la voix, haut perch\u00e9e et charg\u00e9e de vibrato tr\u00e8s serr\u00e9, de Paul-Alain Leclerc, ainsi qu'\u00e0 son sens de la m\u00e9lodie. Ces diff\u00e9rents \u00e9l\u00e9ments aboutiront \u00e0 un succ\u00e8s6. C'est \u00e9galement dans ce caf\u00e9 qu'il rencontre l'amour, en la personne de Marie-Fran\u00e7oise Aim\u00e9, dite Zaz[r\u00e9f. n\u00e9cessaire], une \u00e9tudiante en lettres. Il passe de longues heures au piano dans la maison de Bourg-la-Reine de sa peti",
+        "code": "01000",
+        "county_name": "Ain",
+        "town": "Bourg-en-Bresse",
+        "birth_year": 1979,
+        "avatar": "user_avatar/2019-02-14-26.jpg",
+        "gender": "F",
+        "created_at": "2019-02-14T12:01:45.085Z",
+        "updated_at": "2019-02-14T12:03:25.098Z"
     }
 },
 {
     "model": "musicians.userprofile",
-    "pk": 15,
+    "pk": 25,
     "fields": {
-        "user": 17,
-        "username": "Toto",
-        "bio": "Et dire qu'il y a un groupe qui s'appelle Toto",
-        "code": "01700",
-        "county_name": "Ain",
-        "town": "Saint-Maurice-de-Beynost",
-        "birth_year": 1971,
-        "avatar": "user_avatar/2019-01-24-17_gUhwWoi.jpg",
-        "gender": "F",
-        "created_at": "2019-01-23T11:10:38.859Z",
-        "updated_at": "2019-01-24T12:44:07.744Z"
+        "user": 27,
+        "username": "Seb",
+        "bio": "Bien qu'ayant commenc\u00e9 le piano \u00e0 5 ans, son int\u00e9r\u00eat pour la musique commence vraiment \u00e0 13 ans, lorsque ses parents se s\u00e9parent et qu'il ressent le besoin de combler l'absence de son p\u00e8re musicien. Sous l'influence de ce dernier, il se met \u00e0 la guitare \u00e0 14 ans, et commence \u00e0 \u00e9couter beaucoup de blues et de jazz. Il passe toute son adolescence dans la bourgade de Teignmouth (Devon), vivant tant\u00f4t chez sa m\u00e8re, tant\u00f4t chez son p\u00e8re, parfois m\u00eame chez ses grands-parents.",
+        "code": "86000",
+        "county_name": "Vienne",
+        "town": "Poitiers",
+        "birth_year": 1978,
+        "avatar": "user_avatar/2019-02-14-27.jpg",
+        "gender": "H",
+        "created_at": "2019-02-14T12:25:24.644Z",
+        "updated_at": "2019-02-14T12:29:10.811Z"
     }
 },
 {
-    "model": "musicians.instrument",
-    "pk": 1,
+    "model": "musicians.userprofile",
+    "pk": 26,
     "fields": {
-        "instrument": "BASSE",
-        "level": "bon",
-        "musician": 6
+        "user": 28,
+        "username": "Roxanne",
+        "bio": "I loved you since I knew ya\r\nI wouldn't talk down to ya\r\nI have to tell you just how I feel\r\nI won't share you with another boy\r\nI know my mind is made up\r\nSo put away your make-up\r\nTold you once, I won't tell you again it's a bad way",
+        "code": "92700",
+        "county_name": "Hauts-de-Seine",
+        "town": "Colombes",
+        "birth_year": 1986,
+        "avatar": "user_avatar/2019-02-14-28.jpg",
+        "gender": "F",
+        "created_at": "2019-02-14T14:17:28.995Z",
+        "updated_at": "2019-02-14T21:21:36.077Z"
     }
 },
 {
@@ -476,33 +416,6 @@
         "instrument": "GUITARE",
         "level": "bon",
         "musician": 4
-    }
-},
-{
-    "model": "musicians.instrument",
-    "pk": 5,
-    "fields": {
-        "instrument": "CONTREBASSE",
-        "level": "Super fort",
-        "musician": 6
-    }
-},
-{
-    "model": "musicians.instrument",
-    "pk": 6,
-    "fields": {
-        "instrument": "CONTREBASSE",
-        "level": "Super fort",
-        "musician": 6
-    }
-},
-{
-    "model": "musicians.instrument",
-    "pk": 7,
-    "fields": {
-        "instrument": "HARMONICA",
-        "level": "vraiment pas tr\u00e8s bon",
-        "musician": 6
     }
 },
 {
@@ -552,42 +465,6 @@
 },
 {
     "model": "musicians.instrument",
-    "pk": 27,
-    "fields": {
-        "instrument": "Percussionniste",
-        "level": "D\u00e9butant",
-        "musician": 3
-    }
-},
-{
-    "model": "musicians.instrument",
-    "pk": 28,
-    "fields": {
-        "instrument": "Percussionniste",
-        "level": "D\u00e9butant",
-        "musician": 3
-    }
-},
-{
-    "model": "musicians.instrument",
-    "pk": 29,
-    "fields": {
-        "instrument": "Percussionniste",
-        "level": "D\u00e9butant",
-        "musician": 8
-    }
-},
-{
-    "model": "musicians.instrument",
-    "pk": 30,
-    "fields": {
-        "instrument": "Guitariste",
-        "level": "Interm\u00e9diaire",
-        "musician": 8
-    }
-},
-{
-    "model": "musicians.instrument",
     "pk": 33,
     "fields": {
         "instrument": "Bassiste",
@@ -615,29 +492,56 @@
 },
 {
     "model": "musicians.instrument",
-    "pk": 39,
-    "fields": {
-        "instrument": "Guitariste",
-        "level": "Interm\u00e9diaire",
-        "musician": 17
-    }
-},
-{
-    "model": "musicians.instrument",
-    "pk": 40,
-    "fields": {
-        "instrument": "Harmoniciste",
-        "level": "Professionnel",
-        "musician": 17
-    }
-},
-{
-    "model": "musicians.instrument",
     "pk": 43,
     "fields": {
         "instrument": "Saxophoniste",
         "level": "D\u00e9butant",
         "musician": 1
+    }
+},
+{
+    "model": "musicians.instrument",
+    "pk": 48,
+    "fields": {
+        "instrument": "Clavieriste",
+        "level": "D\u00e9butant",
+        "musician": 2
+    }
+},
+{
+    "model": "musicians.instrument",
+    "pk": 49,
+    "fields": {
+        "instrument": "Guitariste",
+        "level": "Interm\u00e9diaire",
+        "musician": 2
+    }
+},
+{
+    "model": "musicians.instrument",
+    "pk": 50,
+    "fields": {
+        "instrument": "Chanteur",
+        "level": "Interm\u00e9diaire",
+        "musician": 26
+    }
+},
+{
+    "model": "musicians.instrument",
+    "pk": 51,
+    "fields": {
+        "instrument": "Pianiste",
+        "level": "Confirm\u00e9",
+        "musician": 27
+    }
+},
+{
+    "model": "musicians.instrument",
+    "pk": 52,
+    "fields": {
+        "instrument": "Guitariste",
+        "level": "D\u00e9butant",
+        "musician": 28
     }
 },
 {
@@ -649,11 +553,11 @@
         "code": "",
         "county_name": "",
         "town": "",
-        "avatar": "",
+        "avatar": "band_avatar/2019-02-12-15.jpg",
         "created_at": "2019-02-03T21:43:19.668Z",
-        "updated_at": "2019-02-04T14:54:11.314Z",
-        "type": null,
-        "musical_genre": null,
+        "updated_at": "2019-02-12T14:59:38.502Z",
+        "type": "Groupe de Compos",
+        "musical_genre": "Pop",
         "owner": 1,
         "slug": "essai3-groupe",
         "updated_by": 1
@@ -680,44 +584,6 @@
 },
 {
     "model": "band.band",
-    "pk": 17,
-    "fields": {
-        "name": "ploub",
-        "bio": "kjfldkjlfdkjfldj",
-        "code": "",
-        "county_name": "",
-        "town": "",
-        "avatar": "",
-        "created_at": "2019-02-04T15:11:53.541Z",
-        "updated_at": "2019-02-04T15:11:53.586Z",
-        "type": "Groupe de Compos",
-        "musical_genre": "Ska",
-        "owner": 1,
-        "slug": "ploub",
-        "updated_by": null
-    }
-},
-{
-    "model": "band.band",
-    "pk": 18,
-    "fields": {
-        "name": "le roi Jah",
-        "bio": "Le reggae est un genre musical ayant \u00e9merg\u00e9 \u00e0 la fin des ann\u00e9es 1960, il est la plus populaire des expressions musicales jama\u00efcaines. Il devient, \u00e0 la faveur de son succ\u00e8s international, un style musical internationalement appr\u00e9ci\u00e9, porteur d'une culture qui lui est propre. Le reggae est souvent li\u00e9 au mouvement rastafari, lui-m\u00eame n\u00e9 en Jama\u00efque. Mais certains Rastas, comme le mouvement Bobo Shanti, y \u00e9taient ou y sont oppos\u00e9s. Malgr\u00e9 tout, la majorit\u00e9 des chanteurs de reggae sont, ou se r\u00e9clam",
-        "code": "81000",
-        "county_name": "Tarn",
-        "town": "",
-        "avatar": "band_avatar/2019-02-04-18_v1umjjN.jpg",
-        "created_at": "2019-02-04T15:14:19.124Z",
-        "updated_at": "2019-02-04T16:11:13.481Z",
-        "type": "Groupe de Reprises",
-        "musical_genre": "Reggae",
-        "owner": 1,
-        "slug": "le-roi-jah",
-        "updated_by": 1
-    }
-},
-{
-    "model": "band.band",
     "pk": 19,
     "fields": {
         "name": "Le blues de la baleine",
@@ -740,18 +606,113 @@
     "pk": 20,
     "fields": {
         "name": "Le jour J",
-        "bio": "vnvnvnvn",
-        "code": "82000",
-        "county_name": "Tarn-et-Garonne",
-        "town": "Montauban",
+        "bio": "L'expression jour J (en anglais : D-Day), d\u00e9j\u00e0 utilis\u00e9e par les militaires lors de la pr\u00e9paration des offensives de la fin de la Premi\u00e8re Guerre mondiale, d\u00e9signe actuellement le mardi 6 juin 1944 , jour o\u00f9 a d\u00e9but\u00e9 le d\u00e9barquement alli\u00e9 en Normandie lors de la Seconde Guerre mondiale.",
+        "code": "85750",
+        "county_name": "Vend\u00e9e",
+        "town": "Angles",
         "avatar": "band_avatar/2019-02-06-20.jpg",
         "created_at": "2019-02-06T11:12:29.572Z",
-        "updated_at": "2019-02-06T11:12:29.666Z",
+        "updated_at": "2019-02-17T16:25:33.626Z",
         "type": "Groupe de Reprises",
         "musical_genre": "Musique du Monde",
-        "owner": 1,
+        "owner": 3,
         "slug": "le-jour-j",
+        "updated_by": 1
+    }
+},
+{
+    "model": "band.band",
+    "pk": 23,
+    "fields": {
+        "name": "T for four",
+        "bio": "Le groupe compte un total de sept albums studio. Il s'est d'abord fait connaitre en 1994 avec l'album Let's Go et le single Salvation. En 1995 ils sortent l'album ...And Out Come the Wolves, qui fut un grand succ\u00e8s commercial, avec les succ\u00e8s Ruby Soho, Roots Radicals et Time Bomb. Il fut certifi\u00e9 disque d'or3, vendant plus d'un million de copies aux \u00c9tats-Unis. Le groupe sortit par la suite quatre autres albums, Life Won't Wait, Rancid, Indestructible et Let the Dominoes Fall, tous bien accueil",
+        "code": "34600",
+        "county_name": "H\u00e9rault",
+        "town": "H\u00e9r\u00e9pian",
+        "avatar": "band_avatar/2019-02-13-23.jpg",
+        "created_at": "2019-02-13T12:56:38.213Z",
+        "updated_at": "2019-02-13T12:56:38.694Z",
+        "type": "Groupe de Reprises",
+        "musical_genre": "Punk",
+        "owner": 9,
+        "slug": "t-for-four",
         "updated_by": null
+    }
+},
+{
+    "model": "band.band",
+    "pk": 24,
+    "fields": {
+        "name": "l'Alchimiste",
+        "bio": "Cette expression pouvant englober tout type de musique, il convient de pr\u00e9ciser que la musique classique (occidentale), le jazz, le blues, le rock, le reggae, la soul, la musique de vari\u00e9t\u00e9s, la musique \u00e9lectronique, la musique contemporaine et la musique esp\u00e9rantophone ne seront pas pris en compte ici soit parce qu'ils n'ont pas d'attache nationale, soit parce qu'ils se sont \u00e9loign\u00e9s de toutes formes traditionnelles.",
+        "code": "63000",
+        "county_name": "Puy-de-D\u00f4me",
+        "town": "Clermont-Ferrand",
+        "avatar": "band_avatar/2019-02-13-24.jpg",
+        "created_at": "2019-02-13T14:00:09.119Z",
+        "updated_at": "2019-02-13T14:01:08.952Z",
+        "type": "Groupe de Compos",
+        "musical_genre": "Musique du Monde",
+        "owner": 7,
+        "slug": "lalchimiste",
+        "updated_by": 7
+    }
+},
+{
+    "model": "band.band",
+    "pk": 25,
+    "fields": {
+        "name": "le roi Jah",
+        "bio": "Le reggae est un genre musical ayant \u00e9merg\u00e9 \u00e0 la fin des ann\u00e9es 1960, il est la plus populaire des expressions musicales jama\u00efcaines. Il devient, \u00e0 la faveur de son succ\u00e8s international, un style musical internationalement appr\u00e9ci\u00e9, porteur d'une culture qui lui est propre. Le reggae est souvent li\u00e9 au mouvement rastafari, lui-m\u00eame n\u00e9 en Jama\u00efque. Mais certains Rastas, comme le mouvement Bobo Shanti, y \u00e9taient ou y sont oppos\u00e9s. Malgr\u00e9 tout, la majorit\u00e9 des chanteurs de reggae sont, ou se r\u00e9clam",
+        "code": "65000",
+        "county_name": "Hautes-Pyr\u00e9n\u00e9es",
+        "town": "Tarbes",
+        "avatar": "band_avatar/2019-02-13-25.jpg",
+        "created_at": "2019-02-13T19:28:35.568Z",
+        "updated_at": "2019-02-13T19:28:36.037Z",
+        "type": "Groupe de Compos",
+        "musical_genre": "Reggae",
+        "owner": 6,
+        "slug": "le-roi-jah",
+        "updated_by": null
+    }
+},
+{
+    "model": "band.band",
+    "pk": 27,
+    "fields": {
+        "name": "Coffee Shop",
+        "bio": "Ce style demande cependant un peu plus de travail concernant le ressenti, le feel. Faire \u201csonner\u201d un blues demande d\u2019en \u00e9couter beaucoup et de le pratiquer. On ne devient pas Stevie Ray Vaughan ou Joe Bonamassa en seulement quelques mois de pratique. Mais on peut se faire plaisir sur un blues d\u00e8s son premier cours de guitare.",
+        "code": "85000",
+        "county_name": "Vend\u00e9e",
+        "town": "",
+        "avatar": "band_avatar/2019-02-15-27.jpg",
+        "created_at": "2019-02-15T09:24:08.259Z",
+        "updated_at": "2019-02-15T09:24:08.768Z",
+        "type": "Groupe de Compos",
+        "musical_genre": "Blues",
+        "owner": 5,
+        "slug": "coffee-shop",
+        "updated_by": null
+    }
+},
+{
+    "model": "band.band",
+    "pk": 28,
+    "fields": {
+        "name": "Noname",
+        "bio": "Something great about the band",
+        "code": "",
+        "county_name": "",
+        "town": "",
+        "avatar": "band_avatar/2019-02-15-28.jpg",
+        "created_at": "2019-02-15T09:47:25.162Z",
+        "updated_at": "2019-02-15T14:12:42.685Z",
+        "type": "Groupe de Compos",
+        "musical_genre": "Rap",
+        "owner": 5,
+        "slug": "noname",
+        "updated_by": 5
     }
 },
 {
@@ -776,26 +737,6 @@
 },
 {
     "model": "band.membership",
-    "pk": 12,
-    "fields": {
-        "musician": 1,
-        "band": 17,
-        "date_joined": "2019-02-04",
-        "invite_reason": "band's fouder"
-    }
-},
-{
-    "model": "band.membership",
-    "pk": 13,
-    "fields": {
-        "musician": 1,
-        "band": 18,
-        "date_joined": "2019-02-04",
-        "invite_reason": "band's fouder"
-    }
-},
-{
-    "model": "band.membership",
     "pk": 14,
     "fields": {
         "musician": 1,
@@ -806,12 +747,182 @@
 },
 {
     "model": "band.membership",
-    "pk": 15,
+    "pk": 29,
     "fields": {
         "musician": 1,
         "band": 20,
-        "date_joined": "2019-02-06",
+        "date_joined": "2019-02-11",
+        "invite_reason": "dsdsds"
+    }
+},
+{
+    "model": "band.membership",
+    "pk": 33,
+    "fields": {
+        "musician": 6,
+        "band": 20,
+        "date_joined": "2019-02-11",
+        "invite_reason": "il est bon"
+    }
+},
+{
+    "model": "band.membership",
+    "pk": 34,
+    "fields": {
+        "musician": 5,
+        "band": 20,
+        "date_joined": "2019-02-11",
+        "invite_reason": "dsds"
+    }
+},
+{
+    "model": "band.membership",
+    "pk": 36,
+    "fields": {
+        "musician": 3,
+        "band": 20,
+        "date_joined": "2019-02-11",
+        "invite_reason": "elle est vieille"
+    }
+},
+{
+    "model": "band.membership",
+    "pk": 43,
+    "fields": {
+        "musician": 6,
+        "band": 15,
+        "date_joined": "2019-02-12",
+        "invite_reason": "il vient pour faire du bruit"
+    }
+},
+{
+    "model": "band.membership",
+    "pk": 44,
+    "fields": {
+        "musician": 11,
+        "band": 15,
+        "date_joined": "2019-02-12",
+        "invite_reason": "Un super pianiste"
+    }
+},
+{
+    "model": "band.membership",
+    "pk": 45,
+    "fields": {
+        "musician": 9,
+        "band": 23,
+        "date_joined": "2019-02-13",
         "invite_reason": "band's fouder"
+    }
+},
+{
+    "model": "band.membership",
+    "pk": 46,
+    "fields": {
+        "musician": 4,
+        "band": 23,
+        "date_joined": "2019-02-13",
+        "invite_reason": "the best drummers"
+    }
+},
+{
+    "model": "band.membership",
+    "pk": 47,
+    "fields": {
+        "musician": 2,
+        "band": 23,
+        "date_joined": "2019-02-13",
+        "invite_reason": "the best guitarist"
+    }
+},
+{
+    "model": "band.membership",
+    "pk": 48,
+    "fields": {
+        "musician": 7,
+        "band": 24,
+        "date_joined": "2019-02-13",
+        "invite_reason": "band's fouder"
+    }
+},
+{
+    "model": "band.membership",
+    "pk": 49,
+    "fields": {
+        "musician": 11,
+        "band": 24,
+        "date_joined": "2019-02-13",
+        "invite_reason": "le seul guitariste du coin"
+    }
+},
+{
+    "model": "band.membership",
+    "pk": 51,
+    "fields": {
+        "musician": 6,
+        "band": 25,
+        "date_joined": "2019-02-13",
+        "invite_reason": "band's fouder"
+    }
+},
+{
+    "model": "band.membership",
+    "pk": 52,
+    "fields": {
+        "musician": 2,
+        "band": 25,
+        "date_joined": "2019-02-13",
+        "invite_reason": "c'est un super batteur"
+    }
+},
+{
+    "model": "band.membership",
+    "pk": 53,
+    "fields": {
+        "musician": 3,
+        "band": 25,
+        "date_joined": "2019-02-13",
+        "invite_reason": "On l'aime bien elle nous fait \u00e0 manger"
+    }
+},
+{
+    "model": "band.membership",
+    "pk": 54,
+    "fields": {
+        "musician": 5,
+        "band": 27,
+        "date_joined": "2019-02-15",
+        "invite_reason": "band's fouder"
+    }
+},
+{
+    "model": "band.membership",
+    "pk": 55,
+    "fields": {
+        "musician": 5,
+        "band": 28,
+        "date_joined": "2019-02-15",
+        "invite_reason": "band's fouder"
+    }
+},
+{
+    "model": "band.membership",
+    "pk": 56,
+    "fields": {
+        "musician": 28,
+        "band": 23,
+        "date_joined": "2019-02-15",
+        "invite_reason": "bonne guitariste"
+    }
+},
+{
+    "model": "band.membership",
+    "pk": 57,
+    "fields": {
+        "musician": 5,
+        "band": 23,
+        "date_joined": "2019-02-15",
+        "invite_reason": "Un bon batteur"
     }
 }
 ]
