@@ -372,6 +372,7 @@ class AddMemberTest(MyTestCase):
         # test the membership is well created
         self.assertEqual(after, before+1)
 
+
 class AutocompleteTest(MyTestCase):
     ''' we test the fucntion witch autocomplete fields with member names , query on database)'''
 
@@ -386,7 +387,7 @@ class AutocompleteTest(MyTestCase):
         self.assertEqual(response.status_code, 200)
         # test the return of ajax call
         response_content = str(response.content, encoding='utf8')
-        self.assertJSONEqual(response_content, [{"id": 3, "label": "Super Tatie", "value": "Super Tatie"}, {"id": 4, "label": "Super Toto", "value": "Super Toto"}] )
+        self.assertJSONEqual(response_content, [{"id": 4, "label": "Super Tatie", "value": "Super Tatie"}, {"id": 5, "label": "Super Toto", "value": "Super Toto"}] )
 
 
 class MembershipDeleteTest(MyTestCase):
@@ -419,6 +420,7 @@ class MembershipDeleteTest(MyTestCase):
         # ensure that the member is deleted
         t1 = Membership.objects.filter(musician=self.test_user2).exists()
         self.assertFalse(t1, False)
+
 
 class BandDeleteTest(MyTestCase):
     ''' We test the feature : delete a band '''
@@ -508,6 +510,7 @@ class BandDeleteTest(MyTestCase):
         # the band is deleted
         self.assertFalse(band1, False)
 
+
 class ChangeOwnerTest(MyTestCase):
 
     def test_change_oner(self):
@@ -542,7 +545,7 @@ class ChangeOwnerTest(MyTestCase):
         # test the new owner for that we have to query the database on other time
         band = Band.objects.get(name = 'Pink Floyd')
         self.assertEqual(band.owner, self.test_user2)
-
+# todo : test sidenav_band
 
 
 
