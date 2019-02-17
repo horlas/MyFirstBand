@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
         "password": "pbkdf2_sha256$120000$7OZ5xgu0AYYh$7+/6vHbEi1eDWRhxYzY3u+ONo3skD48ddC5I/YwztUQ=",
-        "last_login": "2019-02-17T19:08:42.485Z",
+        "last_login": "2019-02-17T21:30:56.631Z",
         "is_superuser": true,
         "first_name": "",
         "last_name": "",
@@ -12,23 +12,6 @@
         "is_active": true,
         "date_joined": "2018-12-31T12:13:01.335Z",
         "email": "aurelia.gourbere@gmail.com",
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "authentication.user",
-    "pk": 2,
-    "fields": {
-        "password": "pbkdf2_sha256$120000$egAFoE7CE678$GGz2HGAqPLhdwddTEutsbulusJceANm7g4lVzxt24m4=",
-        "last_login": "2019-02-13T10:35:35.100Z",
-        "is_superuser": false,
-        "first_name": "",
-        "last_name": "",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2018-12-31T12:14:05.705Z",
-        "email": "toto@gmail.com",
         "groups": [],
         "user_permissions": []
     }
@@ -218,24 +201,7 @@
         "avatar": "user_avatar/2019-02-07-1_W1fOHgU.jpg",
         "gender": "F",
         "created_at": "2018-12-31T12:13:01.436Z",
-        "updated_at": "2019-02-17T19:08:42.494Z"
-    }
-},
-{
-    "model": "musicians.userprofile",
-    "pk": 2,
-    "fields": {
-        "user": 2,
-        "username": "Toto35",
-        "bio": "Toto est un groupe de rock am\u00e9ricain cr\u00e9\u00e9 en 1976 par Jeff Porcaro (batterie) et David Paich (clavier), auxquels se joignent Steve Lukather (guitare), Steve Porcaro (claviers), David Hungate (basse) et Bobby Kimball (chant). Apr\u00e8s des d\u00e9buts prometteurs, le groupe atteint la cons\u00e9cration dans les ann\u00e9es 1980 avec son album Toto IV. En 1982, Mike Porcaro remplace David Hungate \u00e0 la basse. En moins de dix ans, Toto change plusieurs fois de chanteur principal, engageant Fergie Frederiksen,",
-        "code": "66000",
-        "county_name": "Pyr\u00e9n\u00e9es-Orientales",
-        "town": "Perpignan",
-        "birth_year": 1962,
-        "avatar": "user_avatar/2019-02-13-2.jpg",
-        "gender": "H",
-        "created_at": "2018-12-31T12:14:05.848Z",
-        "updated_at": "2019-02-13T10:37:32.040Z"
+        "updated_at": "2019-02-17T21:30:56.674Z"
     }
 },
 {
@@ -496,24 +462,6 @@
         "instrument": "Saxophoniste",
         "level": "D\u00e9butant",
         "musician": 1
-    }
-},
-{
-    "model": "musicians.instrument",
-    "pk": 48,
-    "fields": {
-        "instrument": "Clavieriste",
-        "level": "D\u00e9butant",
-        "musician": 2
-    }
-},
-{
-    "model": "musicians.instrument",
-    "pk": 49,
-    "fields": {
-        "instrument": "Guitariste",
-        "level": "Interm\u00e9diaire",
-        "musician": 2
     }
 },
 {
@@ -826,16 +774,6 @@
 },
 {
     "model": "band.membership",
-    "pk": 47,
-    "fields": {
-        "musician": 2,
-        "band": 23,
-        "date_joined": "2019-02-13",
-        "invite_reason": "the best guitarist"
-    }
-},
-{
-    "model": "band.membership",
     "pk": 48,
     "fields": {
         "musician": 7,
@@ -862,16 +800,6 @@
         "band": 25,
         "date_joined": "2019-02-13",
         "invite_reason": "band's fouder"
-    }
-},
-{
-    "model": "band.membership",
-    "pk": 52,
-    "fields": {
-        "musician": 2,
-        "band": 25,
-        "date_joined": "2019-02-13",
-        "invite_reason": "c'est un super batteur"
     }
 },
 {

@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
         "password": "pbkdf2_sha256$120000$7OZ5xgu0AYYh$7+/6vHbEi1eDWRhxYzY3u+ONo3skD48ddC5I/YwztUQ=",
-        "last_login": "2019-02-17T19:08:42.485Z",
+        "last_login": "2019-02-17T21:30:56.631Z",
         "is_superuser": true,
         "first_name": "",
         "last_name": "",
@@ -12,23 +12,6 @@
         "is_active": true,
         "date_joined": "2018-12-31T12:13:01.335Z",
         "email": "aurelia.gourbere@gmail.com",
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "authentication.user",
-    "pk": 2,
-    "fields": {
-        "password": "pbkdf2_sha256$120000$egAFoE7CE678$GGz2HGAqPLhdwddTEutsbulusJceANm7g4lVzxt24m4=",
-        "last_login": "2019-02-13T10:35:35.100Z",
-        "is_superuser": false,
-        "first_name": "",
-        "last_name": "",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2018-12-31T12:14:05.705Z",
-        "email": "toto@gmail.com",
         "groups": [],
         "user_permissions": []
     }
