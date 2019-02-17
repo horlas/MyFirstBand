@@ -26,6 +26,7 @@ services:
 
 addons:
   postgresql: "9.5"
+  chrome: stable
 
 script:
 
