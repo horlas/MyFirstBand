@@ -114,7 +114,14 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = 'authentication.User'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.environ.get('SECRET_ACCOUNT')
+EMAIL_HOST_PASSWORD = os.environ.get('SECRET_MDP')
+DEFAULT_FROM_EMAIL = 'MyFirstBand Team <noreply@example.com>'
 
 
 # Internationalization

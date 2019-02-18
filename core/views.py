@@ -6,11 +6,14 @@ from django.views.generic.detail import DetailView
 
 from musicians.models import UserProfile
 from core.utils import get_age
+import os
 
 # Create your views here.
 
 
 def accueil(request):
+    t = os.environ.get('SECRET_MDP')
+    print(t)
     context = {}
     last_user = User.objects.all().order_by('-id')[:6]
     # Todo : when user sign up , we don't need to display an empty profil
