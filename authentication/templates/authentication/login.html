@@ -1,16 +1,23 @@
 
 {% extends '../core/base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 {% block content %}
 <main>
 <div class= "container">
-<h2>Login</h2>
+<h3>Login</h3>
+   {% include 'core/form_errors.html' with form=form %}
 <form method="post" action="">
   {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="login">
+  {{ form.username|add_label_class:"custom-label"  }}
+  {{ form.username }}
+  {{ form.password|add_label_class:"custom-label"  }}
+  {{ form.password }}
+  <button id=login_button' class="btn waves-effect waves-light btn" type="submit">login</button>
+   <a href="{% url 'authentication:password_reset' %}" class="btn waves-effect waves-light btn red"  name="action">Changer mon mot de pass</a>
   <!--<button type="submit">Login</button>-->
 </form>
+
 </div>
 </main>
 {% endblock %}

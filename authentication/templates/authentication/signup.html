@@ -9,6 +9,7 @@
         <div class="col s12  ">
 
   <h2>Sign up</h2>
+           {% include 'core/form_errors.html' with form=form %}
   <form method="post">
     {% csrf_token %}
     {% for field in form %}
@@ -18,13 +19,11 @@
         {% if field.help_text %}
           <small style="color: grey">{{ field.help_text }}</small>
         {% endif %}
-        {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
-        {% endfor %}
+
       </p>
     {% endfor %}
     <button id='sign_up_button' class="btn waves-effect waves-light btn" type="submit" name="action">Sign up</button>
-    <!--<button type="submit">Sign up</button>-->
+
   </form>
 
 </div>

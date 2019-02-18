@@ -17,7 +17,7 @@
    <div class="card">
       <div class="card-image">
          {% if member.userprofile.avatar %}
-         <img class="circle responsive-img" src="{{ member.userprofile.avatar.url }}">
+         <img alt='Avatar' class="circle responsive-img" src="{{ member.userprofile.avatar.url }}">
          {% else %}
          <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" >
          {% endif %}
