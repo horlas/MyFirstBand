@@ -22,7 +22,7 @@
          <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" />
          {% endif %}
          <span class="card-title custom-bg custom-text">{{ member.userprofile.username }}</span>
-         <a href='{% url "core:musician_profile" member.id  %}'  class="btn-floating halfway-fab waves-effect waves-light custom-btn-pink"><i class="material-icons">add</i></a>
+         <a href='{% url "core:musician_profile" member.userprofile.id  %}'  class="btn-floating halfway-fab waves-effect waves-light custom-btn-pink"><i class="material-icons">add</i></a>
       </div>
       <div class="card-content custom-bg custom-text"">
          <ul>

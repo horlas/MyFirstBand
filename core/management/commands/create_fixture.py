@@ -12,7 +12,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        call_command('dumpdata', 'authentication' ,  indent=4, stdout=self.buf)
+        call_command('dumpdata', 'authentication',  indent=4, stdout=self.buf)
 
         self.buf.seek(0)
         with open('core/fixtures/user-data.json', 'w') as f:
