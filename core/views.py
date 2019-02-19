@@ -12,8 +12,6 @@ import os
 
 
 def accueil(request):
-    t = os.environ.get('SECRET_MDP')
-    print(t)
     context = {}
     last_user = User.objects.all().order_by('-id')[:6]
     # Todo : when user sign up , we don't need to display an empty profil
