@@ -2,15 +2,6 @@ from django.contrib import admin
 
 from band.models import Band, Membership
 from django.utils.translation import ugettext_lazy as _
-from django.forms import ModelForm
-
-
-
-# class MusicalGenreForm(ModelForm):
-#     class Meta:
-#         model = MusicalGenre
-#         exclude = ['band']
-
 
 
 
@@ -31,15 +22,6 @@ class BandAdmin(admin.ModelAdmin):
     )
 
 
-# @admin.register(MusicalGenre)
-# class MusicalGenreAdmin(admin.ModelAdmin):
-#
-#     fieldsets =  (
-#         (None, {'fields':('band',)
-#                 }),
-#         (_('Genre musical'),{'fields': ('musical_genre', )}),
-#
-#     )
 
 
 @admin.register(Membership)
@@ -56,4 +38,3 @@ class MembershipAdmin(admin.ModelAdmin):
     readonly_fields = ("date_joined",)
 
 
-# Register your models here.

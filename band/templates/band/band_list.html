@@ -1,65 +1,49 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
-
-
-
 {% block content %}
-
 <main>
-
-    <div class="row"></div>
+   <div class="row"></div>
    <div class="row"></div>
    {% include 'core/display_messages.html' %}
-
-<div class="row">
-    <div class="col s10 offset-s1">
-    <h3 class="header">Mes groupes</h3>
-{% if object_list|length > 0  %}
-
-<ul class="collection">
- {% for band in object_list %}
-
-    <li class="collection-item avatar">
-       {% if band.avatar %}
-      <img src="{{ band.avatar.url }}" alt="" class="circle">
-        {% else %}
-       <img src="{% static 'core/img/0_band.jpg' %}" alt="" class="circle">
-        {% endif %}
-      <span class="title">{{ band.name }}</span>
-        {% if not band.type %}
-        <p> En cours de création <br>
-        {% else %}
-        <p> {{ band.type }} <br>
-        {% endif %}
-        {% if not band.town %}
-        <p> Localité inconnue <br>
-        {% else %}
-         {{ band.town }} , {{ band.county_name }}
-        {% endif %}
-      </p>
-      <a href='{% url "band:band_detail" band.slug  %}' class="secondary-content"><i class="material-icons">grade</i></a>
-    </li>
-    {% endfor %}
-      </ul>
-       {% else %}
-        {# if no band #}
-       <div class="divider"></div>
-   {% endif %}
-
-</div>
-
-</div>
-
-<div class="row">
-    <div class="col s10 offset-s1">
-    <a id='create_band' class="waves-effect waves-light btn custom-btn custom-text" href='{% url "band:add_band" %}' ><i class="material-icons left">add</i>Creer un groupe</a>
-    </div>
-</div>
-
-
-
+   <div class="row">
+      <div class="col s10 offset-s1">
+         <h3 class="header">Mes groupes</h3>
+         {% if object_list|length > 0  %}
+         <ul class="collection">
+            {% for band in object_list %}
+            <li class="collection-item avatar">
+               {% if band.avatar %}
+               <img src="{{ band.avatar.url }}" alt="" class="circle">
+               {% else %}
+               <img src="{% static 'core/img/0_band.jpg' %}" alt="" class="circle">
+               {% endif %}
+               <span class="title">{{ band.name }}</span>
+               {% if not band.type %}
+               <p> En cours de création <br>
+                  {% else %}
+               <p> {{ band.type }} <br>
+                  {% endif %}
+                  {% if not band.town %}
+               <p> Localité inconnue <br>
+                  {% else %}
+                  {{ band.town }} , {{ band.county_name }}
+                  {% endif %}
+               </p>
+               <a href='{% url "band:band_detail" band.slug  %}' class="secondary-content"><i class="material-icons">grade</i></a>
+            </li>
+            {% endfor %}
+         </ul>
+         {% else %}
+         {# if no band #}
+         <div class="divider"></div>
+         {% endif %}
+      </div>
+   </div>
+   <div class="row">
+      <div class="col s10 offset-s1">
+         <a id='create_band' class="waves-effect waves-light btn custom-btn custom-text" href='{% url "band:add_band" %}' ><i class="material-icons left">add</i>Creer un groupe</a>
+      </div>
+   </div>
 </main>
-
 {% endblock %}
-

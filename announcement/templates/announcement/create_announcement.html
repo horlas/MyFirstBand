@@ -1,0 +1,61 @@
+{% extends 'core/base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+{% include 'core/display_messages.html' %}
+<main>
+
+<div class="container " xmlns="http://www.w3.org/1999/html">
+   <div class="row"></div>
+   <div class="row"></div>
+   <div class="divider"></div>
+      <h5 class="header">Nouvelle annonce</h5>
+      <div class="divider"></div>
+
+
+   <div class="col s7 ">
+      <div class="row"></div>
+   <div class="row"></div>
+
+   <form action='{% url "announcement:create_announcement" %}' method="post" enctype="multipart/form-data" >
+       {% include 'core/form_errors.html' with form=form %}
+   {% csrf_token %}
+
+
+         {{ form.title|add_label_class:"custom-label"  }}
+         {{ form.title }}
+
+         {{ form.content|add_label_class:"custom-label"  }}
+         {{ form.content|add_class:"materialize-textarea" }}
+
+         <div class="valign-wrapper">
+            <div>
+         {{ form.town|add_label_class:"custom-label"  }}
+         {{ form.town }}
+            </div>
+            <div>
+         {{ form.county_name|add_label_class:"custom-label"  }}
+         {{ form.county_name }}
+            </div>
+         </div>
+
+
+<div class="row"></div>
+   <div class="row"></div>
+
+  <div class="row">
+               <button id='ann_submit' class=" waves-effect waves-light btn custom-btn custom-text" type="submit" >
+               <i class="material-icons left">save</i>Enregistrer</button>
+               <a href='{% url "announcement:announcement_list" %}' class="waves-effect waves-light btn custom-btn custom-text" type="button" >
+               <i class="material-icons left">cancel</i>Cancel</a>
+            </div>
+
+</form>
+         </div>
+</div>
+
+
+</main>
+
+{% endblock %}

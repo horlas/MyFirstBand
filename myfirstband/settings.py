@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'musicians',
     'core',
     'band',
+    'announcement',
 ]
 
 MIDDLEWARE = [

@@ -26,6 +26,7 @@ urlpatterns = [
     path('core/', include('core.urls', namespace='core')),
     path('musicians/', include('musicians.urls', namespace='musicians')),
     path('band/', include('band.urls', namespace='band')),
+    path('announcement/', include('announcement.urls', namespace='announcement')),
     path('', core_views.accueil),
 
 ]

@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+<main>
+   <div class="row"></div>
+   <div class="row"></div>
+   {% include 'core/display_messages.html' %}
+   <div class="row">
+   <div class="col s10 offset-s1">
+      <div class="divider"></div>
+      <h3 class="header">Mes annonces</h3>
+      <div class="divider"></div>
+      {% if object_list|length > 0  %}
+      {% for a in object_list %}
+      {{ a.title }}
+      {{ a.content }}
+      {% endfor %}
+      {% endif %}
+      <div class="row"></div>
+   </div>
+   <div class="row">
+      <div class="col s10 offset-s1">
+         <a id='create_ann' class="waves-effect waves-light btn custom-btn custom-text"
+            href='{% url "announcement:create_announcement" %}' >
+         <i class="material-icons left">add</i>Creer une annonce</a>
+      </div>
+   </div>
+</main>
+{% endblock %}
