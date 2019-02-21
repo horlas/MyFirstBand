@@ -25,4 +25,3 @@ class MusicianAnswerAnnonucement(models.Model):
     musician_announcement_id = models.ForeignKey(MusicianAnnouncement, on_delete=models.CASCADE)
 
 
-

@@ -166,6 +166,7 @@ class LogoutViewTest(MyTestCase):
 
 
 class PasswordResetViewTest(MyTestCase):
+    # todo : article for pythonclassmates
 
     def setUp(self):
         super(PasswordResetViewTest, self).setUp()

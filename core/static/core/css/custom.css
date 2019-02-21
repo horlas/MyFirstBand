@@ -10,13 +10,16 @@
 }
 
 .material-icons {
-    /*font-size: 150px;*/
     color: #fdca5a !important;
 }
 
 
 .custom-text {
      color: #fdca5a !important;
+}
+
+.custom-text-link {
+    color :#2f1b40 !important;
 }
 
 .custom-btn {

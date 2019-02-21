@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-{% load widget_tweaks %}
+
 {% load static %}
 {% block content %}
 {% include 'core/display_messages.html' %}
@@ -13,7 +13,7 @@
       <div class="col s7 ">
          <div class="row"></div>
          <div class="row"></div>
-         <form action='{% url "announcement:create_announcement" %}' method="post" enctype="multipart/form-data" >
+         <form action='{#% url "announcement:update_announcement" object.id %#}' method="post" enctype="multipart/form-data" >
             {% include 'announcement/form.html' %}
          </form>
       </div>

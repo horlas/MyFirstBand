@@ -1,23 +1,45 @@
-
 {% extends '../core/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
 {% block content %}
 <main>
-<div class= "container">
-<h3>Login</h3>
-   {% include 'core/form_errors.html' with form=form %}
-<form method="post" action="">
-  {% csrf_token %}
-  {{ form.username|add_label_class:"custom-label"  }}
-  {{ form.username }}
-  {{ form.password|add_label_class:"custom-label"  }}
-  {{ form.password }}
-  <button id=login_button' class="btn waves-effect waves-light btn" type="submit">login</button>
-   <a href="{% url 'authentication:password_reset' %}" class="btn waves-effect waves-light btn red"  name="action">Changer mon mot de pass</a>
-  <!--<button type="submit">Login</button>-->
-</form>
-
-</div>
+   <div class= "container">
+      <h4> Login MyFirstBand </h4>
+      <div id="user-login" class="row">
+         <div class="col s12 z-depth-6 card-panel">
+            <form class="login-form" method="post">
+               {% include 'core/form_errors.html' with form=form %}
+               {% csrf_token %}
+               <div class="row margin">
+                  <div class="input-field col s12">
+                     <i class="material-icons prefix ">person_outline</i>
+                     <label for="id_username" data-error="wrong" data-success="right" class="center-align custom-label"> {{ form.username.label }}</label>
+                     {% render_field form.username class+="validate" %}
+                  </div>
+               </div>
+               <div class="row margin">
+                  <div class="input-field col s12">
+                     <i class="material-icons prefix">lock_outline </i>
+                     <label for="id_password" data-error="wrong" data-success="right" class="center-align custom-label"> {{ form.password.label }}</label>
+                     {% render_field form.password class+="validate" %}
+                  </div>
+               </div>
+               <label style='float: right;'>
+               <a class='pink-text' href='#!'><b>Mot de pass oublié?</b></a>
+               </label>
+               <div class="row">
+                  <div class="input-field col s12">
+                     <button id=login_button' class="btn waves-effect waves-light btn col s12" type="submit">login</button>
+                  </div>
+               </div>
+            </form>
+            <div class="row">
+               <div class="input-field col s6 m6 l6">
+                  <p class="margin medium-small "><a href="{% url 'authentication:signup' %}"  class="custom-text-link"><b>Créer un compte !</b></a></p>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
 </main>
 {% endblock %}

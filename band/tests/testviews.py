@@ -424,6 +424,7 @@ class MembershipDeleteTest(MyTestCase):
 
 class BandDeleteTest(MyTestCase):
     ''' We test the feature : delete a band '''
+# todo : article for pythonclassmates, add a setUp class with session
 
     def test_delete_band_error_1(self):
         ''' we test when there are still several members in the band : request user can not delete the band'''

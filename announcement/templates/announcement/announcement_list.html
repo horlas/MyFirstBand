@@ -5,26 +5,104 @@
 <main>
    <div class="row"></div>
    <div class="row"></div>
-   {% include 'core/display_messages.html' %}
-   <div class="row">
-   <div class="col s10 offset-s1">
-      <div class="divider"></div>
-      <h3 class="header">Mes annonces</h3>
-      <div class="divider"></div>
-      {% if object_list|length > 0  %}
-      {% for a in object_list %}
-      {{ a.title }}
-      {{ a.content }}
-      {% endfor %}
-      {% endif %}
-      <div class="row"></div>
-   </div>
-   <div class="row">
+    <div class="divider"></div>
+       <div class="row">
       <div class="col s10 offset-s1">
          <a id='create_ann' class="waves-effect waves-light btn custom-btn custom-text"
             href='{% url "announcement:create_announcement" %}' >
          <i class="material-icons left">add</i>Creer une annonce</a>
       </div>
    </div>
+    <div class="divider"></div>
+    <div class="row"></div>
+   {% include 'core/display_messages.html' %}
+   <div class="row">
+   <div class="col s10 offset-s1">
+      {% if object_list|length > 0  %}
+      <ul class="collection with-header">
+         <li class="collection-header">
+            <h4>Mes annonces en ligne</h4>
+         </li>
+         {% for a in object_list %}
+         {% if a.is_active %}
+         <li class="collection-item">
+            <div>{{ a.title }} <br>
+               {{ a.created_at }}
+                <a href="#"  class="secondary-content tooltipped" data-tooltip="Archiver" onclick='initModalArchive("{{ a.id }}");'><i class="material-icons">alarm_off</i></a>
+               <a href="{% url 'announcement:update_announcement' a.id  %}" class="secondary-content tooltipped" data-tooltip="Modifier"><i class="material-icons">edit</i></a>
+            </div>
+            <!-- Modal Structure witch call archive_announcement view -->
+            <div id="confirm_archive{{ a.id }}" class="modal">
+               <div class="modal-content">
+                  <form method="post" action="{% url 'announcement:archive' a.id %}">
+                     {% csrf_token %}
+                     <h4> Voulez vous archiver l'annonce  {{ a.title }} ?</h4>
+                     <input type="hidden" name="signal" value="{{ a.id }} ">
+                     <div class="modal-footer">
+                        <a href="#" class="modal-close waves-light btn red" >Non</a>
+                        <button class="waves-effect waves-light btn" type="submit">Oui</button>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </li>
+         {% endif %}
+         {% endfor %}
+      </ul>
+      <div class="row"></div>
+      <div class="divider"></div>
+      <div class="row"></div>
+      <ul class="collection with-header">
+         <li class="collection-header">
+            <h4>Mes annonces archivées</h4>
+         </li>
+         {% for a in object_list %}
+         {% if not a.is_active %}
+         <li class="collection-item">
+            <div>
+               {{ a.title }} <br>
+               {{ a.created_at }}
+               <a href="#"  class="secondary-content tooltipped" data-tooltip="Mettre en ligne" onclick='initModalOnline("{{ a.id }}");'>
+                  <i class="material-icons">alarm_on</i></a>
+            </div>
+            <!-- Modal Structure witch call archive_announcement view -->
+            <div id="confirm_online{{ a.id }}" class="modal">
+            <div class="modal-content">
+            <form method="post" action="{% url 'announcement:online' a.id %}">
+            {% csrf_token %}
+            <h4> Voulez vous ré activer l'annonce  {{ a.title }} ?</h4>
+            <input type="hidden" name="signal2" value="{{ a.id }} ">
+            <div class="modal-footer">
+            <a href="#" class="modal-close waves-light btn red" >Non</a>
+            <button class="waves-effect waves-light btn" type="submit">Oui</button>
+            </div>
+            </form>
+            </div>
+            </div>
+         </li>
+         {% endif %}
+         {% endfor %}
+      </ul>
+      {% endif %}
+   </div>
+
+   </div>
 </main>
+{% endblock %}
+{% block script %}
+<script >
+   function initModalArchive(a_id) {
+           var elem = document.getElementById('confirm_archive' + a_id);
+           var instance = M.Modal.init(elem);
+           instance.open();
+           }
+
+
+   function initModalOnline(a_id) {
+           var elem = document.getElementById('confirm_online' + a_id);
+           var instance = M.Modal.init(elem);
+           instance.open();
+           }
+
+</script>
 {% endblock %}

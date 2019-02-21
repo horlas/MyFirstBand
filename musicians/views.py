@@ -128,8 +128,6 @@ class UpdateLocalView(FormView, SuccessMessageMixin):
             return render(self.get_context_data(local_form=local_form))
 
 
-
-
 class InstruCreateView(LoginRequiredMixin, CreateView, SuccessMessageMixin):
     '''View to add instrument to a musician'''
 

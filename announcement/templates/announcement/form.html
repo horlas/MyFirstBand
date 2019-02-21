@@ -1,0 +1,25 @@
+{% load widget_tweaks %}
+{% include 'core/form_errors.html' with form=form %}
+            {% csrf_token %}
+            {{ form.title|add_label_class:"custom-label"  }}
+            {{ form.title }}
+            {{ form.content|add_label_class:"custom-label"  }}
+            {{ form.content|add_class:"materialize-textarea" }}
+            <div class="valign-wrapper">
+               <div>
+                  {{ form.town|add_label_class:"custom-label"  }}
+                  {{ form.town }}
+               </div>
+               <div>
+                  {{ form.county_name|add_label_class:"custom-label"  }}
+                  {{ form.county_name }}
+               </div>
+            </div>
+            <div class="row"></div>
+            <div class="row"></div>
+            <div class="row">
+               <button id='ann_submit' class=" waves-effect waves-light btn custom-btn custom-text" type="submit" >
+               <i class="material-icons left">save</i>Enregistrer</button>
+               <a href='{% url "announcement:announcement_list" %}' class="waves-effect waves-light btn custom-btn custom-text" type="button" >
+               <i class="material-icons left">cancel</i>Cancel</a>
+            </div>

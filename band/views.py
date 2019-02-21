@@ -86,6 +86,8 @@ class BandUpdateView(LoginRequiredMixin, UpdateView):
         band.updated_by = self.request.user
         band.updated_at = timezone.now()
         band.save()
+        messages.success(self.request, " Les données du groupe ont été mises à jour ! ")
+
         return redirect('band:band_detail', self.object.slug )
 
 

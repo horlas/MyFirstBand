@@ -3,7 +3,7 @@ from authentication.models import User
 from band.models import Band, Membership
 from musicians.models import Instrument
 from django.views.generic.detail import DetailView
-
+from announcement.models import MusicianAnnouncement
 from musicians.models import UserProfile
 from core.utils import get_age
 import os
@@ -18,6 +18,8 @@ def accueil(request):
     context['last_users'] = last_user
     last_band = Band.objects.all().order_by('-id')[:6]
     context['last_bands'] = last_band
+    last_announcement = MusicianAnnouncement.objects.all().order_by('-created_at')[:6]
+    context['last_announcement'] = last_announcement
 
     return render(request, 'core/index.html', context)
 
@@ -52,12 +54,12 @@ class MusicianProfileView(DetailView):
         context = super().get_context_data(**kwargs)
 
         # return elements for band displaying
-        bands = Band.objects.filter(members=self.object.id)
+        bands = Band.objects.filter(members=self.object.user.id)
 
         context['bands'] = bands
         # return element for intsrument displaying because
         # Instrument table has no link with userprofile
-        instruments = Instrument.objects.filter(musician=self.object.id)
+        instruments = Instrument.objects.filter(musician=self.object.user.id)
         context['instruments'] = instruments
         if self.object.birth_year:
             # return musician age

@@ -22,6 +22,7 @@ from musicians.models import Instrument
 
 
 class AnnouncementCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    # todo :article for pythonclassmates
 
     model = MusicianAnnouncement
     form_class = MusicianAnnouncementForm
@@ -37,7 +38,6 @@ class AnnouncementCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView
         return initial
 
     def form_valid(self, form):
-        print('yes')
         form.instance.author = self.request.user
         messages.success(self.request, (" Félicitations ! Votre annonce a été créée ! "))
         return super().form_valid(form)
@@ -50,4 +50,42 @@ class AnnouncementListView(LoginRequiredMixin, ListView):
     context_object_name = 'list of announcements'
 
     def get_queryset(self):
+
         return MusicianAnnouncement.objects.filter(author=self.request.user)
+
+@login_required()
+def archive_announcement(request, *args, **kwargs):
+    signal = request.POST['signal']
+    announcement = MusicianAnnouncement.objects.get(id=signal)
+    announcement.is_active = False
+    announcement.save()
+    messages.success(request, "L'annonce a été archivée")
+    return redirect(reverse_lazy('announcement:announcement_list'))
+
+@login_required()
+def online_announcement(request, *args, **kwargs):
+    signal = request.POST['signal2']
+    announcement = MusicianAnnouncement.objects.get(id=signal)
+    announcement.is_active = True
+    announcement.save()
+    messages.success(request, "L'annonce a été mise en ligne")
+    return redirect(reverse_lazy('announcement:announcement_list'))
+
+
+class AnnouncementUpdateView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
+
+    model = MusicianAnnouncement
+    form_class = MusicianAnnouncementForm
+    template_name = 'announcement/update_announcement.html'
+
+    def form_valid(self, form):
+        ''' to update the announcement's date'''
+        annonce = form.save(commit=False)
+        annonce.created_at = timezone.now()
+        annonce.save()
+        messages.success(self.request, " Votre annonce a été mise à jour ! " )
+        return redirect(reverse_lazy('announcement:announcement_list'))
+
+# Todo : anwwer  announcement + aswer aswer announcement
+
+
