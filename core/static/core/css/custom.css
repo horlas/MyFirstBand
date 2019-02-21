@@ -23,6 +23,13 @@
     font-weight: bold;
 }
 
+.custom-text-link-login {
+    color :  indigo ;
+    font-weight: bold;
+}
+
+
+
 .custom-btn {
     background : #2f1b40 !important;
 }

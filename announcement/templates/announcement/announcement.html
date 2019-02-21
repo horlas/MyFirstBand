@@ -1,0 +1,44 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+<main>
+   <div class="container" >
+      <div class="row"></div>
+      <div class="row">
+         <div class="col s8  ">
+
+         <h4 >
+            {{ object.title }}
+         </h4>
+         <p>Publiée  le {{ object.created_at }}</p>
+         <blockquote >{{ object.content }}</blockquote>
+
+
+  <p class="margin medium-small "><a href='{% url "core:musician_profile" object.author.userprofile.id  %}'  class="custom-text-link"><b> {{ object.author.userprofile.username }} </b></a></p>
+
+       <label style='float: right;'>
+
+         {% if not user.is_authenticated  %}
+ <a id='link_login' class="waves-effect waves-light btn custom-btn custom-text" href="{% url 'authentication:login' %}">
+    <i class="material-icons left">question_answer</i>Répondre Login</a>
+          {% else %}
+      <button id='answer' class="waves-effect waves-light btn custom-btn custom-text">
+    <i class="material-icons left">question_answer</i>Répondre</button>
+
+
+      {% endif %}
+
+      </label>
+
+
+
+
+
+      </div>
+
+
+         </div>
+      </div>
+   </div>
+</main>
+{% endblock %}

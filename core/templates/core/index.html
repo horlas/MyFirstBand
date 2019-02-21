@@ -5,8 +5,6 @@
    <div class="container">
       <h4 id="title">Bienvenue sur My First Band {{user.userprofile.username}} ! </h4>
       <div class="divider"></div>
-
-
       <section id='musicians'>
          <h5> Nouveaux musiciens </h5>
          <div class="divider"></div>
@@ -22,23 +20,22 @@
                      {% endif %}
                      <span class="card-title custom-bg custom-text">{{ member.userprofile.username }}</span>
                      <a href='{% url "core:musician_profile" member.userprofile.id  %}' class="btn-floating halfway-fab
-                     waves-effect waves-light custom-btn-pink"><i class="material-icons">add</i></a>
+                        waves-effect waves-light custom-btn-pink"><i class="material-icons">add</i></a>
                   </div>
                   <div class="card-content custom-bg custom-text">
-                        {% for i in member.instrument_set.all %}
-                        <p>{{i.instrument}} </p>
-                        {% endfor %}
-                      <div class="row"></div>
+                     {% for i in member.instrument_set.all %}
+                     <p>{{i.instrument}} </p>
+                     {% endfor %}
+                     <div class="row"></div>
                      <div class="divider"></div>
-                      <div class="row"></div>
+                     <div class="row"></div>
                      <p>{{ member.userprofile.town }} {{ member.userprofile.county_name }}</p>
                   </div>
                </div>
             </div>
             {% endfor %}
-  </div>
+         </div>
       </section>
-
       <section id="bands">
          <h5> Nouveaux groupes </h5>
          <div class="divider"></div>
@@ -67,50 +64,26 @@
             {% endfor %}
          </div>
       </section>
-
-
       <section id='announcement'>
          <h5> Nouvelles annonces </h5>
          <div class="divider"></div>
          <div class="row">
             {% for a in last_announcement %}
-
             <div class="col s3 m4">
-
-
-      <div class="card custom-bg custom-text">
-        <div class="card-content custom-text">
-          <span class="card-title">{{ a.title }}</span>
-           <p>{{ a.town }} {{ a.county_name }} </p>
-           <p> {{ a.created_at }}</p>
-
-        <div class="card-action">
-          <a href="#">Lien vers l'annonce</a>
-          </div>
-      </div>
-    </div>
-  </div>
-
+               <div class="card custom-bg custom-text">
+                  <div class="card-content custom-text">
+                     <span class="card-title">{{ a.title }}</span>
+                     <p>{{ a.town }} {{ a.county_name }} </p>
+                     <p> {{ a.created_at }}</p>
+                     <div class="card-action">
+                        <a href='{% url "announcement:detail_announcement" a.id %}' >Lien vers l'annonce</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
             {% endfor %}
          </div>
       </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
    </div>
 </main>
 {% endblock %}

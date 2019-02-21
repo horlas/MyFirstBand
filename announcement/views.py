@@ -17,6 +17,7 @@ from django.utils import timezone
 from announcement.forms import MusicianAnnouncementForm
 from announcement.models import MusicianAnnouncement
 from musicians.models import Instrument
+from authentication.models import User
 
 # Create your views here.
 
@@ -73,6 +74,7 @@ def online_announcement(request, *args, **kwargs):
 
 
 class AnnouncementUpdateView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
+    ''' to update an announcement'''
 
     model = MusicianAnnouncement
     form_class = MusicianAnnouncementForm
@@ -85,6 +87,23 @@ class AnnouncementUpdateView(LoginRequiredMixin, UpdateView, SuccessMessageMixin
         annonce.save()
         messages.success(self.request, " Votre annonce a été mise à jour ! " )
         return redirect(reverse_lazy('announcement:announcement_list'))
+
+class AnnouncementDetailView(DetailView):
+
+    model = MusicianAnnouncement
+    template_name = 'announcement/announcement.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # return elements for to display profile author link
+        author = User.objects.get(id=self.object.author.id)
+        context['author'] = author
+        return context
+
+
+
+
 
 # Todo : anwwer  announcement + aswer aswer announcement
 
