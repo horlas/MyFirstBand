@@ -54,16 +54,13 @@ class BandDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         members = Membership.objects.filter(band=self.object.id)
-
         data_instru ={}
         for m in members:
             instru = Instrument.objects.filter(musician=m.musician).first()
-
             data_instru[m.musician] = instru
         context['instru'] = data_instru
         context['members'] = members
         context['sidenav_band'] = 'sidenav_band'
-
         return context
         # Todo : add the instrument to member
 

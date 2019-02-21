@@ -16,12 +16,12 @@ class MusicianAnnouncement(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
-class MusicianAnswerAnnonucement(models.Model):
+class MusicianAnswerAnnouncement(models.Model):
     ''' Model to wrtite answers'''
     content = models.TextField("Reponse", max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     parent_id = models.IntegerField(null=True)
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    musician_announcement_id = models.ForeignKey(MusicianAnnouncement, on_delete=models.CASCADE)
+    musician_announcement = models.ForeignKey(MusicianAnnouncement, on_delete=models.CASCADE)
 
 

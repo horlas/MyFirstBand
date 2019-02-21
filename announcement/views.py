@@ -15,7 +15,7 @@ from django.views.generic.edit import UpdateView, DeleteView
 from django.utils import timezone
 # from django.views.generic import CreateView
 from announcement.forms import MusicianAnnouncementForm
-from announcement.models import MusicianAnnouncement
+from announcement.models import MusicianAnnouncement, MusicianAnswerAnnouncement
 from musicians.models import Instrument
 from authentication.models import User
 
@@ -51,7 +51,6 @@ class AnnouncementListView(LoginRequiredMixin, ListView):
     context_object_name = 'list of announcements'
 
     def get_queryset(self):
-
         return MusicianAnnouncement.objects.filter(author=self.request.user)
 
 @login_required()
@@ -88,6 +87,7 @@ class AnnouncementUpdateView(LoginRequiredMixin, UpdateView, SuccessMessageMixin
         messages.success(self.request, " Votre annonce a été mise à jour ! " )
         return redirect(reverse_lazy('announcement:announcement_list'))
 
+
 class AnnouncementDetailView(DetailView):
 
     model = MusicianAnnouncement
@@ -95,12 +95,34 @@ class AnnouncementDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         # return elements for to display profile author link
         author = User.objects.get(id=self.object.author.id)
         context['author'] = author
         return context
 
+
+class AnswerAnnouncement(LoginRequiredMixin, SuccessMessageMixin, FormView):
+
+    template_name = 'announcement/announcement.html'
+
+    def post(self, request, *args, **kwargs):
+        content = request.POST['answer_text']
+        a_id = request.POST['a_id']
+        if len(content) > 200:
+            messages.error(self.request, 'Réponse trop longue')
+            return redirect(reverse_lazy("announcement:detail_announcement", kwargs={'pk': a_id}))
+        else:
+            # get the announcement to link the answer
+            a = MusicianAnnouncement.objects.get(id=a_id)
+            response = MusicianAnswerAnnouncement(
+                content = content,
+                created_at=timezone.now(),
+                author=self.request.user,
+                musician_announcement=a
+            )
+            response.save()
+            messages.success(self.request, ("Votre réponse est envoyée vous pouvez la retrouver dans Mes annonces!"))
+            return redirect(reverse_lazy("announcement:detail_announcement", kwargs={'pk': a_id}))
 
 
 

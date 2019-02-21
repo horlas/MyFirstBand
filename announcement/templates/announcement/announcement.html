@@ -6,39 +6,69 @@
       <div class="row"></div>
       <div class="row">
          <div class="col s8  ">
-
-         <h4 >
-            {{ object.title }}
-         </h4>
-         <p>Publiée  le {{ object.created_at }}</p>
-         <blockquote >{{ object.content }}</blockquote>
-
-
-  <p class="margin medium-small "><a href='{% url "core:musician_profile" object.author.userprofile.pk  %}'  class="custom-text-link"><b> {{ object.author.userprofile.username }} </b></a></p>
-
-       <label style='float: right;'>
-
-         {% if not user.is_authenticated  %}
- <a id='link_login' class="waves-effect waves-light btn custom-btn custom-text" href="{% url 'authentication:login' %}?next={{ request.get_full_path|urlencode }}">
-    <i class="material-icons left">question_answer</i>Répondre Login</a>
-          {% else %}
-      <button id='answer' class="waves-effect waves-light btn custom-btn custom-text">
-    <i class="material-icons left">question_answer</i>Répondre</button>
-
-
-      {% endif %}
-
-      </label>
-
-
-
-
-
-      </div>
-
-
+            <h4 >
+               {{ object.title }}
+            </h4>
+            <p>Publiée  le {{ object.created_at }}</p>
+            <blockquote >{{ object.content }}</blockquote>
+            <p class="margin medium-small "><a href='{% url "core:musician_profile" object.author.userprofile.pk  %}'  class="custom-text-link"><b> {{ object.author.userprofile.username }} </b></a></p>
+            <label style='float: right;'>
+            {% if not user.is_authenticated  %}
+            <a id='link_login' class="waves-effect waves-light btn custom-btn custom-text" href="{% url 'authentication:login' %}?next={{ request.get_full_path|urlencode }}">
+            <i class="material-icons left">loop</i>Pour répondre se connecter</a>
+            {% else %}
+            <button id='answer' class="waves-effect waves-light btn custom-btn custom-text">
+            <i class="material-icons left">question_answer</i>Répondre</button>
+            {% endif %}
+            </label>
          </div>
+
+
+           {% include 'core/display_messages.html' %}
+
+         <section style="display: none" id="response">
+            <div class="col s8">
+               <form class="login-form" method="post" action='{% url "announcement:post_answer" %}'>
+                    {% csrf_token %}
+                  <div class="row">
+                     <div class="input-field col s12 card-panel">
+                        <i class="material-icons prefix">mode_edit</i>
+                        <textarea id="answer_text" name="answer_text" class="materialize-textarea" data-length="200"></textarea>
+                        <input type="hidden" name="a_id" value="{{object.id}}">
+
+                     </div>
+                       <div style='float: right;' class="row">
+                           <div class=" col s12">
+                             <button id='send_answer' class="waves-effect waves-light btn custom-btn custom-text" type="submit">
+                            <i class="material-icons left">send</i>Envoyer</button>
+                           </div>
+                        </div>
+                  </div>
+               </form>
+            </div>
+         </section>
       </div>
    </div>
+   </div>
 </main>
+{% endblock %}
+{% block script %}
+<script>
+$("#answer").click(function() {
+
+  $("#response").show();
+  $("#answer").hide();
+  //empty answer area
+   $('#answer_text').val('');
+
+  });
+
+
+
+
+   $(document).ready(function() {
+      $('textarea#answer_text').characterCounter();
+    });
+
+</script>
 {% endblock %}

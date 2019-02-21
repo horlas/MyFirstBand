@@ -11,6 +11,7 @@ urlpatterns = [
         path('online_post/<int:id>', online_announcement, name='online'),
         path('update_post/<int:pk>', AnnouncementUpdateView.as_view(), name='update_announcement'),
         path('detail_post/<int:pk>', AnnouncementDetailView.as_view(), name='detail_announcement'),
+        path('post_answer/submit', AnswerAnnouncement.as_view(), name='post_answer'),
 
 
 ]
