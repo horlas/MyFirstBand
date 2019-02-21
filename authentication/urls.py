@@ -6,8 +6,9 @@ from .forms import CustomLoginForm
 app_name = 'authentication'
 
 urlpatterns = [
-    path('signup/', views.SignupView.as_view(), name='signup'),
-    path ('accounts/login/', auth_views.LoginView.as_view(template_name='authentication/login.html', authentication_form=CustomLoginForm), name='login'),
+    path('signup/', views.SignupCustomView.as_view(), name='signup'),
+    path ('accounts/login/', auth_views.LoginView.as_view(template_name='authentication/login.html',
+                                                          authentication_form=CustomLoginForm), name='login'),
     path ('accounts/password_reset/', auth_views.PasswordResetView.as_view(
                                                     template_name='authentication/password_reset_form.html',
                                                     email_template_name='authentication/reset_password_email.html',

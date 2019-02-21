@@ -8,17 +8,22 @@ from django.views.generic import CreateView
 
 # Create your views here.
 
-class SignupView(SuccessMessageMixin, CreateView):
+
+class SignupCustomView(SuccessMessageMixin, CreateView):
+
     form_class = SignupForm
     template_name = 'authentication/signup.html'
-    def get_success_url(self):
-        referer_url = self.request.META.get('HTTP_REFERER')
-        return referer_url
+
     def form_valid(self, form):
+        referer_url = self.request.META.get('HTTP_REFERER')
+        next = self.request.POST['next']
+        print(next)
         user = form.save()
         user.refresh_from_db()
         raw_password = form.cleaned_data.get('password1')
-        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
+        # return redirect(next)
+        return redirect(next)
 
 # def signup(request):
 #

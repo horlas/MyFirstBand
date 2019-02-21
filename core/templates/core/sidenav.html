@@ -23,7 +23,7 @@
    <div class="divider"></div>
 </li>
 <li>
-   <a id='login' class="waves-effect custom-text"  href="{% url 'authentication:login' %}">
+   <a id='login' class="waves-effect custom-text"  href="{% url 'authentication:login' %}?next={{ request.get_full_path|urlencode }}">
    <i style='font-size: 40px' class=" material-icons  tooltipped " data-tooltip="Se connecter" >loop </i>
    Se connecter
    </a>
@@ -32,7 +32,7 @@
    <div class="divider"></div>
 </li>
 <li>
-   <a id='sign-in-link' class="waves-effect custom-text"  href="{% url 'authentication:signup' %}">
+   <a id='sign-in-link' class="waves-effect custom-text"  href="{% url 'authentication:signup' %}?next={{ request.path|urlencode }}">
    <i id='sign-in'  style='font-size: 40px' class=" material-icons  tooltipped " data-tooltip="Créer un compte" >account_box </i>
    Créer un compte</a>
 </li>

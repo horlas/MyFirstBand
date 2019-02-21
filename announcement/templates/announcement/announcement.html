@@ -14,12 +14,12 @@
          <blockquote >{{ object.content }}</blockquote>
 
 
-  <p class="margin medium-small "><a href='{% url "core:musician_profile" object.author.userprofile.id  %}'  class="custom-text-link"><b> {{ object.author.userprofile.username }} </b></a></p>
+  <p class="margin medium-small "><a href='{% url "core:musician_profile" object.author.userprofile.pk  %}'  class="custom-text-link"><b> {{ object.author.userprofile.username }} </b></a></p>
 
        <label style='float: right;'>
 
          {% if not user.is_authenticated  %}
- <a id='link_login' class="waves-effect waves-light btn custom-btn custom-text" href="{% url 'authentication:login' %}">
+ <a id='link_login' class="waves-effect waves-light btn custom-btn custom-text" href="{% url 'authentication:login' %}?next={{ request.get_full_path|urlencode }}">
     <i class="material-icons left">question_answer</i>Répondre Login</a>
           {% else %}
       <button id='answer' class="waves-effect waves-light btn custom-btn custom-text">

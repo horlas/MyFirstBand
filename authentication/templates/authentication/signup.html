@@ -15,6 +15,7 @@
                      <i class="material-icons prefix ">person_outline</i>
                      <label for="id_email" data-error="wrong" data-success="right" class="center-align custom-label"> {{ form.email.label }}</label>
                      {% render_field form.email class+="validate" %}
+                      {{ request.META.HTTP_REFERER }}
                   </div>
                </div>
                <div class="row margin">
@@ -31,12 +32,13 @@
                      {% render_field form.password2 class+="validate" %}
                   </div>
                </div>
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
                <div class="row">
                   <div class="input-field col s12">
                      <button id=sigup_button' class="btn waves-effect waves-light btn col s12" type="submit">Creation de compte</button>
                   </div>
                   <div class="input-field col s12">
-                     <p class="margin center medium-small "> Déjà un compte ? <a href="{% url 'authentication:login' %}" class="custom-text-link">Login</a></p>
+                     <p class="margin center medium-small "> Déjà un compte ? <a href="{% url 'authentication:login' %}?next={{ request.path|urlencode }}" class="custom-text-link">Login</a></p>
                   </div>
                </div>
             </form>
