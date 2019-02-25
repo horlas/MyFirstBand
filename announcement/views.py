@@ -125,6 +125,16 @@ class AnswerAnnouncement(LoginRequiredMixin, SuccessMessageMixin, FormView):
             return redirect(reverse_lazy("announcement:detail_announcement", kwargs={'pk': a_id}))
 
 
+class AnnouncementMessage(LoginRequiredMixin, SuccessMessageMixin, ListView):
+    '''view that displays the announcement that the user has responded to'''
+
+    template_name = 'announcement/message.html'
+    context_object_name = 'list of announcement'
+
+    def get_queryset(self):
+        return MusicianAnswerAnnouncement.objects.filter(author=self.request.user)
+
+
 
 
 # Todo : anwwer  announcement + aswer aswer announcement

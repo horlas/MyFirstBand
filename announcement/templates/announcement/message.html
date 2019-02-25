@@ -1,0 +1,37 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+
+
+
+
+<main>
+
+
+<div id="messaging_list">
+<p> here messages will be displayed</p>
+
+
+
+<div class="collection">
+    {% for m in object_list %}
+    <li>
+     <span class="title">{{ m.musician_announcement.author.userprofile.username }}</span>
+      <p> {{ m.musician_announcement.title }} <br>
+
+      </p>
+      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+    </li>
+
+    {% endfor %}
+
+
+</div>
+
+</main>
+
+
+
+
+{% endblock %}

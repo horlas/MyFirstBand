@@ -13,3 +13,14 @@ class MusicianAnnouncementAdmin(admin.ModelAdmin):
 
         (_("Corps de l'annonce"), {'fields':('content','author', 'county_name', 'town', 'is_active' )}),
     )
+
+@admin.register(MusicianAnswerAnnouncement)
+class MusicianAnswerAnnouncementAdmin(admin.ModelAdmin):
+
+    fieldsets = (
+        (None, {
+            'fields': ('musician_announcement',)
+        }),
+
+        (_("Corps de l'annonce"), {'fields':('content','author', 'parent_id')}),
+    )

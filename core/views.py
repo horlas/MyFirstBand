@@ -16,6 +16,7 @@ def accueil(request):
     last_user = User.objects.all().order_by('-id')[:6]
     # Todo : when user sign up , we don't need to display an empty profil
     context['last_users'] = last_user
+
     last_band = Band.objects.all().order_by('-id')[:6]
     context['last_bands'] = last_band
     last_announcement = MusicianAnnouncement.objects.all().order_by('-created_at')[:6]

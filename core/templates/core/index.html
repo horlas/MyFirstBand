@@ -8,9 +8,10 @@
       <section id='musicians'>
          <h5> Nouveaux musiciens </h5>
          <div class="divider"></div>
-         <div class="row">
-            {% for member in last_users %}
-            <div class="col s3 m4">
+            <div id ='first_musicians' class="row">
+            {% for member in last_users|slice:':3' %}
+
+            <div class="col m4">
                <div class="card">
                   <div class="card-image">
                      {% if member.userprofile.avatar %}
@@ -35,13 +36,45 @@
                </div>
             </div>
             {% endfor %}
-         </div>
+             </div>
+         <div id ='second_musician' class="row">
+               {% for member in last_users|slice:'3:6' %}
+
+            <div class="col m4">
+               <div class="card">
+                  <div class="card-image">
+                     {% if member.userprofile.avatar %}
+                     <img alt='Avatar' class="circle responsive-img" src="{{ member.userprofile.avatar.url }}">
+                     {% else %}
+                     <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" >
+                     {% endif %}
+                     <span class="card-title custom-bg custom-text">{{ member.userprofile.username }}</span>
+                      <span>{{ member.userprofile.id }}</span>
+                     <a href='{% url "core:musician_profile" member.userprofile.pk  %}' class="btn-floating halfway-fab
+                        waves-effect waves-light custom-btn-pink"><i class="material-icons">add</i></a>
+                  </div>
+                  <div class="card-content custom-bg custom-text">
+                     {% for i in member.instrument_set.all %}
+                     <p>{{i.instrument}} </p>
+                     {% endfor %}
+                     <div class="row"></div>
+                     <div class="divider"></div>
+                     <div class="row"></div>
+                     <p>{{ member.userprofile.town }} {{ member.userprofile.county_name }}</p>
+                  </div>
+               </div>
+            </div>
+
+            {% endfor %}
+            </div>
+
+
       </section>
       <section id="bands">
          <h5> Nouveaux groupes </h5>
          <div class="divider"></div>
-         <div class="row">
-            {% for band in last_bands %}
+         <div id='first_bands' class="row">
+            {% for band in last_bands|slice:'3' %}
             <div class="col s3 m4">
                <div class="card">
                   <div class="card-image">
@@ -64,12 +97,60 @@
             </div>
             {% endfor %}
          </div>
+
+                  <div id='seconds_bands' class="row">
+            {% for band in last_bands|slice:'3:6' %}
+            <div class="col s3 m4">
+               <div class="card">
+                  <div class="card-image">
+                     {% if band.avatar %}
+                     <img class="circle responsive-img" src="{{ band.avatar.url }}">
+                     {% else %}
+                     <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0_band.jpg' %}" >
+                     {% endif %}
+                     <span class="card-title custom-bg custom-text">{{ band.name }}</span>
+                     <a href='{% url "core:band_profile" band.slug  %}'  class="btn-floating halfway-fab waves-effect waves-light custom-btn-pink"><i class="material-icons">add</i></a>
+                  </div>
+                  <div class="card-content custom-bg custom-text">
+                     <p>{{ band.bio|truncatewords_html:20 }}</p>
+                     <div class="row"></div>
+                     <div class="divider"></div>
+                     <p>{{ band.type }} {{ band.musical_genre }}</p>
+                     <p>{{ band.town }} {{ band.county_name }}</p>
+                  </div>
+               </div>
+            </div>
+            {% endfor %}
+         </div>
+
+
+
+
+
+
+
       </section>
       <section id='announcement'>
          <h5> Nouvelles annonces </h5>
          <div class="divider"></div>
-         <div class="row">
-            {% for a in last_announcement %}
+         <div id="first-annonce" class="row">
+            {% for a in last_announcement|slice:'3' %}
+            <div class="col s3 m4">
+               <div class="card custom-bg custom-text">
+                  <div class="card-content custom-text">
+                     <span class="card-title">{{ a.title }}</span>
+                     <p>{{ a.town }} {{ a.county_name }} </p>
+                     <p> {{ a.created_at }}</p>
+                     <div class="card-action">
+                        <a href='{% url "announcement:detail_announcement" a.id %}' >Lien vers l'annonce</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            {% endfor %}
+         </div>
+                  <div id="second-annonce" class="row">
+            {% for a in last_announcement|slice:'3:6' %}
             <div class="col s3 m4">
                <div class="card custom-bg custom-text">
                   <div class="card-content custom-text">
