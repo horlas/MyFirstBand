@@ -169,7 +169,7 @@ class UpdateProfilViewTest(MyTestCase):
         # test if the user is logged
         self.assertEqual(self.login, True)
         # make sure the user has no avatar image
-        qs = UserProfile.objects.filter(id= self.test_user.id)
+        qs = UserProfile.objects.filter(pk=self.test_user.pk)
         for i in qs:
             self.assertEqual(i.avatar.name, '')
         url = reverse("musicians:update_avatar")

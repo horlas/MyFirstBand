@@ -50,14 +50,13 @@
           <i class="material-icons prefix">textsms</i>
           {% render_field member_form.musician class="autocomplete" %}
           {{ member_form.musician |add_label_class:"custom-label"}}
-          <!--<input type="text" id="user-input" class="autocomplete">-->
-          <!--<label for="id_musician" class="custom-label">Chercher le nom du membre à ajouter</label>-->
+
            </div>
         <div class="input-field ">
          {{ member_form.raison_invitation |add_label_class:"custom-label"}}
          {{ member_form.raison_invitation }}
         </div>
-         <!--<label for="id_raison_invitation" class="custom-label">Raison pour laquelle le musicien rejoint le Groupe</label>-->
+
 
            <div class="col 1 offset-s11" >
          <button id = 'submit_profile' class="btn-floating btn-small waves-effect waves-light custom-btn" type="submit" >
@@ -221,7 +220,7 @@ $(document).ready(function(){
 
 // Trigger a Modal witch contains confirmation for cancellation of a band
 function initModalBand(band_id) {
-        console.log(band_id)
+        console.log(band_id);
         var elem = document.getElementById('confirm_delete_band' + band_id);
         var instance = M.Modal.init(elem);
         instance.open();

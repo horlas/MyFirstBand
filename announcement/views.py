@@ -13,6 +13,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
 # from django.views.generic import CreateView
 from announcement.forms import MusicianAnnouncementForm
 from announcement.models import MusicianAnnouncement, MusicianAnswerAnnouncement
@@ -133,6 +134,24 @@ class AnnouncementMessage(LoginRequiredMixin, SuccessMessageMixin, ListView):
 
     def get_queryset(self):
         return MusicianAnswerAnnouncement.objects.filter(author=self.request.user)
+
+
+@csrf_exempt
+@login_required()
+def return_message(request):
+    ''' ajax return of messages depends an announcement'''
+
+    if request.is_ajax():
+        q = request.POST.get('announcement')
+        print(q)
+        messages = MusicianAnswerAnnouncement.objects.filter(author=request.user).filter(musician_announcement=q)
+        results = []
+        for m in messages:
+            results.append(m.content)
+    else:
+        results ='fail'
+    return JsonResponse(results, safe=False)
+
 
 
 

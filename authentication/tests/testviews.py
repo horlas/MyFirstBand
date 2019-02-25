@@ -6,7 +6,7 @@ from django.test.client import Client
 from authentication.models import User
 from musicians.models import UserProfile
 from authentication.forms import SignupForm, CustomLoginForm
-from authentication.views import signup
+from authentication.views import SignupCustomView
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.http import urlsafe_base64_encode
 from django.core import mail
@@ -36,15 +36,15 @@ class SignupTest(MyTestCase):
 
     def test_signup_page(self):
         request = self.factory.get('/signup')
-        response = signup(request)
+        response = SignupCustomView.as_view()(request)
         self.assertEqual(response.status_code, 200)
 
     def test_signup_post(self):
         before_users = User.objects.count()
-        connect = self.client.post('/authentication/signup/', data={'email' : 'test@hotmail.com',
-                                                                    'password1' : 'aqwz7418',
-                                                                    'password2': 'aqwz7418'})
-
+        connect = self.client.post('/authentication/signup/', data={'email': 'test@hotmail.com',
+                                                                    'password1': 'aqwz7418',
+                                                                    'password2': 'aqwz7418',
+                                                                    'next': '/core/'})
         after_users = User.objects.count()
         after_profile = UserProfile.objects.count()
         # we test the User has been created
@@ -183,7 +183,7 @@ class PasswordResetViewTest(MyTestCase):
         # check the satus code
         self.assertEqual(response.status_code, 200)
         # check the presence of input line
-        self.assertContains(response, '<input type="email" name="email" maxlength="254" id="id_email" required>',
+        self.assertContains(response, '<input type="email" name="email" required maxlength="254" id="id_email" class="validate">',
                             html=True)
 
     def test_reset_password_post(self):

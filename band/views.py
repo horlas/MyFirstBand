@@ -155,7 +155,7 @@ def autocomplete_username(request):
         results = []
         for user in users:
             user_json = {}
-            user_json['id'] = user.id
+            user_json['id'] = user.pk
             user_json['label'] = user.username
             user_json['value'] = user.username
             results.append(user_json)

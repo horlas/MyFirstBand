@@ -8,30 +8,75 @@
 
 <main>
 
-
-<div id="messaging_list">
-<p> here messages will be displayed</p>
+<div class="row ">
+<div id="announcement_list" class="col s4 z-depth-4">
+<p> here announcement will be displayed</p>
 
 
 
 <div class="collection">
     {% for m in object_list %}
-    <li>
-     <span class="title">{{ m.musician_announcement.author.userprofile.username }}</span>
-      <p> {{ m.musician_announcement.title }} <br>
-
-      </p>
-      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-    </li>
-
+    <a href="#" class="collection-item" onclick='initMessage("{{ m.musician_announcement.id }}");'>{{ m.musician_announcement.title }} </a>
+    <form action="/" id="post_data">
+         {% csrf_token %}
+        <input type="hidden" name="sort_message" value="{{ m.musician_announcement }}">
+    </form>
+    <p>{{ m.musician_announcement.author.userprofile.username }} </p>
     {% endfor %}
+</div>
+
+
+
+</div>
+    <div class="col s1"></div>
+
+<div id="message_list" class = 'col s7 z-depth-4'>
+    <p> here messages will be displayed</p>
+
+
+</div>
+
 
 
 </div>
 
 </main>
 
+{% endblock %}
+
+{% block script %}
+<script >
+
+// function witch get object
+
+ function initMessage(object_message){
+    console.log(object_message);
+    var data = object_message;
+
+        // empty message's zone
 
 
+        //ajax call to grab all message witch depends on a announcement
+        $.post(
+                "{% url 'announcement:message_search' %}",
+                {'announcement' : data},
+                function(response){
+                        $.each(response, function(index, value){
+                               addRecordMess(value);
+                                console.log(value);
+                                });
 
+                    });
+                    }
+
+
+// function to add record message
+
+function addRecordMess(message) {
+    var $mes = $('<div class="message">message</div>').text(message);
+    var $mes_zone = $('#message_list').append($mes);
+    }
+
+
+</script>
 {% endblock %}

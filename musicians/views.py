@@ -162,11 +162,3 @@ class InstruDeleteView(LoginRequiredMixin, FormView, SuccessMessageMixin):
             return redirect(reverse_lazy('musicians:update_profile', kwargs={'pk': self.request.user.id}))
 
 
-
-
-
-
-
-
-
-
