@@ -12,6 +12,7 @@ urlpatterns = [
         path('update_post/<int:pk>', AnnouncementUpdateView.as_view(), name='update_announcement'),
         path('detail_post/<int:pk>', AnnouncementDetailView.as_view(), name='detail_announcement'),
         path('post_answer/submit', AnswerAnnouncement.as_view(), name='post_answer'),
+        path('post_message/submit', AnswerMessage.as_view(), name='post_message'),
         path('list_message/', AnnouncementMessage.as_view(), name='announcement_messages'),
         path('ajax_calls/search', return_message, name='message_search'),
 

@@ -103,7 +103,7 @@ class AnnouncementDetailView(DetailView):
 
 
 class AnswerAnnouncement(LoginRequiredMixin, SuccessMessageMixin, FormView):
-
+    ''' View record the response to an announcement so here is the first message'''
     template_name = 'announcement/answer.html'
 
     def post(self, request, *args, **kwargs):
@@ -127,6 +127,36 @@ class AnswerAnnouncement(LoginRequiredMixin, SuccessMessageMixin, FormView):
             return redirect(reverse_lazy("announcement:detail_announcement", kwargs={'pk': a_id}))
 
 
+class AnswerMessage(LoginRequiredMixin, SuccessMessageMixin, FormView):
+    ''' View witch records the answer to a message'''
+
+    template_name = 'announcement/message.html'
+
+    def post(self, request, *args, **kwargs):
+        content = request.POST['message_text']
+        parent_id = request.POST['m_id']
+        parent_ads = request.POST['m_ads']
+        print(parent_ads)
+        if len(content) > 200:
+            # to avoid problems with insert a response too long in database
+            messages.error(self.request, 'Réponse trop longue')
+            return redirect(reverse_lazy("announcement:announcement_messages"))
+        else:
+            a = MusicianAnnouncement.objects.get(id=parent_ads)
+            response = MusicianAnswerAnnouncement(
+                content=content,
+                created_at=timezone.now(),
+                author=self.request.user,
+                parent_id=parent_id,
+                musician_announcement=a
+            )
+            response.save()
+            messages.success(self.request, ("Votre réponse est postée"))
+        return redirect(reverse_lazy("announcement:announcement_messages"))
+
+
+
+
 class AnnouncementMessage(LoginRequiredMixin, SuccessMessageMixin, ListView):
     '''view that displays the announcement that the user has responded to'''
 
@@ -135,7 +165,7 @@ class AnnouncementMessage(LoginRequiredMixin, SuccessMessageMixin, ListView):
 
     def get_queryset(self):
         # ads answered by request user
-        object_list = MusicianAnswerAnnouncement.objects.filter(author=self.request.user)
+        object_list = MusicianAnswerAnnouncement.objects.filter(author=self.request.user).filter(parent_id__isnull=True)
         object_list_sorted = object_list.order_by('-musician_announcement')
         return object_list_sorted
 

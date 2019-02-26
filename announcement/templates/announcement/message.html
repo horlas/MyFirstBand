@@ -3,6 +3,7 @@
 {% load widget_tweaks %}
 {% block content %}
 <main>
+    {% include 'core/display_messages.html' %}
    <!---ads that the logged-in user has responded to -->
    {% if answered_ads_list|length > 0 %}
    <div class="row ">
@@ -49,17 +50,33 @@
          <h5> Vos annonces </h5>
          <div class="collection">
             {% regroup response_to_published_ads by musician_announcement as announcement_list %}
-             {% for m in announcement_list %}
-             <div class="collection-item  collection-header"><h6>{{ m.grouper.title }}</h6></div>
+             {% for announcement in announcement_list %}
+             <div class="collection-item  collection-header"><h6>{{ announcement.grouper.title }}</h6></div>
+
+                {% for item in announcement.list %}
+             <a href="#" class="collection-item custom-text-link-login " onclick='displayMessages("{{ item.content }}",
+                                                                                                 "{{ item.author.userprofile.username }}",
+                                                                                                 "{{ item.author.userprofile.pk }}",
+                                                                                                 "{{ item.id }}",
+                                                                                                  "{{ item.musician_announcement.id }}");'>
+               Message de {{ item.author.userprofile.username }}
+                {{ item.musician_announcement.id }}
+            </a>
 
              {% endfor %}
-            {% for m in response_to_published_ads %}
-            <a href="#" class="collection-item custom-text-link-login " onclick='displayMessages(" {{ m.content }} ",
-                                                                                                 " {{ m.author.userprofile.username }}",
-                                                                                                 " {{m.author.userprofile.pk}} ");'>
-               Message de {{ m.author.userprofile.username }}
-            </a>
-            {% endfor %}
+             {% endfor %}
+             <!--<a href="#" class="collection-item custom-text-link-login " >  Message de {{ m.grouper.author }} </a>-->
+
+            <!--{% for m in response_to_published_ads %}-->
+            <!--<a href="#" class="collection-item custom-text-link-login " onclick='displayMessages("{{ m.content }}",-->
+                                                                                                 <!--"{{ m.author.userprofile.username }}",-->
+                                                                                                 <!--"{{ m.author.userprofile.pk }}",-->
+                                                                                                 <!--"{{ m.id }}",-->
+                                                                                                  <!--"{{ m.musician_announcement.id }}");'>-->
+               <!--Message de {{ m.author.userprofile.username }}-->
+                <!--{{ m.musician_announcement.id }}-->
+            <!--</a>-->
+            <!--{% endfor %}-->
          </div>
       </div>
       <div class="col s1"></div>
@@ -68,12 +85,10 @@
          <div id="message_published_ads_list" >
             {% with response_to_published_ads|first as first_response %}
 
-            <div>{{ first_response.content }}</div>
-            <a href='{% url "core:musician_profile" first_response.author.userprofile.pk  %}' class="custom-text-link-login " >
+            <div id="first_message">{{ first_response.content }}</div>
+            <a  href='{% url "core:musician_profile" first_response.author.userprofile.pk  %}' class="custom-text-link-login" >
                {{ first_response.author.userprofile.username }}
             </a>
-
-            {% endwith %}
          </div>
          <div class="row "></div>
          <div class="row "></div>
@@ -86,18 +101,24 @@
 
              <section style="display: none" id="response_to_message">
 
-               <form class="login-form" method="post" action='{% url "announcement:post_answer" %}'>
+               <form class="login-form" method="post" action='{% url "announcement:post_message" %}'>
                     {% csrf_token %}
-                  <div class="row">
+                  <div class="row ">
                      <div class="input-field col s12 card-panel">
                         <i class="material-icons prefix">mode_edit</i>
-                        <textarea id="message_text" name="answer_text" class="materialize-textarea" data-length="200"></textarea>
-                        <input type="hidden" name="a_id" value="{{object.id}}">
+                        <textarea id="message_text" name="message_text" class="materialize-textarea c" data-length="200"></textarea>
+                         <div id="pass_info">
+                             <input type="hidden" name="m_id" value="{{ first_response.id }}">
+                             <input type="hidden" name="m_ads" value="{{ first_response.musician_announcement.id }}">
+
+
+                         </div>
+
 
                      </div>
                        <div style='float: right;' class="row">
                            <div class=" col s12">
-                             <button id='send_answer' class="waves-effect waves-light btn custom-btn custom-text" type="submit">
+                             <button id='send_message' class="waves-effect waves-light btn custom-btn custom-text" type="submit">
                             <i class="material-icons left">send</i>Envoyer</button>
                            </div>
                         </div>
@@ -105,7 +126,7 @@
                </form>
 
          </section>
-
+{% endwith %}
 
 
 
@@ -158,19 +179,27 @@
 
 
 // function witch display received messages
-    function displayMessages(content, author, author_useprofile_id){
+    function displayMessages(content, author, author_useprofile_id, id, ads){
         $("#message_published_ads_list").empty();
         var $mes = $('<div class="message">message</div>').text(content);
         var $mes_zone = $('#message_published_ads_list').append($mes);
-        var $link_author = $('<a href="" class="custom-text-link-login ">author</a>').text(author);
-        // to remove white space before variable ?
-        var $profile_id = $.trim(author_useprofile_id);
+        var $link_author = $('<a href="" class="custom-text-link-login">author</a>').text(author);
         // because we can not get the userprofile id inside the rendered url
         // we must replace it , initial with a dummy number '1'
         var $url = '{% url "core:musician_profile" 1  %}';
-        var $good_url = $url.replace('1', $profile_id);
+        var $good_url = $url.replace('1', author_useprofile_id);
         $link_author.attr("href", $good_url);
         var $mes_zone = $('#message_published_ads_list').append($link_author);
+       // THIS  IS IMPORTANT // to prevent response to this message we pass the parent_id and parent_ads in the answer_zone
+        var $parent_id = $('<input type="hidden" name="m_id" value="">');
+        $parent_id.attr("value", id);
+        var $parent_ads = $('<input type="hidden" name="m_ads" value="">');
+        $parent_ads.attr("value", ads);
+        // empty before to prevent several add on click
+        $('#pass_info').empty();
+        $('#pass_info').append($parent_id);
+        $('#pass_info').append($parent_ads);
+
         }
 
 // function to manage response to received messages
