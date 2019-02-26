@@ -1,86 +1,48 @@
 <!DOCTYPE html>
-
-  <html lang="fr">
-
-    <head>
-       {% load static %}
-     <meta charset="utf-8">
-    <!-- Favicon -->
+<html lang="fr">
+   <head>
+      {% load static %}
+      <meta charset="utf-8">
+      <!-- Favicon -->
       <link rel="shortcut icon" href="{% static 'core/img/favicon.ico' %}" >
-
-  <!--jQuery-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!--jQuery.ui-->
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-
-
-
-
+      <!--jQuery-->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <!--jQuery.ui-->
+      <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
       <!--Import custom.js-->
-
       <script type="text/javascript" src="{% static 'core/js/custom.js' %}"></script>
-
-
       <!-- Compiled and minified JavaScript -->
-
       <!-- Materialize CSS core -->
-
       <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>-->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
-
       <!-- Materiallize CSS JavaScript -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
       <!--Import Vue.JS-->
-        <!--<script src="https://unpkg.com/vue"></script>-->
-
+      <!--<script src="https://unpkg.com/vue"></script>-->
       <!--Import Google Icon Font-->
-
       <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-
       <!-- Custom Css for this web site-->
-
       <link href="{% static 'core/css/custom.css' %}" rel="stylesheet">
-
       <!--Let browser know website is optimized for mobile-->
-
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-
-       <title>MyFirstBand</title>
-    </head>
-
-
-    <body class="bg-test">
-
-
-    <!-- to manage sidenav bar -->
-    <div id="sidebar">
-    {% block sidebar %}
-      <!-- si il n'y a pas connection -->
-
-      {% if not user.is_authenticated  %}
-      {% include "core/sidenav.html" %}
-
-
-
-      {% elif user.is_authenticated and sidenav_band  %}
-      {% include "band/sidenav_band.html" %}
-       {% elif user.is_authenticated and not sidenav_band  %}
-      {% include "core/sidenav_connected.html" %}
-
-    {% endif %}
-
-    {% endblock %}
-
-    </div>
-
-    {% block content %} {% endblock %}
-    {% block script %} {% endblock %}
-
-
-    </body>
-
-  </html>
+      <title>MyFirstBand</title>
+   </head>
+   <body class="bg-test">
+      <!-- to manage sidenav bar -->
+      <div id="sidebar">
+         {% block sidebar %}
+         <!-- si il n'y a pas connection -->
+         {% if not user.is_authenticated  %}
+         {% include "core/sidenav.html" %}
+         {% elif user.is_authenticated and sidenav_band  %}
+         {% include "band/sidenav_band.html" %}
+         {% elif user.is_authenticated and not sidenav_band  %}
+         {% include "core/sidenav_connected.html" %}
+         {% endif %}
+         {% endblock %}
+      </div>
+      {% block content %} {% endblock %}
+      {% block script %} {% endblock %}
+   </body>
+</html>

@@ -5,7 +5,7 @@
    <div class="container" >
       <div class="row"></div>
       <div class="row">
-         <div class="col s8  ">
+         <div class="col s8">
             <h4 >
                {{ object.title }}
             </h4>
@@ -23,50 +23,14 @@
             </label>
          </div>
 
-
+            <div class="col s8  ">
            {% include 'core/display_messages.html' %}
-
-         <section style="display: none" id="response">
-            <div class="col s8">
-               <form class="login-form" method="post" action='{% url "announcement:post_answer" %}'>
-                    {% csrf_token %}
-                  <div class="row">
-                     <div class="input-field col s12 card-panel">
-                        <i class="material-icons prefix">mode_edit</i>
-                        <textarea id="answer_text" name="answer_text" class="materialize-textarea" data-length="200"></textarea>
-                        <input type="hidden" name="a_id" value="{{object.id}}">
-
-                     </div>
-                       <div style='float: right;' class="row">
-                           <div class=" col s12">
-                             <button id='send_answer' class="waves-effect waves-light btn custom-btn custom-text" type="submit">
-                            <i class="material-icons left">send</i>Envoyer</button>
-                           </div>
-                        </div>
-                  </div>
-               </form>
+            {% include 'announcement/answer.html' %}
             </div>
-         </section>
       </div>
-   </div>
    </div>
 </main>
 {% endblock %}
 {% block script %}
-<script>
-$("#answer").click(function() {
 
-  $("#response").show();
-  $("#answer").hide();
-  //empty answer area
-   $('#answer_text').val('');
-
-  });
-
-  // to manage textearea count lenght
-   $(document).ready(function() {
-      $('textarea#answer_text').characterCounter();
-    });
-
-</script>
 {% endblock %}

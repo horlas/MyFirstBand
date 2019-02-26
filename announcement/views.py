@@ -71,7 +71,7 @@ def online_announcement(request, *args, **kwargs):
     announcement.save()
     messages.success(request, "L'annonce a été mise en ligne")
     return redirect(reverse_lazy('announcement:announcement_list'))
-
+# todo: display only is active tag announcement
 
 class AnnouncementUpdateView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
     ''' to update an announcement'''
@@ -104,12 +104,13 @@ class AnnouncementDetailView(DetailView):
 
 class AnswerAnnouncement(LoginRequiredMixin, SuccessMessageMixin, FormView):
 
-    template_name = 'announcement/announcement.html'
+    template_name = 'announcement/answer.html'
 
     def post(self, request, *args, **kwargs):
         content = request.POST['answer_text']
         a_id = request.POST['a_id']
         if len(content) > 200:
+            # to avoid problems with insert a response too long in database
             messages.error(self.request, 'Réponse trop longue')
             return redirect(reverse_lazy("announcement:detail_announcement", kwargs={'pk': a_id}))
         else:
@@ -122,7 +123,7 @@ class AnswerAnnouncement(LoginRequiredMixin, SuccessMessageMixin, FormView):
                 musician_announcement=a
             )
             response.save()
-            messages.success(self.request, ("Votre réponse est envoyée vous pouvez la retrouver dans Mes annonces!"))
+            messages.success(self.request, ("Votre réponse est envoyée vous pouvez la retrouver dans Mes messages!"))
             return redirect(reverse_lazy("announcement:detail_announcement", kwargs={'pk': a_id}))
 
 
@@ -130,10 +131,35 @@ class AnnouncementMessage(LoginRequiredMixin, SuccessMessageMixin, ListView):
     '''view that displays the announcement that the user has responded to'''
 
     template_name = 'announcement/message.html'
-    context_object_name = 'list of announcement'
+    context_object_name = 'answered_ads_list'
 
     def get_queryset(self):
-        return MusicianAnswerAnnouncement.objects.filter(author=self.request.user)
+        # ads answered by request user
+        object_list = MusicianAnswerAnnouncement.objects.filter(author=self.request.user)
+        object_list_sorted = object_list.order_by('-musician_announcement')
+        return object_list_sorted
+
+    def get_context_data(self, *args, **kwargs):
+        # ads published by request user witch have a response
+        context = super(AnnouncementMessage, self).get_context_data(*args, **kwargs)
+        ads = MusicianAnnouncement.objects.filter(author=self.request.user)
+        # extract all the answer
+        results = []
+        for a in ads:
+            answer = MusicianAnswerAnnouncement.objects.filter(musician_announcement=a.id)
+            results.append(answer)
+        # build a list witch return all data
+        data = []
+        for r in results:
+            for a in r:
+                data.append(a)
+        context['response_to_published_ads'] = data
+        return context
+
+
+
+
+
 
 
 @csrf_exempt

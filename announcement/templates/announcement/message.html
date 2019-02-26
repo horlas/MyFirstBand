@@ -2,80 +2,194 @@
 {% load static %}
 {% load widget_tweaks %}
 {% block content %}
-
-
-
-
 <main>
+   <!---ads that the logged-in user has responded to -->
+   {% if answered_ads_list|length > 0 %}
+   <div class="row ">
+      <div id="answered_ads_list" class="col s4 z-depth-4">
+         <h5> Annonces auxquelles vous avez répondu </h5>
+         <div class="collection">
+            {% regroup answered_ads_list by musician_announcement as announcement_list %}
+            {% for m in announcement_list %}
+            <a href="#" class="collection-item custom-text-link-login " onclick='initMessage("{{ m.grouper.id }}");'>
+               {{ m.grouper.title }}
+               <p class="purple-text text-lighten-3" style="color:pink lighten-4"> {{ m.grouper.author.userprofile.username }} </p>
+            </a>
+            {% endfor %}
+         </div>
+      </div>
+      <div class="col s1"></div>
+      <div class="col s6 z-depth-4">
+         <h5>  Vos Messages </h5>
+         <div id="message_list" >
+            {% with announcement_list|first as first_announcement %}
+            {% for answer in first_announcement.list %}
+            <div>{{ answer.content }}</div>
+            {% endfor %}
+            {% endwith %}
+         </div>
+         <div class="row "></div>
+         <div class="row "></div>
+         <div class="row "></div>
+         <div id="answer_area">
+            <label style='float: right;'>
+            <button id='answer'class="waves-effect waves-light btn custom-btn custom-text">
+            <i class="material-icons left">question_answer</i>Répondre</button>
+            {% include 'announcement/answer.html' %}
+            </label>
+         </div>
+      </div>
+   </div>
+   {% endif %}
 
-<div class="row ">
-<div id="announcement_list" class="col s4 z-depth-4">
-<p> here announcement will be displayed</p>
+<!---ads published by request_user witch have responses -->
+   {% if response_to_published_ads|length > 0 %}
+   <div class="row ">
+      <div id="own_ads_list" class="col s4 z-depth-4">
+         <h5> Vos annonces </h5>
+         <div class="collection">
+            {% regroup response_to_published_ads by musician_announcement as announcement_list %}
+             {% for m in announcement_list %}
+             <div class="collection-item  collection-header"><h6>{{ m.grouper.title }}</h6></div>
+
+             {% endfor %}
+            {% for m in response_to_published_ads %}
+            <a href="#" class="collection-item custom-text-link-login " onclick='displayMessages(" {{ m.content }} ",
+                                                                                                 " {{ m.author.userprofile.username }}",
+                                                                                                 " {{m.author.userprofile.pk}} ");'>
+               Message de {{ m.author.userprofile.username }}
+            </a>
+            {% endfor %}
+         </div>
+      </div>
+      <div class="col s1"></div>
+        <div class="col s6 z-depth-4">
+         <h5> Messages reçus </h5>
+         <div id="message_published_ads_list" >
+            {% with response_to_published_ads|first as first_response %}
+
+            <div>{{ first_response.content }}</div>
+            <a href='{% url "core:musician_profile" first_response.author.userprofile.pk  %}' class="custom-text-link-login " >
+               {{ first_response.author.userprofile.username }}
+            </a>
+
+            {% endwith %}
+         </div>
+         <div class="row "></div>
+         <div class="row "></div>
+         <div class="row "></div>
+         <div id="answer_published_ads_area">
+            <label style='float: right;'>
+            <button id='answer_message' class="waves-effect waves-light btn custom-btn custom-text">
+            <i class="material-icons left">question_answer</i>Répondre</button>
+
+
+             <section style="display: none" id="response_to_message">
+
+               <form class="login-form" method="post" action='{% url "announcement:post_answer" %}'>
+                    {% csrf_token %}
+                  <div class="row">
+                     <div class="input-field col s12 card-panel">
+                        <i class="material-icons prefix">mode_edit</i>
+                        <textarea id="message_text" name="answer_text" class="materialize-textarea" data-length="200"></textarea>
+                        <input type="hidden" name="a_id" value="{{object.id}}">
+
+                     </div>
+                       <div style='float: right;' class="row">
+                           <div class=" col s12">
+                             <button id='send_answer' class="waves-effect waves-light btn custom-btn custom-text" type="submit">
+                            <i class="material-icons left">send</i>Envoyer</button>
+                           </div>
+                        </div>
+                  </div>
+               </form>
+
+         </section>
 
 
 
-<div class="collection">
-    {% for m in object_list %}
-    <a href="#" class="collection-item" onclick='initMessage("{{ m.musician_announcement.id }}");'>{{ m.musician_announcement.title }} </a>
-    <form action="/" id="post_data">
-         {% csrf_token %}
-        <input type="hidden" name="sort_message" value="{{ m.musician_announcement }}">
-    </form>
-    <p>{{ m.musician_announcement.author.userprofile.username }} </p>
-    {% endfor %}
-</div>
+
+            </label>
+         </div>
+      </div>
+   </div>
+   {% endif %}
 
 
 
-</div>
-    <div class="col s1"></div>
-
-<div id="message_list" class = 'col s7 z-depth-4'>
-    <p> here messages will be displayed</p>
-
-
-</div>
 
 
 
-</div>
+
+
+
+
+
+
 
 </main>
-
 {% endblock %}
-
 {% block script %}
-<script >
+<script>
+   // function witch get object
 
-// function witch get object
+    function initMessage(object_message){
+       // empty message's zone
+       $( "#message_list" ).empty();
+       var data = object_message;
+           //ajax call to grab all message witch depends on a announcement
+           $.post(
+                   "{% url 'announcement:message_search' %}",
+                   {'announcement' : data},
+                   function(response){
+                           $.each(response, function(index, value){
+                                  addRecordMess(value);
+                                   console.log(value);
+                                   });
 
- function initMessage(object_message){
-    console.log(object_message);
-    var data = object_message;
+                       });
+                       }
 
-        // empty message's zone
-
-
-        //ajax call to grab all message witch depends on a announcement
-        $.post(
-                "{% url 'announcement:message_search' %}",
-                {'announcement' : data},
-                function(response){
-                        $.each(response, function(index, value){
-                               addRecordMess(value);
-                                console.log(value);
-                                });
-
-                    });
-                    }
+   // function to add record message
+      function addRecordMess(message) {
+       var $mes = $('<div class="message">message</div>').text(message);
+       var $mes_zone = $('#message_list').append($mes);
+       }
 
 
-// function to add record message
+// function witch display received messages
+    function displayMessages(content, author, author_useprofile_id){
+        $("#message_published_ads_list").empty();
+        var $mes = $('<div class="message">message</div>').text(content);
+        var $mes_zone = $('#message_published_ads_list').append($mes);
+        var $link_author = $('<a href="" class="custom-text-link-login ">author</a>').text(author);
+        // to remove white space before variable ?
+        var $profile_id = $.trim(author_useprofile_id);
+        // because we can not get the userprofile id inside the rendered url
+        // we must replace it , initial with a dummy number '1'
+        var $url = '{% url "core:musician_profile" 1  %}';
+        var $good_url = $url.replace('1', $profile_id);
+        $link_author.attr("href", $good_url);
+        var $mes_zone = $('#message_published_ads_list').append($link_author);
+        }
 
-function addRecordMess(message) {
-    var $mes = $('<div class="message">message</div>').text(message);
-    var $mes_zone = $('#message_list').append($mes);
-    }
+// function to manage response to received messages
+
+$("#answer_message").click(function() {
+
+  $("#response_to_message").show();
+  $("#answer_message").hide();
+  //empty answer area
+   $('#message_text').val('');
+
+  });
+
+  // to manage textarea count lenght
+   $(document).ready(function() {
+      $('textarea#message_text').characterCounter();
+    });
+
+
 
 
 </script>
