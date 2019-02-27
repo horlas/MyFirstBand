@@ -158,7 +158,7 @@ class AnswerMessage(LoginRequiredMixin, SuccessMessageMixin, FormView):
 
 
 class AnnouncementMessage(LoginRequiredMixin, SuccessMessageMixin, ListView):
-    '''view that displays the announcement that the user has responded to'''
+    '''view that displays the announcement that the user has responded to and the first messages to his ads'''
 
     template_name = 'announcement/message.html'
     context_object_name = 'answered_ads_list'
@@ -166,19 +166,19 @@ class AnnouncementMessage(LoginRequiredMixin, SuccessMessageMixin, ListView):
     def get_queryset(self):
         # ads answered by request user
         object_list = MusicianAnswerAnnouncement.objects.filter(author=self.request.user).filter(parent_id__isnull=True)
-        object_list_sorted = object_list.order_by('-musician_announcement')
+        object_list_sorted = object_list.order_by('created_at')
         return object_list_sorted
 
     def get_context_data(self, *args, **kwargs):
         # ads published by request user witch have a response
         context = super(AnnouncementMessage, self).get_context_data(*args, **kwargs)
-        ads = MusicianAnnouncement.objects.filter(author=self.request.user)
+        ads = MusicianAnnouncement.objects.filter(author=self.request.user).values('id')
         # extract all the answer
         results = []
         for a in ads:
-            answer = MusicianAnswerAnnouncement.objects.filter(musician_announcement=a.id)
+            answer = MusicianAnswerAnnouncement.objects.filter(musician_announcement=a['id']).filter(parent_id__isnull=True)
             results.append(answer)
-        # build a list witch return all data
+        # build a list witch return all data because here we have context datas not queryset
         data = []
         for r in results:
             for a in r:
@@ -199,13 +199,20 @@ def return_message(request):
 
     if request.is_ajax():
         q = request.POST.get('announcement')
-        print(q)
-        messages = MusicianAnswerAnnouncement.objects.filter(author=request.user).filter(musician_announcement=q)
+        # print(q)
+        messages = MusicianAnswerAnnouncement.objects.filter(musician_announcement=q)\
+                                                     .filter(author=request.user)\
+                                                    .order_by('created_at').values('content', 'created_at', 'author')
+        #print(messages, type(messages))
+
         results = []
         for m in messages:
-            results.append(m.content)
+            #results['content'] = m['content']
+            #print(m['content'])
+            results.append(m)
     else:
         results ='fail'
+    print(results)
     return JsonResponse(results, safe=False)
 
 

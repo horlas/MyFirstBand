@@ -60,7 +60,7 @@
                                                                                                  "{{ item.id }}",
                                                                                                   "{{ item.musician_announcement.id }}");'>
                Message de {{ item.author.userprofile.username }}
-                {{ item.musician_announcement.id }}
+                {{ item.id }}
             </a>
 
              {% endfor %}
@@ -154,18 +154,21 @@
 <script>
    // function witch get object
 
-    function initMessage(object_message){
+    function initMessage(ads_id){
        // empty message's zone
        $( "#message_list" ).empty();
-       var data = object_message;
+       var data = ads_id;
            //ajax call to grab all message witch depends on a announcement
            $.post(
                    "{% url 'announcement:message_search' %}",
                    {'announcement' : data},
                    function(response){
                            $.each(response, function(index, value){
-                                  addRecordMess(value);
-                                   console.log(value);
+
+                                  addRecordMess(value.content);
+                                  var $link_author = createLinkAuthor("Auteur", value.author);
+                                   $('#message_list').append($link_author) ;
+                                   console.log(value.author);
                                    });
 
                        });
@@ -174,7 +177,7 @@
    // function to add record message
       function addRecordMess(message) {
        var $mes = $('<div class="message">message</div>').text(message);
-       var $mes_zone = $('#message_list').append($mes);
+       $('#message_list').append($mes);
        }
 
 
@@ -183,12 +186,7 @@
         $("#message_published_ads_list").empty();
         var $mes = $('<div class="message">message</div>').text(content);
         var $mes_zone = $('#message_published_ads_list').append($mes);
-        var $link_author = $('<a href="" class="custom-text-link-login">author</a>').text(author);
-        // because we can not get the userprofile id inside the rendered url
-        // we must replace it , initial with a dummy number '1'
-        var $url = '{% url "core:musician_profile" 1  %}';
-        var $good_url = $url.replace('1', author_useprofile_id);
-        $link_author.attr("href", $good_url);
+        var $link_author = createLinkAuthor(author, author_useprofile_id);
         var $mes_zone = $('#message_published_ads_list').append($link_author);
        // THIS  IS IMPORTANT // to prevent response to this message we pass the parent_id and parent_ads in the answer_zone
         var $parent_id = $('<input type="hidden" name="m_id" value="">');
@@ -201,6 +199,22 @@
         $('#pass_info').append($parent_ads);
 
         }
+
+
+// function to create link to author profile
+
+function createLinkAuthor(author, author_userprofile_id){
+        var $link_author = $('<a href="" class="custom-text-link-login">author</a>').text(author);
+        // because we can not get the userprofile id inside the rendered url
+        // we must replace it , initial with a dummy number '1'
+        var $url = '{% url "core:musician_profile" 1  %}';
+        var $good_url = $url.replace('1', author_userprofile_id);
+        $link_author.attr("href", $good_url);
+        return $link_author;
+        }
+
+
+
 
 // function to manage response to received messages
 
