@@ -13,12 +13,14 @@
             {% regroup answered_ads_list by musician_announcement as announcement_list %}
             {% for announcement in announcement_list %}
             {% for item in announcement.list %}
+            <p>Yep : {{ item.musician_announcement.author.userprofile.username }}</p>
             <a href="#" class="collection-item custom-text-link-login " onclick='displayMessages("{{ item.content }}",
                "{{ item.author.userprofile.username }}",
                "{{ item.author.userprofile.pk }}",
                "{{ item.id }}",
                "{{ item.musician_announcement.id }}",
-               "#message_list");'>
+               "#message_list",
+               "#message_area");'>
                {{ announcement.grouper.title }}
                <p class="purple-text text-lighten-3" style="color:pink lighten-4"> {{ announcement.grouper.author.userprofile.username }} </p>
             </a>
@@ -27,19 +29,11 @@
          </div>
       </div>
       <div class="col s1"></div>
-      <div class="col s6 z-depth-4">
+      <div hidden id='message_area' class="col s6 z-depth-4">
          <h5>  Vos Messages </h5>
          <div id="message_list" >
-            <!-- for the first display -->
-            {% with announcement_list|first as first_announcement %}
-            {% for answer in first_announcement.list %}
-            <div>{{ answer.content }}</div>
-            <a  href='{% url "core:musician_profile" answer.author.userprofile.pk  %}' class="custom-text-link-login" >
-            {{ answer.author.userprofile.username }}
-            </a>
 
-            {% endfor %}
-            {% endwith %}
+
          </div>
          <div class="row "></div>
          <div class="row "></div>
@@ -70,7 +64,8 @@
                "{{ item.author.userprofile.pk }}",
                "{{ item.id }}",
                "{{ item.musician_announcement.id }}",
-               "#message_published_ads_list");'>
+               "#message_published_ads_list",
+               "#message_received_area");'>
             Message de {{ item.author.userprofile.username }}
             {{ item.id }}
             </a>
@@ -79,14 +74,10 @@
          </div>
       </div>
       <div class="col s1"></div>
-      <div class="col s6 z-depth-4">
+      <div hidden id='message_received_area' class="col s6 z-depth-4">
          <h5> Messages reçus </h5>
          <div id="message_published_ads_list" >
-            {% with response_to_published_ads|first as first_response %}
-            <div id="first_message">{{ first_response.content }}</div>
-            <a  href='{% url "core:musician_profile" first_response.author.userprofile.pk  %}' class="custom-text-link-login" >
-            {{ first_response.author.userprofile.username }}
-            </a>
+
          </div>
          <div class="row "></div>
          <div class="row "></div>
@@ -95,7 +86,7 @@
             <label style='float: right;'>
             <button  class="waves-effect waves-light btn custom-btn custom-text trigger_message" onclick="answerMessage();">
             <i class="material-icons left">question_answer</i>Répondre</button>
-            {#% endwith %#}
+
             </label>
          </div>
       </div>
@@ -146,15 +137,17 @@
 
 
    // function to add record message
-      function addRecordMess(message) {
-       var $mes = $('<div class="message">message</div>').text(message);
-       $('#message_list').append($mes);
-       }
+      //function addRecordMess(message) {
+     //  var $mes = $('<div class="message">message</div>').text(message);
+      // $('#message_list').append($mes);
+     //  }
 
 
    // function witch display received messages
-    function displayMessages(content, author, author_useprofile_id, id, ads, target){
+    function displayMessages(content, author, author_useprofile_id, id, ads, target, zone_message){
         $(target).empty();
+        $(zone_message).show();
+        console.log(author);
 
        // add first message
         var $mes = $('<div class="message">message</div>').text(content);
@@ -182,6 +175,7 @@
         $parent_id.attr("value", id);
         var $parent_ads = $('<input type="hidden" name="m_ads" value="">');
         $parent_ads.attr("value", ads);
+        $("#recipient").text("Vous répondez à "+author)
         // empty before to prevent several add on click
         $('#pass_info').empty();
         $('#pass_info').append($parent_id);
