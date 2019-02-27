@@ -4,7 +4,12 @@
 {% block content %}
 <main>
    {% include 'core/display_messages.html' %}
+   {% if answered_ads_list|length == 0 and response_to_published_ads|length == 0 %}
+   <h5 class="center"> Vous n'avez pas de messages </h5>
+   {% endif %}
+
    <!---ads that the logged-in user has responded to -->
+
    {% if answered_ads_list|length > 0 %}
    <div class="row ">
       <div id="answered_ads_list" class="col s4 z-depth-4">
@@ -13,14 +18,15 @@
             {% regroup answered_ads_list by musician_announcement as announcement_list %}
             {% for announcement in announcement_list %}
             {% for item in announcement.list %}
-            <p>Yep : {{ item.musician_announcement.author.userprofile.username }}</p>
             <a href="#" class="collection-item custom-text-link-login " onclick='displayMessages("{{ item.content }}",
                "{{ item.author.userprofile.username }}",
                "{{ item.author.userprofile.pk }}",
                "{{ item.id }}",
                "{{ item.musician_announcement.id }}",
                "#message_list",
-               "#message_area");'>
+               "#message_area",
+               1,
+               "{{ item.musician_announcement.author.userprofile.username }}");'>
                {{ announcement.grouper.title }}
                <p class="purple-text text-lighten-3" style="color:pink lighten-4"> {{ announcement.grouper.author.userprofile.username }} </p>
             </a>
@@ -65,7 +71,8 @@
                "{{ item.id }}",
                "{{ item.musician_announcement.id }}",
                "#message_published_ads_list",
-               "#message_received_area");'>
+               "#message_received_area",
+               2);'>
             Message de {{ item.author.userprofile.username }}
             {{ item.id }}
             </a>
@@ -104,9 +111,9 @@
                         <i class="material-icons prefix">mode_edit</i>
                         <textarea id="message_text" name="message_text" class="materialize-textarea c" data-length="200"></textarea>
                          <div id="pass_info">
-                             <input type="hidden" name="m_id" value="{{ first_response.id }}">
-                             <input type="hidden" name="m_ads" value="{{ first_response.musician_announcement.id }}">
-
+                             <input type="hidden" name="m_id" value="">
+                             <input type="hidden" name="m_ads" value="">
+                              <input type="hidden" name="m_recipient" value="">
 
                          </div>
 
@@ -133,21 +140,11 @@
 {% block script %}
 <script>
    // function witch get object
-
-
-
-   // function to add record message
-      //function addRecordMess(message) {
-     //  var $mes = $('<div class="message">message</div>').text(message);
-      // $('#message_list').append($mes);
-     //  }
-
-
    // function witch display received messages
-    function displayMessages(content, author, author_useprofile_id, id, ads, target, zone_message){
+    function displayMessages(content, author, author_useprofile_id, id, ads, target, zone_message, signal, author_first_response){
         $(target).empty();
         $(zone_message).show();
-        console.log(author);
+
 
        // add first message
         var $mes = $('<div class="message">message</div>').text(content);
@@ -175,11 +172,25 @@
         $parent_id.attr("value", id);
         var $parent_ads = $('<input type="hidden" name="m_ads" value="">');
         $parent_ads.attr("value", ads);
-        $("#recipient").text("Vous répondez à "+author)
+
+        var $parent_recipient = $('<input type="hidden" name="m_recipient" value="">');
+        // the signal differs between the two type of messages to manage the name of the author
+        if (signal==1){
+            $("#recipient").text("Vous répondez à "+author_first_response);
+            $parent_recipient.attr("value", author_first_response);
+            //console.log(author_first_response);
+            }
+        if (signal==2){
+            $("#recipient").text("Vous répondez à "+author);
+            $parent_recipient.attr("value", author);
+            }
+
         // empty before to prevent several add on click
         $('#pass_info').empty();
         $('#pass_info').append($parent_id);
         $('#pass_info').append($parent_ads);
+        $('#pass_info').append($parent_recipient);
+        $('html,body').animate({scrollTop: $('#response').offset().top}, "slow");
 
         }
 

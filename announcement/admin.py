@@ -22,5 +22,5 @@ class MusicianAnswerAnnouncementAdmin(admin.ModelAdmin):
             'fields': ('musician_announcement',)
         }),
 
-        (_("Corps du message"), {'fields':('content','author', 'parent_id')}),
+        (_("Corps du message"), {'fields':('content','author', 'parent_id', 'recipient')}),
     )

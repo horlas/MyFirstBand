@@ -131,6 +131,8 @@ class AnswerAnnouncement(LoginRequiredMixin, SuccessMessageMixin, FormView):
                     recipient=a.author
                      )
                 response.save()
+                # todo : we can imagine here send an email to the recipient
+                print(a.author) # email of the recipient
                 messages.success(self.request, ("Votre réponse est envoyée vous pouvez la retrouver dans Mes messages!"))
                 return redirect(reverse_lazy("announcement:detail_announcement", kwargs={'pk': a_id}))
 
@@ -144,7 +146,9 @@ class AnswerMessage(LoginRequiredMixin, SuccessMessageMixin, FormView):
         content = request.POST['message_text']
         parent_id = request.POST['m_id']
         parent_ads = request.POST['m_ads']
-        print(parent_id)
+        parent_recipient = request.POST['m_recipient']
+
+
         if len(content) > 200:
             # to avoid problems with insert a response too long in database
             messages.error(self.request, 'Réponse trop longue')
@@ -152,19 +156,21 @@ class AnswerMessage(LoginRequiredMixin, SuccessMessageMixin, FormView):
         else:
             a = MusicianAnnouncement.objects.get(id=parent_ads)
             init_message = MusicianAnswerAnnouncement.objects.get(id=parent_id)
+            user_recipient = User.objects.get(userprofile__username=parent_recipient)
             response = MusicianAnswerAnnouncement(
                 content=content,
                 created_at=timezone.now(),
                 author=self.request.user,
                 parent_id=init_message,
                 musician_announcement=a,
-                recipient=init_message.author
+                recipient=user_recipient,
             )
             response.save()
+
+            # todo : we can here imagine send an email to the recipient
+            # print(user_recipient)
             messages.success(self.request, ("Votre réponse est postée"))
         return redirect(reverse_lazy("announcement:announcement_messages"))
-
-
 
 
 class AnnouncementMessage(LoginRequiredMixin, SuccessMessageMixin, ListView):
@@ -199,35 +205,6 @@ class AnnouncementMessage(LoginRequiredMixin, SuccessMessageMixin, ListView):
         return context
 
 
-
-
-
-#
-#
-# @csrf_exempt
-# @login_required()
-# def return_message(request):
-#     ''' ajax return of messages depends an announcement'''
-#
-#     if request.is_ajax():
-#         q = request.POST.get('announcement')
-#         # print(q)
-#         messages = MusicianAnswerAnnouncement.objects.filter(musician_announcement=q)\
-#                                                      .filter(author=request.user)\
-#                                                     .order_by('created_at').values('content', 'created_at', 'author')
-#         #print(messages, type(messages))
-#
-#         results = []
-#         for m in messages:
-#             #results['content'] = m['content']
-#             #print(m['content'])
-#             results.append(m)
-#     else:
-#         results ='fail'
-#     print(results)
-#     return JsonResponse(results, safe=False)
-
-
 @csrf_exempt
 @login_required()
 def message_to_message(request):
@@ -246,12 +223,5 @@ def message_to_message(request):
         results ='fail'
     return JsonResponse(results, safe=False)
 
-
-
-
-
-
-
-# Todo : anwwer  announcement + aswer aswer announcement
 
 
