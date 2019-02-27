@@ -15,5 +15,6 @@ urlpatterns = [
         path('post_message/submit', AnswerMessage.as_view(), name='post_message'),
         path('list_message/', AnnouncementMessage.as_view(), name='announcement_messages'),
         path('ajax_calls/search', return_message, name='message_search'),
+        path('ajax_calls_message/search', message_to_message, name='message_to_message'),
 
 ]

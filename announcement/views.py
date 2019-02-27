@@ -13,6 +13,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.utils import timezone
+from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 # from django.views.generic import CreateView
 from announcement.forms import MusicianAnnouncementForm
@@ -113,18 +114,25 @@ class AnswerAnnouncement(LoginRequiredMixin, SuccessMessageMixin, FormView):
             # to avoid problems with insert a response too long in database
             messages.error(self.request, 'Réponse trop longue')
             return redirect(reverse_lazy("announcement:detail_announcement", kwargs={'pk': a_id}))
+
         else:
             # get the announcement to link the answer
             a = MusicianAnnouncement.objects.get(id=a_id)
-            response = MusicianAnswerAnnouncement(
-                content = content,
-                created_at=timezone.now(),
-                author=self.request.user,
-                musician_announcement=a
-            )
-            response.save()
-            messages.success(self.request, ("Votre réponse est envoyée vous pouvez la retrouver dans Mes messages!"))
-            return redirect(reverse_lazy("announcement:detail_announcement", kwargs={'pk': a_id}))
+            # the request_user can not answer to his own announcement
+            if a.author == self.request.user:
+                messages.error(self.request, 'Vous ne pouvez pas répondre à votre propre annonce')
+                return redirect(reverse_lazy("announcement:detail_announcement", kwargs={'pk': a_id}))
+            else:
+                response = MusicianAnswerAnnouncement(
+                    content = content,
+                    created_at=timezone.now(),
+                    author=self.request.user,
+                    musician_announcement=a,
+                    recipient=a.author
+                     )
+                response.save()
+                messages.success(self.request, ("Votre réponse est envoyée vous pouvez la retrouver dans Mes messages!"))
+                return redirect(reverse_lazy("announcement:detail_announcement", kwargs={'pk': a_id}))
 
 
 class AnswerMessage(LoginRequiredMixin, SuccessMessageMixin, FormView):
@@ -136,19 +144,21 @@ class AnswerMessage(LoginRequiredMixin, SuccessMessageMixin, FormView):
         content = request.POST['message_text']
         parent_id = request.POST['m_id']
         parent_ads = request.POST['m_ads']
-        print(parent_ads)
+        print(parent_id)
         if len(content) > 200:
             # to avoid problems with insert a response too long in database
             messages.error(self.request, 'Réponse trop longue')
             return redirect(reverse_lazy("announcement:announcement_messages"))
         else:
             a = MusicianAnnouncement.objects.get(id=parent_ads)
+            init_message = MusicianAnswerAnnouncement.objects.get(id=parent_id)
             response = MusicianAnswerAnnouncement(
                 content=content,
                 created_at=timezone.now(),
                 author=self.request.user,
-                parent_id=parent_id,
-                musician_announcement=a
+                parent_id=init_message,
+                musician_announcement=a,
+                recipient=init_message.author
             )
             response.save()
             messages.success(self.request, ("Votre réponse est postée"))
@@ -214,6 +224,35 @@ def return_message(request):
         results ='fail'
     print(results)
     return JsonResponse(results, safe=False)
+
+
+@csrf_exempt
+@login_required()
+def message_to_message(request):
+    ''' ajax return of messages witch depends of a parent_id'''
+
+    if request.is_ajax():
+        q = request.POST.get('parent_message')
+        # print(q)
+        messages = MusicianAnswerAnnouncement.objects.filter(parent_id=q).order_by('created_at')
+        #print(messages, type(messages))
+
+        results = []
+        for m in messages:
+            # format_date = dateparse.parse_date(str(m.created_at))
+            date= m.created_at.strftime("%d %B %Y")
+            print(date)
+            dic = {"content": m.content, "author": m.author.userprofile.username, "created_at": date, "author_userprofile_id" : m.author.userprofile.pk }
+            #results['content'] = m['content']
+            #print(m['content'])
+            # print(dic)
+            results.append(dic)
+    else:
+        results ='fail'
+    print(results)
+    return JsonResponse(results, safe=False)
+
+
 
 
 

@@ -184,10 +184,30 @@
 // function witch display received messages
     function displayMessages(content, author, author_useprofile_id, id, ads){
         $("#message_published_ads_list").empty();
+
+        // add first message
         var $mes = $('<div class="message">message</div>').text(content);
         var $mes_zone = $('#message_published_ads_list').append($mes);
         var $link_author = createLinkAuthor(author, author_useprofile_id);
         var $mes_zone = $('#message_published_ads_list').append($link_author);
+
+        // add response to this message
+
+        console.log(id);
+        var parent_id = id;
+        //ajax call to grab all message witch depends of a parent_id
+           $.post(
+                   "{% url 'announcement:message_to_message' %}",
+                   {'parent_message' : parent_id},
+                   function(response){
+                           $.each(response, function(index, value){
+                                  var $mes = $('<div class="message">message</div>').text(value.content);
+                                   $('#message_published_ads_list').append($mes);
+                                   var $link_author = createLinkAuthor(value.author, value.author_userprofile_id);
+                                   $('#message_published_ads_list').append($link_author);
+                                   });
+                       });
+
        // THIS  IS IMPORTANT // to prevent response to this message we pass the parent_id and parent_ads in the answer_zone
         var $parent_id = $('<input type="hidden" name="m_id" value="">');
         $parent_id.attr("value", id);
