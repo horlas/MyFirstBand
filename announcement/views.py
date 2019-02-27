@@ -175,9 +175,11 @@ class AnnouncementMessage(LoginRequiredMixin, SuccessMessageMixin, ListView):
 
     def get_queryset(self):
         # ads answered by request user
-        object_list = MusicianAnswerAnnouncement.objects.filter(author=self.request.user).filter(parent_id__isnull=True)
-        object_list_sorted = object_list.order_by('created_at')
-        return object_list_sorted
+        object_list = MusicianAnswerAnnouncement.objects.filter(author=self.request.user)\
+                                                        .filter(parent_id__isnull=True) \
+                                                        .order_by('created_at')
+
+        return object_list
 
     def get_context_data(self, *args, **kwargs):
         # ads published by request user witch have a response
@@ -200,30 +202,30 @@ class AnnouncementMessage(LoginRequiredMixin, SuccessMessageMixin, ListView):
 
 
 
-
-
-@csrf_exempt
-@login_required()
-def return_message(request):
-    ''' ajax return of messages depends an announcement'''
-
-    if request.is_ajax():
-        q = request.POST.get('announcement')
-        # print(q)
-        messages = MusicianAnswerAnnouncement.objects.filter(musician_announcement=q)\
-                                                     .filter(author=request.user)\
-                                                    .order_by('created_at').values('content', 'created_at', 'author')
-        #print(messages, type(messages))
-
-        results = []
-        for m in messages:
-            #results['content'] = m['content']
-            #print(m['content'])
-            results.append(m)
-    else:
-        results ='fail'
-    print(results)
-    return JsonResponse(results, safe=False)
+#
+#
+# @csrf_exempt
+# @login_required()
+# def return_message(request):
+#     ''' ajax return of messages depends an announcement'''
+#
+#     if request.is_ajax():
+#         q = request.POST.get('announcement')
+#         # print(q)
+#         messages = MusicianAnswerAnnouncement.objects.filter(musician_announcement=q)\
+#                                                      .filter(author=request.user)\
+#                                                     .order_by('created_at').values('content', 'created_at', 'author')
+#         #print(messages, type(messages))
+#
+#         results = []
+#         for m in messages:
+#             #results['content'] = m['content']
+#             #print(m['content'])
+#             results.append(m)
+#     else:
+#         results ='fail'
+#     print(results)
+#     return JsonResponse(results, safe=False)
 
 
 @csrf_exempt
@@ -233,23 +235,15 @@ def message_to_message(request):
 
     if request.is_ajax():
         q = request.POST.get('parent_message')
-        # print(q)
         messages = MusicianAnswerAnnouncement.objects.filter(parent_id=q).order_by('created_at')
-        #print(messages, type(messages))
-
         results = []
         for m in messages:
-            # format_date = dateparse.parse_date(str(m.created_at))
             date= m.created_at.strftime("%d %B %Y")
-            print(date)
+            # todo : display date of message
             dic = {"content": m.content, "author": m.author.userprofile.username, "created_at": date, "author_userprofile_id" : m.author.userprofile.pk }
-            #results['content'] = m['content']
-            #print(m['content'])
-            # print(dic)
             results.append(dic)
     else:
         results ='fail'
-    print(results)
     return JsonResponse(results, safe=False)
 
 
