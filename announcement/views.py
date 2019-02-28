@@ -25,7 +25,7 @@ from authentication.models import User
 
 
 class AnnouncementCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
-    # todo :article for pythonclassmates
+    # todo :article for pythonclassmates get initial data in a form
 
     model = MusicianAnnouncement
     form_class = MusicianAnnouncementForm

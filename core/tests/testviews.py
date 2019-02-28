@@ -1,15 +1,13 @@
-from requestium import Session, Keys
+from requestium import Session
 from django.test import TestCase, RequestFactory
-from django.shortcuts import render
 from django.urls import reverse
 from django.test.client import Client
 from authentication.models import User
-from band.models import Band, Membership
+from band.models import Band
 from musicians.models import UserProfile, Instrument
 
-from core.views import accueil, MusicianProfileView
-from django.contrib.staticfiles import finders
-from django.contrib.staticfiles.storage import staticfiles_storage
+from core.views import accueil
+
 
 
 class MyTestCase(TestCase):

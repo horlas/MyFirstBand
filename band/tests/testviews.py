@@ -1,6 +1,5 @@
 from requestium import Session, Keys
 from django.test import TestCase, RequestFactory
-from django.contrib.auth.views import LoginView
 from django.urls import reverse
 from django.test.client import Client
 from authentication.models import User
@@ -9,15 +8,9 @@ from band.models import Band, Membership
 from band.forms import ProfileBandForm
 from band.views import BandUpdateView, AddMemberView, autocomplete_username, MembershipDelete, BandDeleteView, change_owner
 from django.contrib.messages.storage.fallback import FallbackStorage
-from django.contrib.messages import get_messages
 from django.contrib.sessions.middleware import SessionMiddleware
-import json
-
-from musicians.forms import ProfileForm, AvatarForm, LocalForm, InstruCreateForm, InstruDeleteForm
-from musicians.views import profile, UpdateAvatarView
-from core.utils import get_age
 from django.core.files.uploadedfile import SimpleUploadedFile
-import requests
+
 
 class MyTestCase(TestCase):
     '''Here is a parent class with custom global setup'''
@@ -387,7 +380,8 @@ class AutocompleteTest(MyTestCase):
         self.assertEqual(response.status_code, 200)
         # test the return of ajax call
         response_content = str(response.content, encoding='utf8')
-        self.assertJSONEqual(response_content, [{"id": self.test_user.id, "label": "Super Tatie", "value": "Super Tatie"}, {"id": self.test_user2.id, "label": "Super Toto", "value": "Super Toto"}] )
+        self.assertJSONEqual(response_content, [{"id": self.test_user.id, "label": "Super Tatie", "value": "Super Tatie"}\
+            , {"id": self.test_user2.id, "label": "Super Toto", "value": "Super Toto"}] )
 
 
 class MembershipDeleteTest(MyTestCase):
