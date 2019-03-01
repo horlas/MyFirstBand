@@ -26,8 +26,8 @@ class Command(BaseCommand):
         table_2 = Band.objects.all()
         table_4 = UserProfile.objects.all()
         table_5 = User.objects.all()
-        table_6 = MusicianAnswerAnnouncement.all()
-        table_7 = MusicianAnnouncement.all()
+        table_6 = MusicianAnswerAnnouncement.objects.all()
+        table_7 = MusicianAnnouncement.objects.all()
 
 
 
