@@ -276,7 +276,7 @@ class AnnouncementDetailTest(MyTestCase):
         response = self.client.get(url)
         self.assertNotContains(response, 'Pour répondre se connecter')
         self.assertContains(response, 'Répondre')
-        # print(response.context_data['musicianannouncement'].author)
+
 
 
 class AnswerAnnouncementTest(MyTestCase):

@@ -5,6 +5,7 @@ from django.test.client import Client
 from authentication.models import User
 from band.models import Band
 from musicians.models import UserProfile, Instrument
+from announcement.models import MusicianAnnouncement
 
 from core.views import accueil
 
@@ -64,25 +65,40 @@ class MyTestCase(TestCase):
 class AccueilTest(MyTestCase):
     ''' Test accueil view'''
     def test_accueil(self):
-        request = self.factory.get('')
-        response = accueil(request)
+        # create some context:
+        MusicianAnnouncement.objects.create(title='Coucou', content='Coucou Toi!', author=self.test_user)
+        MusicianAnnouncement.objects.create(title='title2', content='content', author=self.test_user)
+        MusicianAnnouncement.objects.create(title='title3', content='content', author=self.test_user)
+        response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-
-        # Test title website content using selenium driver
-        self.session.driver.get(self.url)
+        list_template = [t.name for t in response.templates]
+        assert 'core/sidenav.html' in list_template
+        assert 'core/base.html' in list_template
+        assert 'core/index.html' in list_template
+        # test return of context
+        self.assertEqual(len(response.context['last_announcement']), 3)
+        self.assertEqual(len(response.context['last_bands']), 1)
+        self.assertEqual(len(response.context['last_users']), 1)
+        self.assertContains(response, 'Bienvenue sur My First Band')
+        self.assertContains(response, 'Pink Floyd')
+        self.assertContains(response, 'Super Tatie')
+        self.assertContains(response, 'Coucou')
         # this test does not pass with Travis CI
-        # self.assertEqual(self.session.driver.title, 'MyFirstBand')
-
-        welcome_message = self.session.get(self.url).xpath('//h4[@id="title"]/text()').extract_first()
-        self.assertEqual(welcome_message, 'Bienvenue sur My First Band  ! ')
-
-        # display last entries of musicians
-        card_musician = self.session.get(self.url).xpath('//section[@id="musicians"]//div[@class="card"]')
-        self.assertEqual(len(card_musician), 6)
-
-        # display last entries of band
-        card_band = self.session.get(self.url).xpath('//section[@id="bands"]//div[@class="card"]')
-        self.assertEqual(len(card_band), 6)
+        # Test title website content using selenium driver
+        # self.session.driver.get(self.url)
+        #
+        # # self.assertEqual(self.session.driver.title, 'MyFirstBand')
+        #
+        # welcome_message = self.session.get(self.url).xpath('//h4[@id="title"]/text()').extract_first()
+        # self.assertEqual(welcome_message, 'Bienvenue sur My First Band  ! ')
+        #
+        # # display last entries of musicians
+        # card_musician = self.session.get(self.url).xpath('//section[@id="musicians"]//div[@class="card"]')
+        # self.assertEqual(len(card_musician), 6)
+        #
+        # # display last entries of band
+        # card_band = self.session.get(self.url).xpath('//section[@id="bands"]//div[@class="card"]')
+        # self.assertEqual(len(card_band), 6)
 
 
 class SidenavBarTest(MyTestCase):
@@ -99,20 +115,6 @@ class SidenavBarTest(MyTestCase):
         assert 'core/sidenav.html' in list_template
 
 
-        # self.assertContains(r, '<a id="login" class="waves-effect custom-text"  href="/authentication/accounts/login/">')
-        # self.assertContains(r, "<a id=\'sign-in-link\' class='waves-effect custom-text'  href='/authentication/signup/'>", html=True )
-
-        # self.session.driver.get(self.url)
-        # logo = self.session.driver.find_element_by_id('logo')
-        # self.assertEqual(logo.size, {'width': 236, 'height': 87})
-        #
-        # icon1 = self.session.driver.find_element_by_id("sign-in-link")
-        # self.assertEqual(icon1.get_attribute('href'), 'http://127.0.0.1:8000/authentication/signup/')
-        #
-        # icon2 = self.session.driver.find_element_by_id("login")
-        # self.assertEqual(icon2.get_attribute('href'), 'http://127.0.0.1:8000/authentication/accounts/login/')
-        #
-        # self.session.driver.quit()
 
 class MusicianProfileTest(MyTestCase):
     '''Test public profile of a musician'''

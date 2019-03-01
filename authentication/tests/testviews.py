@@ -10,7 +10,9 @@ from authentication.views import SignupCustomView
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.http import urlsafe_base64_encode
 from django.core import mail
-from django.test.utils import override_settings
+from authentication.views import logout_view
+from django.contrib.sessions.middleware import SessionMiddleware
+from django.contrib.messages.storage.fallback import FallbackStorage
 import re
 
 class MyTestCase(TestCase):
@@ -18,7 +20,11 @@ class MyTestCase(TestCase):
     def setUp(self):
         # web client
         self.client = Client()
+
         # our test user
+        self.email = 'tata@gmail.com'
+        self.password = 'aqwz7418'
+        self.test_user = User.objects.create_user(self.email, self.password)
 
         self.factory = RequestFactory()
 
@@ -50,39 +56,13 @@ class SignupTest(MyTestCase):
         # we test the User has been created
         self.assertEqual(after_users, before_users+1)
         # and we test that his profile to
-        self.assertEqual(after_profile, 1)
+        self.assertEqual(after_profile, before_users+1)
         self.assertRedirects(
             connect,
             expected_url=reverse('core:accueil'),
             status_code=302,
             target_status_code=200
         )
-
-    # def test_form_with_selenium(self):
-    #
-    #     self.session.driver.get('{}/authentication/signup/'.format(self.url))
-    #     self.session.driver.ensure_element_by_id('id_email').send_keys('test@horlmail.com')
-    #     self.session.driver.ensure_element_by_id('id_password1').send_keys('aqwz7418')
-    #
-    #     self.session.driver.ensure_element_by_id('id_password2').send_keys('aqwz7418')
-    #
-    #     self.session.driver.maximize_window()
-    #     self.session.driver.implicitly_wait(2)
-    #     login_attempt = self.session.driver.find_element_by_id('sign_up_button')
-    #     # print(login_attempt)
-    #     print(login_attempt.location['x'])
-    #     self.session.driver.maximize_window()
-    #     self.session.driver.implicitly_wait(2)
-    #     self.session.driver.execute_script("window.scrollTo(0, 532)") #.format(login_attempt.location['x']))
-    #
-    #     login_attempt.click()
-    #
-    #
-    #
-    #     # self.session.driver.find_element_by_name('action').click()
-    #     url = self.session.driver.current_url
-    #     self.session.driver.quit()
-# todo : button click is not reachable
 
 
 class SignupFormTest(TestCase):
@@ -103,47 +83,52 @@ class SignupFormTest(TestCase):
 
 class LoginViewTest(MyTestCase):
 
-    def test_login_form(self):
+    def test_login(self):
+        data = {'username': 'tata@gmail.com', 'password': self.password}
+        response = self.client.post('/authentication/accounts/login/?next=/core/', data, follow=True)
 
-        c = User.objects.count()
-        user = User.objects.create(email='testuserlogin@gmail.com')
-        user.set_password('aqwz7418')
-        user.save()
-        form = CustomLoginForm({'email': 'testuserlogin@gmail.com',
-                                'password': 'aqwz7418'})
+        self.assertRedirects(
+            response,
+            expected_url=reverse('core:accueil'),
+            status_code=302,
+            target_status_code=200
+        )
 
-        # self.assertFormError(form, 'username', 'This field is required.')
-        # print(form.errors)
-        # self.assertTrue(form.is_valid())
+    def test_login_form_valid(self):
+        data = {'username': 'tata@gmail.com', 'password': self.password}
+        form = CustomLoginForm(data=data)
+        self.assertTrue(form.is_valid())
+
+    def test_login_form_invalid(self):
+        data = {'username': 'tata', 'password': self.password}
+        form = CustomLoginForm(data=data)
+        self.assertFalse(form.is_valid())
 
     def test_login_get(self):
         request = self.factory.get('/authentication/accounts/login')
         response = LoginView.as_view()(request)
         self.assertEqual(response.status_code, 200)
-    #
-    #
-    # def test_login_bis(self):
-    #     user = User.objects.create(email='testuserlogin@gmail.com')
-    #     user.set_password('aqwz7418')
-    #     user.save()
-    #
-    #     # data = {'username': '', 'password1': 'aqwz7418'}
-    #
-    #     response = self.client.post(reverse('authentication:login'), data={'email' : 'testuserlogin@gmail.com',
-    #                                                                    'password' : 'aqwz7418'},
-    #                                                                       follow=True)
-    #     # print(response['Location'])
-    #     self.assertRedirects(
-    #         response,
-    #         expected_url=reverse('core:accueil'),
-    #         status_code=200,
-    #         target_status_code=200
-    #     )
-        # self.assertFormError(response, 'form', 'username', 'This field is required.')
 
-        # self.assertEqual(connect.status_code, 200)
-# Todo: test the login view , is not possbible to post data likewise the test fails on the login form.
 
+class LogoutView(MyTestCase):
+    ''' with Factory request'''
+
+    def test_logout_view(self):
+        url = '/authentication/accounts/logout/'
+        request = self.factory.get(self.url)
+        request.user = self.test_user
+
+        # adding session
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        request.session.save()
+
+        # adding messages
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
+        response = logout_view(request)
+        self.assertEqual(response.status_code, 302)
 
 class LogoutViewTest(MyTestCase):
 
