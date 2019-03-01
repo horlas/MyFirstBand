@@ -26,7 +26,7 @@ class Command(BaseCommand):
         else:
             self.stdout.write(self.style.WARNING('Le fichier de fixture est vide'))
 
-        call_command('dumpdata', 'musicians', 'band',  indent=4, stdout=self.buf)
+        call_command('dumpdata', 'musicians', 'band', 'announcement',  indent=4, stdout=self.buf)
         self.buf.seek(0)
         with open('core/fixtures/data.json', 'w') as f:
             f.write(self.buf.read())

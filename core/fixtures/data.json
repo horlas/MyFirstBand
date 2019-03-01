@@ -3,8 +3,8 @@
     "model": "authentication.user",
     "pk": 1,
     "fields": {
-        "password": "pbkdf2_sha256$120000$7OZ5xgu0AYYh$7+/6vHbEi1eDWRhxYzY3u+ONo3skD48ddC5I/YwztUQ=",
-        "last_login": "2019-02-17T21:30:56.631Z",
+        "password": "pbkdf2_sha256$120000$badGOGzuJiRt$nt47DB0ExxrU6C3bRzUt1nbUEMW03uMxzH4Lqxx9aao=",
+        "last_login": "2019-03-01T15:51:01.202Z",
         "is_superuser": true,
         "first_name": "",
         "last_name": "",
@@ -21,7 +21,7 @@
     "pk": 3,
     "fields": {
         "password": "pbkdf2_sha256$120000$8nuBIkgi2rPT$3w0xjqejUXCvam0mRLsy4GcCY2rJXYMEh++tdkbPD3Q=",
-        "last_login": "2019-02-14T09:38:58.531Z",
+        "last_login": "2019-02-28T22:43:01.674Z",
         "is_superuser": false,
         "first_name": "",
         "last_name": "",
@@ -38,7 +38,7 @@
     "pk": 4,
     "fields": {
         "password": "pbkdf2_sha256$120000$s1dnfeoXApsZ$2QPB7vFjAhKOZFSqgN3v+9olx/zD9GIzhm554Cz59AQ=",
-        "last_login": "2019-01-01T18:51:27.947Z",
+        "last_login": "2019-02-27T16:19:44.926Z",
         "is_superuser": false,
         "first_name": "",
         "last_name": "",
@@ -55,7 +55,7 @@
     "pk": 5,
     "fields": {
         "password": "pbkdf2_sha256$120000$QavwSbR7r9Ma$f8JqJj7JpZ/0TvQWBEGIojw1ammp5+5kVeZxPu0ycd4=",
-        "last_login": "2019-02-15T09:22:23.484Z",
+        "last_login": "2019-02-27T14:46:33.343Z",
         "is_superuser": false,
         "first_name": "",
         "last_name": "",
@@ -72,7 +72,7 @@
     "pk": 6,
     "fields": {
         "password": "pbkdf2_sha256$120000$LqGx7YgyVMZN$oQ0oh40sNDUt98165mYDNZuVW6CdCGkAvNsFdOD8EjM=",
-        "last_login": "2019-02-13T19:23:24.163Z",
+        "last_login": "2019-02-27T14:58:52.590Z",
         "is_superuser": false,
         "first_name": "",
         "last_name": "",
@@ -89,7 +89,7 @@
     "pk": 7,
     "fields": {
         "password": "pbkdf2_sha256$120000$ynOn6pkmtWdJ$DhHofQhl+3MiDuee/yKiCUSWMaAsGzi6dUu1o4+WiMg=",
-        "last_login": "2019-02-16T14:42:32.908Z",
+        "last_login": "2019-02-27T16:14:20.552Z",
         "is_superuser": false,
         "first_name": "",
         "last_name": "",
@@ -106,7 +106,7 @@
     "pk": 9,
     "fields": {
         "password": "pbkdf2_sha256$120000$m8eJ96gih7d6$EKOObMh4zB/rbCraL9YEhH7qMizqtFgJlwnxf8AR/Y8=",
-        "last_login": "2019-02-15T14:14:01.782Z",
+        "last_login": "2019-02-25T10:19:13.424Z",
         "is_superuser": false,
         "first_name": "",
         "last_name": "",
@@ -123,7 +123,7 @@
     "pk": 11,
     "fields": {
         "password": "pbkdf2_sha256$120000$G7CZsdtgnSO3$Q1PW6JbL+HTxWpYjx9rSmYHD/VJwKq+nCq1lN+PXpC0=",
-        "last_login": "2019-01-29T16:49:55.083Z",
+        "last_login": "2019-02-27T16:18:44.835Z",
         "is_superuser": false,
         "first_name": "",
         "last_name": "",
@@ -186,12 +186,46 @@
         "user_permissions": []
     }
 },
-
+{
+    "model": "authentication.user",
+    "pk": 40,
+    "fields": {
+        "password": "pbkdf2_sha256$120000$iEkVTPwIylHb$wGDqPe0l/jtUT1HSl7lfuBCi61w0KC5RYbuQoQELZRg=",
+        "last_login": "2019-03-01T13:53:10.498Z",
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2019-02-21T14:42:56.050Z",
+        "email": "carla@gmail.com",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "authentication.user",
+    "pk": 47,
+    "fields": {
+        "password": "pbkdf2_sha256$120000$xWbRNAmwOgrJ$CK3lRcUqf8RUzMr19YNwttshiK9qYK/q72qKTb5rEIU=",
+        "last_login": "2019-02-27T15:50:44.837Z",
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2019-02-25T10:36:15.265Z",
+        "email": "bob@hotmail.com",
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]
+[
 {
     "model": "musicians.userprofile",
     "pk": 1,
     "fields": {
-        "user": 1,
         "username": "Aur\u00e9lia I'm the big boss of Lima!",
         "bio": "Je suis en train de coder ce site! et c'est super cooool . Vivement les vacances!",
         "code": "34070",
@@ -201,14 +235,13 @@
         "avatar": "user_avatar/2019-02-07-1_W1fOHgU.jpg",
         "gender": "F",
         "created_at": "2018-12-31T12:13:01.436Z",
-        "updated_at": "2019-02-17T21:30:56.674Z"
+        "updated_at": "2019-03-01T15:51:01.212Z"
     }
 },
 {
     "model": "musicians.userprofile",
     "pk": 3,
     "fields": {
-        "user": 3,
         "username": "Super Tatie",
         "bio": "Sur la proposition de son fr\u00e8re Eddie travaillant dans le milieu de la musique, elle rencontre Daniel Filipacchi, producteur de disques pour RCA Records et Decca, qui la fait enregistrer au printemps 1961 un duo avec Frankie Jordan Panne d'essence, \u00e0 la suite du d\u00e9sistement de derni\u00e8re minute de la chanteuse Gillian Hills12. Ayant quitt\u00e9 le lyc\u00e9e H\u00e9l\u00e8ne-Boucher deux mois avant de passer son bac pour se consacrer pleinement \u00e0 ses d\u00e9buts dans la chanson, ce premier succ\u00e8s lui permet d'entamer une",
         "code": "34070",
@@ -218,31 +251,29 @@
         "avatar": "user_avatar/2019-01-09-3_xrw0ydc.jpg",
         "gender": "F",
         "created_at": "2018-12-31T12:18:53.876Z",
-        "updated_at": "2019-02-14T09:42:02.014Z"
+        "updated_at": "2019-02-28T22:43:01.701Z"
     }
 },
 {
     "model": "musicians.userprofile",
     "pk": 4,
     "fields": {
-        "user": 4,
         "username": "Django",
-        "bio": "",
-        "code": "",
-        "county_name": "",
-        "town": "",
-        "birth_year": null,
-        "avatar": "",
+        "bio": "Le cadre a \u00e9t\u00e9 originellement d\u00e9velopp\u00e9 pour un journal local de la ville de Lawrence, dans le Kansas \u00e0 partir de 2003, par Adrian Holovaty (en) et Simon Willison (en)6,7,8. L'id\u00e9e d'origine du cadre \u00e9tait de permettre de d\u00e9velopper des sites web complets, interfac\u00e9s avec une base de donn\u00e9es, dans un laps de temps tr\u00e8s court8. Le but de Django \u00e0 l'origine est de r\u00e9pondre aux contraintes des journalistes : l'administration g\u00e9n\u00e9r\u00e9e par le cadre permet ainsi un d\u00e9veloppement ais\u00e9 de fonctionnalit\u00e9s",
+        "code": "34000",
+        "county_name": "H\u00e9rault",
+        "town": "Montpellier",
+        "birth_year": 1975,
+        "avatar": "user_avatar/2019-02-20-4.jpg",
         "gender": "H",
         "created_at": "2019-01-01T18:51:27.922Z",
-        "updated_at": "2019-02-05T10:17:49.236Z"
+        "updated_at": "2019-02-27T16:19:44.949Z"
     }
 },
 {
     "model": "musicians.userprofile",
     "pk": 5,
     "fields": {
-        "user": 5,
         "username": "Raoul la canette",
         "bio": "Bernard Ouillon na\u00eet le 7 octobre 19463 \u00e0 Saint-\u00c9tienne1. Son p\u00e8re, ancien r\u00e9sistant pendant la Seconde Guerre mondiale, et syndicaliste plus tard, est directeur des ressources humaines \u00e0 la manufacture nationale d'armes (MAS) et sa m\u00e8re est institutrice4. Il commence la boxe \u00e0 l'\u00e2ge de 13 ans. Son \u00e9ducation joue un grand r\u00f4le dans son approche de la musique. Il explique que ce sont ses parents qui lui ont donn\u00e9 la passion pour les rythmes tropicaux, le jazz portoricain, la musique classique et",
         "code": "31170",
@@ -252,14 +283,13 @@
         "avatar": "user_avatar/2019-01-11-5_3f1E9zv.jpg",
         "gender": "H",
         "created_at": "2019-01-06T22:08:42.221Z",
-        "updated_at": "2019-02-15T09:22:23.494Z"
+        "updated_at": "2019-02-27T14:46:33.377Z"
     }
 },
 {
     "model": "musicians.userprofile",
     "pk": 6,
     "fields": {
-        "user": 6,
         "username": "Miquel",
         "bio": "Michel Hamburger, dit Michel Berger, est un pianiste, auteur-compositeur-interpr\u00e8te, directeur artistique et arrangeur musical fran\u00e7ais, n\u00e9 le 28 novembre 1947 \u00e0 Neuilly-sur-Seine et mort le 2 ao\u00fbt 1992 \u00e0 Ramatuelle dans le Var. Il \u00e9tait l'\u00e9poux de la chanteuse France Gall.",
         "code": "75011",
@@ -269,14 +299,13 @@
         "avatar": "user_avatar/2019-01-14-6.jpg",
         "gender": "H",
         "created_at": "2019-01-09T11:16:35.270Z",
-        "updated_at": "2019-02-13T19:23:24.181Z"
+        "updated_at": "2019-02-27T14:58:52.607Z"
     }
 },
 {
     "model": "musicians.userprofile",
     "pk": 7,
     "fields": {
-        "user": 7,
         "username": "JCoool",
         "bio": "Adolescent, influenc\u00e9 par ses idoles am\u00e9ricaines du rock 'n' roll, il est emport\u00e9 par la vague de musique skiffle qui s\u00e9vit \u00e0 Liverpool et fonde au d\u00e9but de 1957 le groupe des Quarrymen, qui \u00e9voluent pour devenir, avec Paul McCartney, George Harrison et Ringo Starr, les Beatles. Des albums Please Please Me en 1963 \u00e0 Let It Be en 1970, les Beatles deviennent un des plus grands ph\u00e9nom\u00e8nes de l'histoire de l'industrie discographique, introduisant de nombreuses innovations musicales et m\u00e9langeant le",
         "code": "31120",
@@ -286,31 +315,29 @@
         "avatar": "user_avatar/2019-01-15-7.jpg",
         "gender": "H",
         "created_at": "2019-01-09T19:30:08.140Z",
-        "updated_at": "2019-02-16T14:42:32.973Z"
+        "updated_at": "2019-02-27T16:14:20.562Z"
     }
 },
 {
     "model": "musicians.userprofile",
     "pk": 9,
     "fields": {
-        "user": 9,
         "username": "c\u00e9drix",
         "bio": "vw T4, punk and rocknroll!",
         "code": "34000",
         "county_name": "H\u00e9rault",
         "town": "Montpellier",
         "birth_year": 1977,
-        "avatar": "user_avatar/2019-01-19-9.jpg",
+        "avatar": "user_avatar/2019-02-25-9.jpg",
         "gender": "H",
         "created_at": "2019-01-19T10:38:38.914Z",
-        "updated_at": "2019-02-15T14:14:01.792Z"
+        "updated_at": "2019-02-25T10:19:47.664Z"
     }
 },
 {
     "model": "musicians.userprofile",
     "pk": 11,
     "fields": {
-        "user": 11,
         "username": "Jean-Pierre",
         "bio": "C'est finalement \u00e0 l'or\u00e9e de la trentaine qu'il se fait conna\u00eetre du grand public. En effet, il publie \u00e0 ce moment-l\u00e0 plusieurs chansons dans un style synthpop - en pleine vague \u00ab new wave \u00bb - qui le rendent c\u00e9l\u00e8bre, rentrant notamment dans le Top 50 fran\u00e7ais, alors r\u00e9cemment cr\u00e9\u00e9 sur la nouvelle cha\u00eene payante Canal+. Ses 45 tours Disparue (fin 1984), Macumba (1985) et Un pied devant l'autre (fin 1985) sont de grands hits, faisant de Jean-Pierre Mader un chanteur en vogue ; ils sont extraits de",
         "code": "31170",
@@ -320,14 +347,13 @@
         "avatar": "user_avatar/2019-01-28-11_TNZd5qF.jpg",
         "gender": "H",
         "created_at": "2019-01-21T21:42:54.942Z",
-        "updated_at": "2019-01-29T16:56:13.148Z"
+        "updated_at": "2019-02-27T16:18:44.845Z"
     }
 },
 {
     "model": "musicians.userprofile",
-    "pk": 24,
+    "pk": 26,
     "fields": {
-        "user": 26,
         "username": "Maeva",
         "bio": "L'\u00e9criture nouvelle de Roda-Gil est empreinte de nostalgie et d'herm\u00e9tisme militant. Elle est alors associ\u00e9e \u00e0 la voix, haut perch\u00e9e et charg\u00e9e de vibrato tr\u00e8s serr\u00e9, de Paul-Alain Leclerc, ainsi qu'\u00e0 son sens de la m\u00e9lodie. Ces diff\u00e9rents \u00e9l\u00e9ments aboutiront \u00e0 un succ\u00e8s6. C'est \u00e9galement dans ce caf\u00e9 qu'il rencontre l'amour, en la personne de Marie-Fran\u00e7oise Aim\u00e9, dite Zaz[r\u00e9f. n\u00e9cessaire], une \u00e9tudiante en lettres. Il passe de longues heures au piano dans la maison de Bourg-la-Reine de sa peti",
         "code": "01000",
@@ -342,9 +368,8 @@
 },
 {
     "model": "musicians.userprofile",
-    "pk": 25,
+    "pk": 27,
     "fields": {
-        "user": 27,
         "username": "Seb",
         "bio": "Bien qu'ayant commenc\u00e9 le piano \u00e0 5 ans, son int\u00e9r\u00eat pour la musique commence vraiment \u00e0 13 ans, lorsque ses parents se s\u00e9parent et qu'il ressent le besoin de combler l'absence de son p\u00e8re musicien. Sous l'influence de ce dernier, il se met \u00e0 la guitare \u00e0 14 ans, et commence \u00e0 \u00e9couter beaucoup de blues et de jazz. Il passe toute son adolescence dans la bourgade de Teignmouth (Devon), vivant tant\u00f4t chez sa m\u00e8re, tant\u00f4t chez son p\u00e8re, parfois m\u00eame chez ses grands-parents.",
         "code": "86000",
@@ -359,9 +384,8 @@
 },
 {
     "model": "musicians.userprofile",
-    "pk": 26,
+    "pk": 28,
     "fields": {
-        "user": 28,
         "username": "Roxanne",
         "bio": "I loved you since I knew ya\r\nI wouldn't talk down to ya\r\nI have to tell you just how I feel\r\nI won't share you with another boy\r\nI know my mind is made up\r\nSo put away your make-up\r\nTold you once, I won't tell you again it's a bad way",
         "code": "92700",
@@ -375,12 +399,35 @@
     }
 },
 {
-    "model": "musicians.instrument",
-    "pk": 3,
+    "model": "musicians.userprofile",
+    "pk": 40,
     "fields": {
-        "instrument": "GUITARE",
-        "level": "bon",
-        "musician": 4
+        "username": "Carla",
+        "bio": "There's a nail in the door\r\nAnd there's glass on the lawn\r\nTacks on the floor\r\nAnd the TV is on\r\nAnd I always sleep with my guns when you're gone\r\nThere's a blade by the bed\r\nAnd a phone in my hand\r\nA dog on the floor\r\nAnd some cash on the nightstand\r\nWhen I'm all alone the dreaming stops\r\nAnd I just can't stand",
+        "code": "67000",
+        "county_name": "Bas-Rhin",
+        "town": "Strasbourg",
+        "birth_year": 1984,
+        "avatar": "user_avatar/2019-02-21-40.jpg",
+        "gender": "F",
+        "created_at": "2019-02-21T14:42:56.173Z",
+        "updated_at": "2019-03-01T13:53:10.508Z"
+    }
+},
+{
+    "model": "musicians.userprofile",
+    "pk": 47,
+    "fields": {
+        "username": "Bob",
+        "bio": "A travers toute la Jama\u00efque, le nombre de rastafari ne cesse d'augmenter malgr\u00e9 les op\u00e9rations de la police qui leur m\u00e8ne une lutte sans merci. En effet, l'\u00eele \u00e9tant encore jusqu'en 1962 sous domination anglaise, le gouvernement local voyait d'un tr\u00e8s mauvais \u0153il ce mouvement revendicatif.",
+        "code": "31000",
+        "county_name": "Haute-Garonne",
+        "town": "Toulouse",
+        "birth_year": 1982,
+        "avatar": "user_avatar/2019-02-25-47.jpg",
+        "gender": "H",
+        "created_at": "2019-02-25T10:36:15.428Z",
+        "updated_at": "2019-02-27T15:50:44.872Z"
     }
 },
 {
@@ -492,6 +539,60 @@
     }
 },
 {
+    "model": "musicians.instrument",
+    "pk": 53,
+    "fields": {
+        "instrument": "Batteur",
+        "level": "Professionnel",
+        "musician": 5
+    }
+},
+{
+    "model": "musicians.instrument",
+    "pk": 54,
+    "fields": {
+        "instrument": "Guitariste",
+        "level": "Confirm\u00e9",
+        "musician": 4
+    }
+},
+{
+    "model": "musicians.instrument",
+    "pk": 55,
+    "fields": {
+        "instrument": "Bassiste",
+        "level": "D\u00e9butant",
+        "musician": 4
+    }
+},
+{
+    "model": "musicians.instrument",
+    "pk": 56,
+    "fields": {
+        "instrument": "Chanteur",
+        "level": "Interm\u00e9diaire",
+        "musician": 40
+    }
+},
+{
+    "model": "musicians.instrument",
+    "pk": 57,
+    "fields": {
+        "instrument": "Guitariste",
+        "level": "D\u00e9butant",
+        "musician": 40
+    }
+},
+{
+    "model": "musicians.instrument",
+    "pk": 58,
+    "fields": {
+        "instrument": "Percussionniste",
+        "level": "Confirm\u00e9",
+        "musician": 47
+    }
+},
+{
     "model": "band.band",
     "pk": 15,
     "fields": {
@@ -537,10 +638,10 @@
         "bio": "Le terme blues vient de l'abr\u00e9viation de l'expression anglaise blue devils (\u00ab diables bleus \u00bb), qui signifie \u00ab id\u00e9es noires \u00bb. Le terme blue d'o\u00f9 le blues est aussi d\u00e9riv\u00e9 de l'ancien fran\u00e7ais et signifie \u00ab l'histoire personnelle \u00bb (il reste dans la langue fran\u00e7aise actuelle le terme bluette, qui est, pour tous les bluesmen, la signification du blues, une chanson \u00e0 la premi\u00e8re personne du singulier). La note bleue, ou blue note en anglais (quarte augment\u00e9e ou quinte diminu\u00e9e) ajout\u00e9e \u00e0 la gamme",
         "code": "81000",
         "county_name": "Tarn",
-        "town": "Albi",
+        "town": "",
         "avatar": "band_avatar/2019-02-04-19.jpg",
         "created_at": "2019-02-04T16:15:58.561Z",
-        "updated_at": "2019-02-06T11:17:12.757Z",
+        "updated_at": "2019-02-19T17:36:33.521Z",
         "type": "Groupe de Compos",
         "musical_genre": "Blues",
         "owner": 1,
@@ -660,6 +761,25 @@
         "owner": 5,
         "slug": "noname",
         "updated_by": 5
+    }
+},
+{
+    "model": "band.band",
+    "pk": 29,
+    "fields": {
+        "name": "Lonely girl",
+        "bio": "I woke up in the middle of the night\r\nAnd I noticed my girl wasn't by my side\r\nCoulda sworn I was dreamin', for her I was feenin'\r\nSo I hadda take a little ride\r\nBack tracking ova these few years\r\nTryna figure out what I do to make it go bad\r\nCause ever since my girl left me\r\nMy whole left life came crashin'",
+        "code": "68000",
+        "county_name": "Haut-Rhin",
+        "town": "Colmar",
+        "avatar": "band_avatar/2019-02-25-29.jpg",
+        "created_at": "2019-02-25T09:51:11.259Z",
+        "updated_at": "2019-02-25T09:51:11.904Z",
+        "type": "Groupe de Compos",
+        "musical_genre": "Folk",
+        "owner": 40,
+        "slug": "lonely-girl",
+        "updated_by": null
     }
 },
 {
@@ -850,6 +970,418 @@
         "band": 23,
         "date_joined": "2019-02-15",
         "invite_reason": "Un bon batteur"
+    }
+},
+{
+    "model": "band.membership",
+    "pk": 58,
+    "fields": {
+        "musician": 40,
+        "band": 29,
+        "date_joined": "2019-02-25",
+        "invite_reason": "band's fouder"
+    }
+},
+{
+    "model": "band.membership",
+    "pk": 59,
+    "fields": {
+        "musician": 4,
+        "band": 29,
+        "date_joined": "2019-02-25",
+        "invite_reason": "pour ne pas \u00eatre seule"
+    }
+},
+{
+    "model": "band.membership",
+    "pk": 60,
+    "fields": {
+        "musician": 3,
+        "band": 29,
+        "date_joined": "2019-02-25",
+        "invite_reason": "bonne recrue"
+    }
+},
+{
+    "model": "announcement.musicianannouncement",
+    "pk": 1,
+    "fields": {
+        "title": "Bassiste cherche groupe",
+        "content": "vbxxxxxxxxxxxxxxxxx",
+        "county_name": "H\u00e9rault",
+        "town": "Montpellier",
+        "created_at": "2019-02-19T17:34:08.462Z",
+        "is_active": false,
+        "author": 1
+    }
+},
+{
+    "model": "announcement.musicianannouncement",
+    "pk": 2,
+    "fields": {
+        "title": "cherche basse tr\u00e8s ch\u00e8re mais pas ch\u00e8re",
+        "content": "je cherche une basse pas ch\u00e8re",
+        "county_name": "H\u00e9rault",
+        "town": "Montpellier",
+        "created_at": "2019-02-20T22:14:22.775Z",
+        "is_active": true,
+        "author": 1
+    }
+},
+{
+    "model": "announcement.musicianannouncement",
+    "pk": 3,
+    "fields": {
+        "title": "Bassiste cherche groupe",
+        "content": "Encore et toujours",
+        "county_name": "H\u00e9rault",
+        "town": "Montpellier",
+        "created_at": "2019-02-19T17:35:32.016Z",
+        "is_active": false,
+        "author": 1
+    }
+},
+{
+    "model": "announcement.musicianannouncement",
+    "pk": 4,
+    "fields": {
+        "title": "Super Bassiste cherche super Groupe",
+        "content": "et encore une annonce",
+        "county_name": "H\u00e9rault",
+        "town": "Montpellier",
+        "created_at": "2019-02-19T18:20:35.353Z",
+        "is_active": true,
+        "author": 1
+    }
+},
+{
+    "model": "announcement.musicianannouncement",
+    "pk": 5,
+    "fields": {
+        "title": "Bassiste cherche concert solo",
+        "content": "je suis seul je sais pas jouer et j'aimerai faire des concerts",
+        "county_name": "Nord",
+        "town": "Lilli",
+        "created_at": "2019-02-20T14:00:28.396Z",
+        "is_active": true,
+        "author": 1
+    }
+},
+{
+    "model": "announcement.musicianannouncement",
+    "pk": 6,
+    "fields": {
+        "title": "Batteur cherche groupe",
+        "content": "Salut je joue assez bien de la batterie , dans 9 formations d\u00e9j\u00e0 . Souvent en tourn\u00e9e ! Mais encore un peu dispo pour m'\u00e9clater!!!",
+        "county_name": "Haute-Garonne",
+        "town": "Tournefeuille",
+        "created_at": "2019-02-20T22:48:57.855Z",
+        "is_active": true,
+        "author": 5
+    }
+},
+{
+    "model": "announcement.musicianannouncement",
+    "pk": 7,
+    "fields": {
+        "title": "Guitariste cherche groupe",
+        "content": "Bonjour,\r\n\r\nJe suis \u00e0 la recherche de musiciens s\u00e9rieux pour la cr\u00e9ation d\u2019un nouveau groupe de nouvelle g\u00e9n\u00e9ration de Kompas sur Paris (75).\r\nPour cela nous recherchons des musiciens qui ont envie de continuer \u00e0 apprendre tout en s\u2019amusent, bosseur, et le gout des projets achever.\r\nNos recherche s\u2019oriente sur de jeunes Ha\u00eftien entre 18 et 30 ans qui ne joue dans aucun groupe.\r\n\r\nD\u00e9butant accepter avec une base minimum",
+        "county_name": "H\u00e9rault",
+        "town": "Montpellier",
+        "created_at": "2019-02-20T22:56:19.369Z",
+        "is_active": true,
+        "author": 4
+    }
+},
+{
+    "model": "announcement.musicianannouncement",
+    "pk": 8,
+    "fields": {
+        "title": "Percussionniste cherche groupe",
+        "content": "je cherche un groupe pour faire des beufs",
+        "county_name": "Haute-Garonne",
+        "town": "Toulouse",
+        "created_at": "2019-02-25T10:42:48.210Z",
+        "is_active": true,
+        "author": 47
+    }
+},
+{
+    "model": "announcement.musicianannouncement",
+    "pk": 9,
+    "fields": {
+        "title": "Vend batterie",
+        "content": "La batterie enfant Ekids DSJ100 a tout d'une grande, sauf les dimensions ! Adapt\u00e9e aux enfants de 10 ans et moins pour l'apprentissage de la batterie et d\u00e9clin\u00e9e en quatre coloris, un kit complet parfait pour d\u00e9buter.",
+        "county_name": "Haute-Garonne",
+        "town": "Tournefeuille",
+        "created_at": "2019-02-26T16:17:49.606Z",
+        "is_active": true,
+        "author": 5
+    }
+},
+{
+    "model": "announcement.musicianannouncement",
+    "pk": 10,
+    "fields": {
+        "title": "Bassiste cherche groupe",
+        "content": "fggf",
+        "county_name": "H\u00e9rault",
+        "town": "",
+        "created_at": "2019-02-28T10:04:15.828Z",
+        "is_active": false,
+        "author": 1
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 19,
+    "fields": {
+        "content": "salut Django! j'aimerai bien rejoindre ton projet!",
+        "created_at": "2019-02-27T10:25:56.099Z",
+        "parent_id": null,
+        "author": 1,
+        "recipient": 4,
+        "musician_announcement": 7
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 20,
+    "fields": {
+        "content": "hey django!!! Un super clavieriste \u00e7a te dit ?",
+        "created_at": "2019-02-27T10:31:59.452Z",
+        "parent_id": null,
+        "author": 11,
+        "recipient": 4,
+        "musician_announcement": 7
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 21,
+    "fields": {
+        "content": "hey JP why not!",
+        "created_at": "2019-02-27T10:39:30.277Z",
+        "parent_id": 20,
+        "author": 4,
+        "recipient": 11,
+        "musician_announcement": 7
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 22,
+    "fields": {
+        "content": "coucou ma belle ben oui une super bassiste serait la bien venue!",
+        "created_at": "2019-02-27T10:40:40.911Z",
+        "parent_id": 19,
+        "author": 4,
+        "recipient": 1,
+        "musician_announcement": 7
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 23,
+    "fields": {
+        "content": "Je suis interess\u00e9e par ta batterie ! est-elle toujours \u00e0 vendre?",
+        "created_at": "2019-02-27T12:04:17.608Z",
+        "parent_id": null,
+        "author": 1,
+        "recipient": 5,
+        "musician_announcement": 9
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 24,
+    "fields": {
+        "content": "coucou ! Oui elle est toujours \u00e0 vendre!",
+        "created_at": "2019-02-27T12:42:01.145Z",
+        "parent_id": 23,
+        "author": 5,
+        "recipient": 1,
+        "musician_announcement": 9
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 25,
+    "fields": {
+        "content": "salut! tu s\u00fbre un concert solo ?",
+        "created_at": "2019-02-27T13:02:16.649Z",
+        "parent_id": null,
+        "author": 40,
+        "recipient": 1,
+        "musician_announcement": 5
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 26,
+    "fields": {
+        "content": "euh ben oui pourquoi ?",
+        "created_at": "2019-02-27T14:37:53.713Z",
+        "parent_id": 25,
+        "author": 1,
+        "recipient": 40,
+        "musician_announcement": 5
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 27,
+    "fields": {
+        "content": "salut j'ai une ATK ibanez si tu veux je peux te faire une proposition",
+        "created_at": "2019-02-27T14:47:33.803Z",
+        "parent_id": null,
+        "author": 6,
+        "recipient": 1,
+        "musician_announcement": 2
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 28,
+    "fields": {
+        "content": "Salut Miquel! oui \u00e7a m'interresse",
+        "created_at": "2019-02-27T14:56:59.171Z",
+        "parent_id": 27,
+        "author": 1,
+        "recipient": 6,
+        "musician_announcement": 2
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 29,
+    "fields": {
+        "content": "euh excuse je te laisse mon tel",
+        "created_at": "2019-02-27T14:58:32.369Z",
+        "parent_id": 27,
+        "author": 1,
+        "recipient": 6,
+        "musician_announcement": 2
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 30,
+    "fields": {
+        "content": "ben ok j'arrive!",
+        "created_at": "2019-02-27T15:10:10.913Z",
+        "parent_id": 19,
+        "author": 1,
+        "recipient": 1,
+        "musician_announcement": 7
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 31,
+    "fields": {
+        "content": "Salut !!! J'en ai une pas tr\u00e8s ch\u00e8re et avec un bon son!",
+        "created_at": "2019-02-27T15:51:26.660Z",
+        "parent_id": null,
+        "author": 47,
+        "recipient": 1,
+        "musician_announcement": 2
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 32,
+    "fields": {
+        "content": "Salut Raoul !!! Ecoute je veux bien venir la voir \r\n",
+        "created_at": "2019-02-27T16:03:49.973Z",
+        "parent_id": 23,
+        "author": 1,
+        "recipient": 1,
+        "musician_announcement": 9
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 33,
+    "fields": {
+        "content": "Salut je cherche une batterie!",
+        "created_at": "2019-02-27T16:14:44.682Z",
+        "parent_id": null,
+        "author": 7,
+        "recipient": 5,
+        "musician_announcement": 9
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 34,
+    "fields": {
+        "content": "ben je viens de voir que c'est une batterie enfant !",
+        "created_at": "2019-02-27T16:16:37.855Z",
+        "parent_id": 33,
+        "author": 7,
+        "recipient": 7,
+        "musician_announcement": 9
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 35,
+    "fields": {
+        "content": "Hey django  hippie pi check!!!",
+        "created_at": "2019-02-27T16:19:11.856Z",
+        "parent_id": 20,
+        "author": 11,
+        "recipient": 4,
+        "musician_announcement": 7
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 36,
+    "fields": {
+        "content": "\u00e7a roule ma poule",
+        "created_at": "2019-02-27T16:20:16.543Z",
+        "parent_id": 20,
+        "author": 4,
+        "recipient": 4,
+        "musician_announcement": 7
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 37,
+    "fields": {
+        "content": "et t'es l\u00e0 ?\r\n",
+        "created_at": "2019-02-27T16:49:52.260Z",
+        "parent_id": 20,
+        "author": 4,
+        "recipient": 11,
+        "musician_announcement": 7
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 38,
+    "fields": {
+        "content": "\u00e7a roule ma poule!",
+        "created_at": "2019-02-27T16:50:29.021Z",
+        "parent_id": 19,
+        "author": 4,
+        "recipient": 1,
+        "musician_announcement": 7
+    }
+},
+{
+    "model": "announcement.musiciananswerannouncement",
+    "pk": 39,
+    "fields": {
+        "content": "ben ok!",
+        "created_at": "2019-02-27T16:52:22.149Z",
+        "parent_id": 19,
+        "author": 1,
+        "recipient": 4,
+        "musician_announcement": 7
     }
 }
 ]
