@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from authentication.models import User
 from musicians.models import UserProfile, Instrument
 from band.models import Band, Membership
+from announcement.models import MusicianAnnouncement, MusicianAnswerAnnouncement
 
 class Command(BaseCommand):
 
@@ -19,15 +20,22 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
+
         table_1 = Membership.objects.all()
         table_3 = Instrument.objects.all()
         table_2 = Band.objects.all()
         table_4 = UserProfile.objects.all()
         table_5 = User.objects.all()
+        table_6 = MusicianAnswerAnnouncement.all()
+        table_7 = MusicianAnnouncement.all()
 
 
 
         if options['delete']:
+            table_6.delete()
+            self.stdout.write(self.style.SUCCESS('Successfully deleted  MusicianAnswerAnnouncement table '))
+            table_7.delete()
+            self.stdout.write(self.style.SUCCESS('Successfully deleted  MusicianAnnouncement table '))
             table_1.delete()
             self.stdout.write(self.style.SUCCESS('Successfully deleted  Membership table '))
             table_2.delete()
