@@ -49,6 +49,11 @@ class MyTestCase(TestCase):
         # Factory
         self.factory = RequestFactory()
 
+        # add a second members to test some features
+        self.email2 = 'paul@gmail.com'
+        self.password2 = 'aqwz7418'
+        self.test_user2 = User.objects.create_user(self.email2, self.password2)
+
 
 class AnnouncementCreateTest(MyTestCase):
     ''' Test create new ads and valid the form to do this'''
@@ -265,11 +270,288 @@ class AnnouncementDetailTest(MyTestCase):
         list_template = [t.name for t in response.templates]
         assert 'announcement/announcement.html' in list_template
         assert 'announcement/answer.html' in list_template
-        # assert 'core/sidenav_connected.html' in list_template
         self.assertContains(response, 'Pour répondre se connecter')
         self.assertContains(response, 'Coucou Toi!')
         self.client.login(username=self.email, password=self.password)
         response = self.client.get(url)
         self.assertNotContains(response, 'Pour répondre se connecter')
         self.assertContains(response, 'Répondre')
+        # print(response.context_data['musicianannouncement'].author)
+
+
+class AnswerAnnouncementTest(MyTestCase):
+
+    def setUp(self):
+        super(AnswerAnnouncementTest, self).setUp()
+        self.url = reverse('announcement:post_answer')
+
+
+
+    def test_view_post_invalid_1(self):
+        ''' User connected can not response to his own announcement'''
+        # after count response
+        data = {'answer_text' : 'Salut, ça roule ?',
+                'a_id' : self.a1.id }
+        request = self.factory.post(self.url, data)
+        request.user = self.test_user
+
+        # adding session
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        request.session.save()
+
+        # adding messages
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
+        # test the view
+        response = views.AnswerAnnouncement.as_view()(request)
+        # test the success message
+        for m in messages:
+            message = str(m)
+        self.assertEqual(message, "Vous ne pouvez pas répondre à votre propre annonce")
+        # # redirect to list_announcement
+        self.assertEqual(response.status_code, 302)
+        redirect_url = '/announcement/detail_post/{}'.format(self.a1.id)
+        self.assertEqual(response['location'], redirect_url)
+
+        # no response is posted
+        message = MusicianAnswerAnnouncement.objects.count()
+        self.assertEqual(message, 0)
+
+    def test_view_post_invalid_2(self):
+        ''' User connected can not response to his own announcement'''
+        data = {'answer_text': 'xccccccccccccccccccccccccccccccc'
+                               'cccccccccccccccccccccccccccccccc'
+                               'cccccccccccccccccccccccccccccccccc'
+                               'ccccccccccccccccccccccccccccccccccccc'
+                               'cccccccccccccccccccccccccccccccccccccccc'
+                               'cccccccccccccccccccccccccccccccccccccccccccccccc',
+                'a_id' : self.a1.id }
+        request = self.factory.post(self.url, data)
+        request.user = self.test_user2
+
+        # adding session
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        request.session.save()
+
+        # adding messages
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
+        # test the view
+        response = views.AnswerAnnouncement.as_view()(request)
+        # test the success message
+        for m in messages:
+            message = str(m)
+        self.assertEqual(message, "Réponse trop longue")
+        # redirect to list_announcement
+        self.assertEqual(response.status_code, 302)
+        redirect_url = '/announcement/detail_post/{}'.format(self.a1.id)
+        self.assertEqual(response['location'], redirect_url)
+
+        # no response is posted
+        message = MusicianAnswerAnnouncement.objects.count()
+        self.assertEqual(message, 0)
+
+    def test_view_post_valid(self):
+        ''' User connected can not response to his own announcement'''
+        data = {'answer_text': 'Salut! Ton annonce est chouette',
+                'a_id' : self.a1.id }
+        request = self.factory.post(self.url, data)
+        request.user = self.test_user2
+        # adding session
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        request.session.save()
+
+        # adding messages
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
+        # test the view
+        response = views.AnswerAnnouncement.as_view()(request)
+        # print(response.templates)
+        # test the success message
+        for m in messages:
+            message = str(m)
+        self.assertEqual(message, 'Votre réponse est envoyée vous pouvez la retrouver dans Mes messages!')
+        # # redirect to list_announcement
+        self.assertEqual(response.status_code, 302)
+        redirect_url = '/announcement/detail_post/{}'.format(self.a1.id)
+        self.assertEqual(response['location'], redirect_url)
+
+        # no response is posted
+        message = MusicianAnswerAnnouncement.objects.count()
+        self.assertEqual(message, 1)
+
+        # test if the announcement foreign_key is correct
+        message= MusicianAnswerAnnouncement.objects.get(content='Salut! Ton annonce est chouette')
+        self.assertEqual(message.musician_announcement, self.a1)
+        # test if the recipient is correct
+        self.assertEqual(message.recipient, self.test_user)
+
+
+class AnswerMessageTest(MyTestCase):
+
+    def setUp(self):
+        super(AnswerMessageTest, self).setUp()
+        self.url = reverse('announcement:post_message')
+        # we must create a first message to response to
+        self.first_message = MusicianAnswerAnnouncement.objects.create(content='Je vends bibi',
+                                                                      author=self.test_user,
+                                                                      musician_announcement=self.a1)
+        self.data = {'message_text' : 'Salut! Comment ça va !',
+                     'm_id': self.first_message.id,
+                     'm_ads': self.a1.id,
+                     'm_recipient': self.first_message.author.userprofile.username}
+        # we differentiate, in JS code in the template message.html , parent_recipient between the two type of response
+        # here for the test we put self.first_message.author but in the other case is self.announcement.author
+
+    def test_post_invalid(self):
+        self.data['message_text'] = 'xccccccccccccccccccccccccccccccc'\
+                                    'cccccccccccccccccccccccccccccccc'\
+                                    'cccccccccccccccccccccccccccccccccc'\
+                                    'ccccccccccccccccccccccccccccccccccccc'\
+                                    'cccccccccccccccccccccccccccccccccccccccc'\
+                                    'cccccccccccccccccccccccccccccccccccccccccccccccc'
+
+        request = self.factory.post(self.url, self.data)
+        request.user = self.test_user2
+
+        # adding session
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        request.session.save()
+
+        # adding messages
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
+        # test the view
+        response = views.AnswerMessage.as_view()(request)
+        # test the un_success message
+        for m in messages:
+            message = str(m)
+        self.assertEqual(message, "Réponse trop longue")
+
+        # redirect to list_message
+        self.assertEqual(response.status_code, 302)
+        redirect_url = '/announcement/list_message/'
+        self.assertEqual(response['location'], redirect_url)
+
+        # no response is posted
+        message = MusicianAnswerAnnouncement.objects.count()
+        self.assertEqual(message, 1)
+
+    def test_post_valid(self):
+
+        request = self.factory.post(self.url, self.data)
+        request.user = self.test_user2
+
+        # adding session
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        request.session.save()
+
+        # adding messages
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
+        # test the view
+        response = views.AnswerMessage.as_view()(request)
+        # test the success message
+        for m in messages:
+            message = str(m)
+        self.assertEqual(message, 'Votre réponse est postée')
+
+        # redirect to list_message
+        self.assertEqual(response.status_code, 302)
+        redirect_url = '/announcement/list_message/'
+        self.assertEqual(response['location'], redirect_url)
+
+        # no response is posted
+        message = MusicianAnswerAnnouncement.objects.count()
+        self.assertEqual(message, 2)
+
+class AnnouncementMessageTest(MyTestCase):
+    ''' test the view witch display messages. To test this view we must create some message'''
+
+    def setUp(self):
+        super(AnnouncementMessageTest, self).setUp()
+        self.url = reverse('announcement:announcement_messages')
+        # create a first message to response to an announcement : paul reply to tata ads
+        self.first_message = MusicianAnswerAnnouncement.objects.create(content='Je suis interessé par bibi',
+                                                                       author=self.test_user2,
+                                                                       musician_announcement=self.a1)
+        # create the response to this first message : tata reply to paul who answered
+        self.second_message =  MusicianAnswerAnnouncement.objects.create(content='bobo ?',
+                                                                         author=self.test_user,
+                                                                         parent_id=self.first_message,
+                                                                         recipient=self.test_user2,
+                                                                         musician_announcement=self.a1)
+        # create an other ads witch is posted by test_user2
+        self.a6 = MusicianAnnouncement.objects.create(title='bibi cherche bobo',
+                                                      content="je fais de la musique",
+                                                      author=self.test_user2)
+        # create response to this announcement : tata reply to paul
+        self.third_message = MusicianAnswerAnnouncement.objects.create(content='coucou bobo',
+                                                                       author=self.test_user,
+                                                                       musician_announcement=self.a6,
+                                                                       recipient=self.test_user2)
+
+    def test_list_message(self):
+        ''' test context data, this views return two context "aswered_ads_list" ans "respose_to_published_ads"'''
+
+        url = reverse('announcement:announcement_messages')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        list_template = [t.name for t in response.templates]
+        assert 'announcement/message.html' in list_template
+        assert 'core/display_messages.html' in list_template
+        assert 'core/sidenav_connected.html' in list_template
+        # the list of announcements to which the user has replied
+        self.assertEqual(len(response.context_data['answered_ads_list']), 1)
+        self.assertEqual(response.context_data['answered_ads_list'][0].musician_announcement.title, 'bibi cherche bobo')
+        # test the return of the ads witch user has responded to
+        self.assertEqual(response.context_data['answered_ads_list'][0].musician_announcement.author, self.test_user2)
+        self.assertEqual(response.context_data['answered_ads_list'][0].content, 'coucou bobo')
+        # the list of replies to ads placed by the user
+        self.assertEqual(len(response.context_data['response_to_published_ads']), 1)
+        self.assertEqual(response.context_data['response_to_published_ads'][0].musician_announcement.title, 'title1')
+        # the response to this ads
+        self.assertEqual(response.context_data['response_to_published_ads'][0].author, self.test_user2)
+        self.assertEqual(response.context_data['response_to_published_ads'][0].content, 'Je suis interessé par bibi')
+
+    def test_return_ajax(self):
+        ''' the list of message to message is returned by ajax call'''
+        # specially for ajax view
+        kwargs = {'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
+        url = reverse('announcement:message_to_message')
+        get_data = {'parent_message': self.first_message.id}
+        request = self.factory.get(url, get_data, **kwargs)
+        request.user = self.test_user
+        response = views.message_to_message(request)
+        self.assertEqual(response.status_code, 200)
+        # test the return of ajax call
+        response_content = str(response.content, encoding='utf8')
+        self.assertJSONEqual(response_content,
+                             [{"created_at": "01 March 2019", "content": "Je suis interess\u00e9 par bibi",
+                               "author_userprofile_id": 22, "author": ""},
+                              {"created_at": "01 March 2019","content": "coucou bobo",
+                               "author_userprofile_id": 21, "author": "Super Tatie"}])
+
+    def test_return_ajax_fail(self):
+        ''' in the impossible case where the view will return a 'fail'''
+        # kwargs = {''}
+        url = reverse('announcement:message_to_message')
+        get_data = {'parent_message': self.first_message.id}
+        request = self.factory.get(url, get_data)
+        request.user = self.test_user
+        response = views.message_to_message(request)
+        self.assertEqual(response.status_code, 200)
+        # test the return of ajax call
+        response_content = str(response.content, encoding='utf8')
+        self.assertEqual(response_content, '"fail"')
 

@@ -368,7 +368,7 @@ class AddMemberTest(MyTestCase):
 
 class AutocompleteTest(MyTestCase):
     ''' we test the fucntion witch autocomplete fields with member names , query on database)'''
-
+    # todo : pythonclassmates example of how to test an ajax view
     def test_autocomplete_username(self):
         # specially for ajax view
         kwargs = {'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}

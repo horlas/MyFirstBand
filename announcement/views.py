@@ -132,7 +132,7 @@ class AnswerAnnouncement(LoginRequiredMixin, SuccessMessageMixin, FormView):
                      )
                 response.save()
                 # todo : we can imagine here send an email to the recipient
-                print(a.author) # email of the recipient
+                # print(a.author) # email of the recipient
                 messages.success(self.request, ("Votre réponse est envoyée vous pouvez la retrouver dans Mes messages!"))
                 return redirect(reverse_lazy("announcement:detail_announcement", kwargs={'pk': a_id}))
 
@@ -147,8 +147,6 @@ class AnswerMessage(LoginRequiredMixin, SuccessMessageMixin, FormView):
         parent_id = request.POST['m_id']
         parent_ads = request.POST['m_ads']
         parent_recipient = request.POST['m_recipient']
-
-
         if len(content) > 200:
             # to avoid problems with insert a response too long in database
             messages.error(self.request, 'Réponse trop longue')
@@ -212,6 +210,7 @@ def message_to_message(request):
 
     if request.is_ajax():
         q = request.POST.get('parent_message')
+        print(q)
         messages = MusicianAnswerAnnouncement.objects.filter(parent_id=q).order_by('created_at')
         results = []
         for m in messages:
