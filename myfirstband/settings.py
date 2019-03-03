@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     'django_extensions',
+    'social_django',
     'authentication',
     'musicians',
     'core',
@@ -110,10 +111,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# When using PostgreSQL, it’s recommended to use the built-in JSONB field to store the extracted extra_data
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+
 # User substitution
 # https://docs.djangoproject.com/en/1.11/topics/auth/customizing/#auth-custom-user
 
 AUTH_USER_MODEL = 'authentication.User'
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

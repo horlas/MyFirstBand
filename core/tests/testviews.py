@@ -100,6 +100,15 @@ class AccueilTest(MyTestCase):
         # card_band = self.session.get(self.url).xpath('//section[@id="bands"]//div[@class="card"]')
         # self.assertEqual(len(card_band), 6)
 
+class TestPrivacyPolicy(MyTestCase):
+    def test_privacy_policy(self):
+        url = reverse('core:privacy')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+
+
+
 
 class SidenavBarTest(MyTestCase):
     ''' Test NavBar Content '''

@@ -536,10 +536,12 @@ class AnnouncementMessageTest(MyTestCase):
         self.assertEqual(response.status_code, 200)
         # test the return of ajax call
         response_content = str(response.content, encoding='utf8')
+        create_at_first = self.first_message.created_at.strftime("%d %B %Y")
+        create_at_third = self.third_message.created_at.strftime("%d %B %Y")
         self.assertJSONEqual(response_content,
-                             [{"created_at": "01 March 2019", "content": "Je suis interess\u00e9 par bibi",
+                             [{"created_at": create_at_first,  "content": "Je suis interess\u00e9 par bibi",
                                "author_userprofile_id": 22, "author": ""},
-                              {"created_at": "01 March 2019","content": "coucou bobo",
+                              {"created_at": create_at_third, "content": "coucou bobo",
                                "author_userprofile_id": 21, "author": "Super Tatie"}])
 
     def test_return_ajax_fail(self):

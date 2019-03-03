@@ -20,6 +20,7 @@ gunicorn = "*"
 psycopg2 = "*"
 psycopg2-binary = "*"
 django-extensions = "*"
+social-auth-app-django = "*"
 
 [requires]
 python_version = "3.5"

@@ -25,6 +25,10 @@ def accueil(request):
     return render(request, 'core/index.html', context)
 
 
+def privacy(request):
+    return render(request, 'core/privacy_policy.html')
+
+
 class BandProfileView(DetailView):
 
     model = Band

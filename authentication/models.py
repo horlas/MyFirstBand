@@ -42,7 +42,6 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 
-
 class User(AbstractUser):
     '''User model with email instead username'''
     username = None

@@ -130,6 +130,7 @@ class LogoutView(MyTestCase):
         response = logout_view(request)
         self.assertEqual(response.status_code, 302)
 
+
 class LogoutViewTest(MyTestCase):
 
     def test_logout_user(self):
