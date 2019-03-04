@@ -55,14 +55,12 @@
          <label class="custom-label">Localisation :</label>
 
       </div>
-      <div class="col s3">
-          <input id="first" type="button" class="btn custom-btn custom-text " value="trouver">
-      </div>
+
    </div>
    <div class="row">
 
          {% csrf_token %}
-         <div style="display: none"  id="cp" >
+         <div  id="cp" >
             <div class="col s7">
                {{ form.code|add_label_class:"custom-label"  }}
                {{ form.code|append_attr:"class:validate" }}

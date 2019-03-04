@@ -1,13 +1,5 @@
-$("#first").click(function() {
-
-  $("#first").hide();
-  $("#cp").show();
-  //$("#btn_send").show();
-  //empty id_code
-  $('#id_code').val('');
-
-
   $("#send").click(function () {
+        console.log('yes');
 
       var $code = $('#id_code').val();
 
@@ -47,8 +39,9 @@ $("#first").click(function() {
           instance.open();
       }
 
+
         });
-});
+//});
 
 //validate postal code
 
@@ -67,9 +60,10 @@ function createURL(code) {
     return(baseURL+code+'&'+ $.param( params ))
 }
 
-// initialize the select choice
+// initialize the select choice //and empty the postal code area
   $(document).ready(function(){
     $('select').formSelect();
+    $('#id_code').val('');
   });
 
 // script to display list of instrument in order to delete just one

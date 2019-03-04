@@ -1,21 +1,16 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView, FormView, CreateView
+from django.views.generic import FormView, CreateView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-from django.db import transaction
 from django.contrib import messages
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.utils import timezone
-# from django.views.generic import CreateView
-from band.forms import ProfileBandForm, MemberCreateForm
 from musicians.models import Instrument
-from band.models import Membership
 from musicians.models import UserProfile, User
 from band.forms import *
 from band.models import Band

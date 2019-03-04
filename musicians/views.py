@@ -7,10 +7,10 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.contrib import messages
-
+from django.views.generic.edit import UpdateView
 from core.utils import get_age
 from musicians.forms import ProfileForm, AvatarForm, LocalForm, InstruDeleteForm, InstruCreateForm
-from musicians.models import Instrument
+from musicians.models import Instrument, UserProfile
 from band.models import Band
 from authentication.models import User
 
