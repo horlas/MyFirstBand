@@ -19,10 +19,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+
 SECRET_KEY = '80=sipkw)w_dj5$x$@+^eizi#w3!oput!3hg7go_nxv_)u&d7+'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'testserver']
@@ -55,6 +54,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'social_django.middleware.SocialAuthExceptionMiddleware',  # <--
+
 ]
 
 ROOT_URLCONF = 'myfirstband.urls'
@@ -70,6 +72,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'social_django.context_processors.backends',  # <--
+                'social_django.context_processors.login_redirect',  # <--
+
             ],
         },
     },
@@ -111,18 +117,67 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# When using PostgreSQL, it’s recommended to use the built-in JSONB field to store the extracted extra_data
-SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+
 
 # User substitution
 # https://docs.djangoproject.com/en/1.11/topics/auth/customizing/#auth-custom-user
 
 AUTH_USER_MODEL = 'authentication.User'
 
+
+# Social_authentication
+
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+# When using PostgreSQL, it’s recommended to use the built-in JSONB field to store the extracted extra_data
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+
+# In case you need a custom namespace, this setting is also needed:
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+# Api Google authentication
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('GOOGLE_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('GOOGLE_SECRET')
+
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['email', 'password']
+
+LOGIN_REDIRECT_URL = '/'
+
+# custom functions to create user instance on social auth
+SOCIAL_AUTH_PIPELINE = (
+    # Get the information we can about the user and return it in a simple
+    # format to create the user instance later. On some cases the details are
+    # already part of the auth response from the provider, but sometimes this
+    # could hit a provider API.
+    'social_core.pipeline.social_auth.social_details',
+    # Get the social uid from whichever service we're authing thru. The uid is
+    # the unique identifier of the given user in the provider.
+    'social_core.pipeline.social_auth.social_uid',
+    # Verifies that the current auth process is valid within the current
+    # project, this is where emails and domains whitelists are applied (if
+    # defined).
+    'social_core.pipeline.social_auth.auth_allowed',
+    # Checks if the current social-account is already associated in the site.
+    'social_core.pipeline.social_auth.social_user',
+    # Verifies that the current auth process is valid within the current
+    # project, this is where emails and domains whitelists are applied (if
+    # defined).
+    'social_core.pipeline.social_auth.auth_allowed',
+    # Checks if the current social-account is already associated in the site.
+    'social_core.pipeline.social_auth.social_user',
+    # Associates the current social details with another user account with
+    # a similar email address. Disabled by default.
+    'social_core.pipeline.social_auth.associate_by_email',
+    # Create a user account if we haven't found one yet.
+    'social_core.pipeline.user.create_user',
+    # Create the record that associates the social account with the user.
+    'social_core.pipeline.social_auth.associate_user',
+)
+
+LOGOUT_REDIRECT_URL = '/core/'
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -160,7 +215,7 @@ STATICFILES_DIRS = [
  ]
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
-LOGOUT_REDIRECT_URL = '/core/'
+
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'core/media/')

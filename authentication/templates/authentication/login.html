@@ -37,6 +37,21 @@
                <div class="input-field col s6 m6 l6">
                   <p class="margin medium-small "><a href="{% url 'authentication:signup' %}?next={{ request.path|urlencode }}"  class="custom-text-link-login"><b>Créer un compte !</b></a></p>
                </div>
+               <!--<div class="divider"></div>-->
+               <!---->
+                  <!--<p class="margin medium-small "><aclass="custom-text-link-login"><b>Se connecter avec Google</b></a></p>-->
+               <!--</div>-->
+               <div class="input-field col s6 m6 l6">
+               <div class="btn white darken-4 col s10 ">
+                     <a  href="{% url 'social:begin' 'google-oauth2' %}" style="text-transform:none">
+                  <div class="left">
+                  <img width="20px" alt="Google Logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"/>
+                     </div>
+                  Login with Google
+                      </a>
+                  </div>
+               </div>
+
             </div>
          </div>
       </div>

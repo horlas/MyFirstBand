@@ -6,6 +6,7 @@ from django.views.generic.detail import DetailView
 from announcement.models import MusicianAnnouncement
 from musicians.models import UserProfile
 from core.utils import get_age
+from django.contrib.auth.decorators import login_required
 import os
 
 # Create your views here.

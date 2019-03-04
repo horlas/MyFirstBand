@@ -36,13 +36,23 @@
                   <div class="input-field col s12">
                      <button id=sigup_button' class="btn waves-effect waves-light btn col s12" type="submit">Creation de compte</button>
                   </div>
-                  <div class="input-field col s12">
+               </div>
+            </form>
+                  <div class="row center ">
+                     <div class="col s12">
+                    <a  href="{% url 'social:begin' 'google-oauth2' %}" style="text-transform:none" class="btn white darken-4 black-text" >
+                  <div class="left">
+                  <img width="20px" alt="Google Logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"/>
+                     </div>
+                  Login with Google
+                      </a>
+                  </div>
+                  </div>
                      <p class="margin center medium-small "> Déjà un compte ? <a href="{% url 'authentication:login' %}?next={{ request.path|urlencode }}" class="custom-text-link">Login</a></p>
                   </div>
                </div>
-            </form>
-         </div>
-      </div>
-   </div>
+
+                </div>
+
 </main>
 {% endblock %}
