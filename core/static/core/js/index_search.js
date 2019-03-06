@@ -18,28 +18,26 @@
               // console.log('on y va');
              // };
 
-         // ajax call to grap the query
-
+         // ajax call to grab the data
          $.post(
 
               "/core/ajax_call/search",
                {'item': item, 'cp': cp},
                function(response){
                         $('#content').empty();
-
+                        console.log(response);
                         var array = sliceArray(response);
                         console.log(array);
-                        $.each(response, function(index, value){
-                                //console.log(index);
-                                var card = createCard(value);
+                        $.each(array, function(index, row){
+                                var sub_array = row;
                                 var cont_card = document.createElement("div");
                                 $(cont_card).addClass('row');
-                                $(cont_card).append(card);
+                                $.each(row, function(index, value){
+                                        var card = createCard(value);
+                                        $(cont_card).append(card);
+                                    });
                                 $('#content').append(cont_card);
                                 });
-                        // add div row each 3 cards
-
-
                });
 
          };
@@ -50,7 +48,7 @@ function sliceArray(response){
     var new_array = [];
     $.each(response, function(index, value){
         var a = [];
-        if (response.length > 3) {
+        if (response.length >= 3) {
             for ( i = 0; i <3 ; i++ ){
                 a.push(response.pop())}
             new_array.push(a)
