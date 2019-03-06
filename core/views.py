@@ -6,15 +6,15 @@ from django.views.generic.detail import DetailView
 from announcement.models import MusicianAnnouncement
 from musicians.models import UserProfile
 from core.utils import get_age
-from django.contrib.auth.decorators import login_required
-import os
-
-# Create your views here.
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+import requests
 
 
 def accueil(request):
     context = {}
-    last_user = User.objects.all().order_by('-id')[:6]
+    last_user = User.objects.exclude(userprofile__username='')\
+                            .exclude(userprofile__avatar="").order_by('-id')[:6]
     # Todo : when user sign up , we don't need to display an empty profil
     context['last_users'] = last_user
 
@@ -28,6 +28,77 @@ def accueil(request):
 
 def privacy(request):
     return render(request, 'core/privacy_policy.html')
+
+@csrf_exempt
+def search(request):
+    ''' ajax return of messages witch depends of a parent_id'''
+
+    if request.is_ajax():
+        item = request.POST.get('item')
+        cp = request.POST.get('cp')
+        results = []
+        if item == 'Annonces':
+            url = 'https://geo.api.gouv.fr/departements?code={}&fields=nom'.format(cp)
+            response = requests.get(url)
+            dept = response.json()[0]['nom']
+            # query data base
+            ads = MusicianAnnouncement.objects.filter(county_name=dept)\
+                                              .order_by('created_at').values('id',
+                                                                             'title',
+                                                                             'town',
+                                                                             'county_name',
+                                                                             'created_at')
+            results = []
+            for a in ads:
+                results.append(a)
+            tag = {'tag': 'annonces'}
+            results.append(tag)
+
+        if item == 'Musiciens':
+            # query data : users who live in the same county, and witch have some data
+            mus = User.objects.filter(userprofile__code__startswith=cp)\
+                                     .exclude(userprofile__username='')\
+                                     .order_by('-id')
+
+            for m in mus:
+                # get instrument
+                instru_queryset = m.instrument_set.all()
+                dict_instru = {i.id: i.instrument for i in instru_queryset}
+                # for musicians who have no avatar display default imq
+                try:
+                    avatar = m.userprofile.avatar.url
+                except ValueError:
+                    avatar = 'static/core/img/0.jpg'
+                dic = {"name" : m.userprofile.username, 'avatar': avatar,
+                       "userprofile_pk" : m.userprofile.pk, 'town': m.userprofile.town,
+                       "county_name": m.userprofile.county_name,
+                        "instrument" : dict_instru, "tag": "musicians"}
+                results.append(dic)
+
+
+        if item == 'Groupes':
+            # query data : band
+            bands = Band.objects.filter(code__startswith=cp) \
+                                .exclude(name='') \
+                                .order_by('-id')
+            for b in bands:
+                # for band witch have no avatar display default img
+                try:
+                    avatar = b.avatar.url
+                except ValueError :
+                    avatar = 'static/core/img/0_band.jpg'
+
+                dic = {'name' : b.name, 'avatar' : avatar,
+                       'town' : b.town, 'county_name' : b.county_name,
+                       'type' : b.type, 'musical_genre' : b.musical_genre,
+                       'bio' : b.bio , 'slug': b.slug, 'tag': 'groupes'}
+                results.append(dic)
+
+    else:
+
+        results = 'fail'
+
+    return JsonResponse(results, safe=False)
 
 
 class BandProfileView(DetailView):

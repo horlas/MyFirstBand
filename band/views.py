@@ -13,7 +13,7 @@ from django.utils import timezone
 from musicians.models import Instrument
 from musicians.models import UserProfile, User
 from band.forms import *
-from band.models import Band
+from band.models import Band, Membership
 
 # Create your views here.
 

@@ -98,8 +98,6 @@ class Band(models.Model):
         (SOU, 'Soul'),
         (VAR, 'Variété'),
     )
-
-
     name = models.CharField('Nom du Groupe',
                             max_length=80,
                             default='En cours de création',

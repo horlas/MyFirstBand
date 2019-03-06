@@ -1,11 +1,72 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 {% block content %}
 <main>
    <div class="container">
       <h4 id="title">Bienvenue sur My First Band {{user.userprofile.username}} ! </h4>
       <div class="divider"></div>
       {% include 'core/display_messages.html' %}
+
+      <p class="flow-text">Musiciens ! Sur <strong>My First Band</strong> vous pouvez :
+      <ul>
+
+     <li>Rencontrer les musiciens près de chez vous ! </li>
+      <li>Rejoindre des groupes de musique en deux clics !</li>
+      <li> Echanger des messages ! </li>
+   </ul>
+   </p>
+
+      <p class="flow-text">Groupes ! <strong> Un espace vous est dédié ! </strong> </p>
+      <p> Dans un esprit collaboratif, il vous accompagne dans la gestion de votre projet de groupe . </p>
+      <ul>
+         <li>Partage d'un calendrier </li>
+         <li>Suivre l'avancée de votre travail sur vos morceaux .</li>
+         <li> Présenter votre groupe aux autres musiciens .</li>
+         <li>Passer des annonces  ou trouver de nouveaux membres.
+         <li>Ecrire l'historique du groupe.</li>
+          </ul>
+
+         <p class="flow-text">    N'hesitez pas ! Inscrivez vous en deux clics !</p>
+         <p class="flow-text">    Vous pouvez découvrir qui est déjà sur <strong>My First Band</strong></p>
+
+         <section id='search' class="">
+            <div class="row"><h6>Recherche sur le site  : </h6></div>
+            <div class="row ">
+
+
+               <div class="input-field col s3 ">
+               <select id="item">
+               <option value="" disabled selected>Choisis</option>
+               <option value="Annonces">Annonces</option>
+               <option value="Musiciens">Musiciens</option>
+               <option value="Groupes">Groupes</option>
+               </select>
+
+               </div>
+
+               <div class="col s1"></div>
+
+            <div class="input-field col s4">
+            <input id="id_cp" type="number" min="1" max="99" step="1" class="validate" onchange="if(this.value.length == 1)this.value='0'+this.value;" />
+               <label for="id_cp" class="custom-label">Code département</label>
+               <span class="helper-text" data-error="wrong" data-success="right">2 chiffres</span>
+            </div>
+           <div class="input-field col s4">
+           <button id='submit_search' class=" waves-effect waves-light btn custom-btn custom-text right" onclick="displayResults()" >
+           <i class="material-icons left">send</i>Envoyer</button>
+                   </div>
+
+
+               </div>
+
+         </section>
+
+
+
+
+<section id="content">
+
       <section id='musicians'>
          <h5> Nouveaux musiciens </h5>
          <div class="divider"></div>
@@ -21,7 +82,7 @@
                      <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" >
                      {% endif %}
                      <span class="card-title custom-bg custom-text">{{ member.userprofile.username }}</span>
-                      <span>{{ member.userprofile.id }}</span>
+
                      <a href='{% url "core:musician_profile" member.userprofile.pk  %}' class="btn-floating halfway-fab
                         waves-effect waves-light custom-btn-pink"><i class="material-icons">add</i></a>
                   </div>
@@ -50,7 +111,7 @@
                      <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" >
                      {% endif %}
                      <span class="card-title custom-bg custom-text">{{ member.userprofile.username }}</span>
-                      <span>{{ member.userprofile.id }}</span>
+
                      <a href='{% url "core:musician_profile" member.userprofile.pk  %}' class="btn-floating halfway-fab
                         waves-effect waves-light custom-btn-pink"><i class="material-icons">add</i></a>
                   </div>
@@ -123,13 +184,6 @@
             </div>
             {% endfor %}
          </div>
-
-
-
-
-
-
-
       </section>
       <section id='announcement'>
          <h5> Nouvelles annonces </h5>
@@ -150,7 +204,7 @@
             </div>
             {% endfor %}
          </div>
-                  <div id="second-annonce" class="row">
+            <div id="second-annonce" class="row">
             {% for a in last_announcement|slice:'3:6' %}
             <div class="col s3 m4">
                <div class="card custom-bg custom-text">
@@ -167,6 +221,14 @@
             {% endfor %}
          </div>
       </section>
+
+</section>
+
    </div>
 </main>
+{% endblock %}
+{% block script %}
+<script type="text/javascript" src="{% static 'core/js/index_search.js' %}">
+
+</script>
 {% endblock %}

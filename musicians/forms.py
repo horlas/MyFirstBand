@@ -5,6 +5,7 @@ from core.utils import current_year
 
 class ProfileForm(ModelForm):
     birth_year = fields.IntegerField(min_value=1918, max_value=current_year())
+
     class Meta:
         model = UserProfile
         fields = ['username', 'bio', 'birth_year', 'gender']

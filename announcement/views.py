@@ -64,6 +64,7 @@ def archive_announcement(request, *args, **kwargs):
     messages.success(request, "L'annonce a été archivée")
     return redirect(reverse_lazy('announcement:announcement_list'))
 
+
 @login_required()
 def online_announcement(request, *args, **kwargs):
     signal = request.POST['signal2']
@@ -73,6 +74,7 @@ def online_announcement(request, *args, **kwargs):
     messages.success(request, "L'annonce a été mise en ligne")
     return redirect(reverse_lazy('announcement:announcement_list'))
 # todo: display only is active tag announcement
+
 
 class AnnouncementUpdateView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
     ''' to update an announcement'''

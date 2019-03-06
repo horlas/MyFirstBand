@@ -1,6 +1,6 @@
-from django.forms import Form, ModelChoiceField, fields, ModelForm, Select, CharField
-from band.models import Band, Membership
-from django import forms
+from django.forms import Form, ModelForm, Select, CharField
+from band.models import Band
+
 
 class ProfileBandForm(ModelForm):
 
