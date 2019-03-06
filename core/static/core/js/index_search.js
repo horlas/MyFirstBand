@@ -11,12 +11,7 @@
 
          // grab data to send
          var item = $('#item').val();
-
          var cp = $('#id_cp').val();
-
-         //if ( ($cp.length == 2) && ($cp.isNumeric)){
-              // console.log('on y va');
-             // };
 
          // ajax call to grab the data
          $.post(
@@ -25,16 +20,24 @@
                {'item': item, 'cp': cp},
                function(response){
                         $('#content').empty();
-                        console.log(response);
+                        //console.log(response);
                         var array = sliceArray(response);
                         console.log(array);
                         $.each(array, function(index, row){
-                                var sub_array = row;
+                               // var sub_array = row;
                                 var cont_card = document.createElement("div");
                                 $(cont_card).addClass('row');
                                 $.each(row, function(index, value){
+                                //console.log(value);
+                                if (value.tag =='annonces'){
+                                        console.log(value.title);
+                                                var card = createCardAds(value);
+                                                }
+                                if ((value.tag == 'groupes') || (value.tag == 'musicians')) {
+
                                         var card = createCard(value);
-                                        $(cont_card).append(card);
+                                        }
+                                 $(cont_card).append(card);
                                     });
                                 $('#content').append(cont_card);
                                 });
@@ -50,19 +53,69 @@ function sliceArray(response){
         var a = [];
         if (response.length >= 3) {
             for ( i = 0; i <3 ; i++ ){
-                a.push(response.pop())}
-            new_array.push(a)
+                a.push(response.pop())};
+            new_array.push(a);
+
         if (response.length < 3){
-            new_array.push(response)}
-            }
-    })
+            new_array.push(response);
+            };
+            };
+            });
+
     return new_array;
+};
+
+
+// function to create card for announcement
+function createCardAds(value){
+    console.log('dddddddddddd');
+
+    var col_card = document.createElement("div");
+    $(col_card).addClass('col s3 m4');
+
+    var body_card = document.createElement("div");
+    $(body_card).addClass("card custom-bg custom-text");
+
+    var card_content = document.createElement("div");
+    $(card_content).addClass("card-content custom-text");
+
+    // create card_title
+    var title = document.createElement('span');
+    $(title).addClass("card-title");
+    $(title).text(value.title);
+    card_content.append(title);
+
+    // create local
+    var local = document.createElement('p');
+    $(local).text(value.town + ' ' + value.county_name);
+    card_content.append(local);
+
+    // create created_at
+    var time = document.createElement('p');
+    $(time).text(value.created_at);
+    card_content.append(time);
+
+    // create link
+    var cont_link = document.createElement('div');
+    $(cont_link).addClass("card-action");
+    var link = document.createElement("a");
+    var url = "announcement/detail_post/"+value.id;
+    $(link).attr({
+        href: url,
+        });
+    $(link).text("Lien vers l'annonce");
+    cont_link.append(link);
+    card_content.append(cont_link);
+    body_card.append(card_content);
+    col_card.append(body_card);
+    return col_card
+
 }
 
 
 // function to create cards
 function createCard(value){
-    //console.log(value);
+
     var col_card = document.createElement("div");
     $(col_card).addClass('col s3 m4');
 
@@ -82,9 +135,17 @@ function createCard(value){
     $(title).text(value.name);
     card_img.append(title);
 
+    if (value.tag =='groupes'){
     // create link to profile
     var link= linkProfileBand(value.slug);
     card_img.append(link);
+    }
+
+    if (value.tag =='musicians'){
+    // create link to profile
+    var link= linkProfileMusicians(value.pk);
+    card_img.append(link);
+    }
 
     // create card content
     var card_content = document.createElement("div");
@@ -131,14 +192,9 @@ function createCard(value){
     var local = document.createElement('p');
     $(local).text(value.town + ' ' + value.county_name);
     $(card_content).append(local);
-
-
-
-
     body_card.append(card_img);
     body_card.append(card_content);
     col_card.append(body_card);
-
     return col_card;
 
 }
@@ -189,3 +245,22 @@ function linkProfileBand(slug){
     link.append(ico);
     return link;
     }
+
+// function to create link profile for Musicians
+function linkProfileMusicians(pk){
+
+var ico = document.createElement('i');
+    $(ico).addClass("material-icons");
+    $(ico).text("add");
+
+    var link = document.createElement('a');
+//    var url = '{% url "core:band_profile" 1  %}';
+//    var good_url = url.replace('1', slug);
+    var url = 'core/musician_public/'+pk;
+    $(link).attr({
+        href: url,
+        class : "btn-floating halfway-fab waves-effect waves-light custom-btn-pink"
+        });
+    link.append(ico);
+    return link;
+}

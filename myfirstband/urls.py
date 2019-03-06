@@ -28,7 +28,7 @@ urlpatterns = [
     path('musicians/', include('musicians.urls', namespace='musicians')),
     path('band/', include('band.urls', namespace='band')),
     path('announcement/', include('announcement.urls', namespace='announcement')),
-    path('', core_views.accueil),
+    path('', core_views.accueil, name='home'),
 
 ]
 

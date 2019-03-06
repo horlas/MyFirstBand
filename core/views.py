@@ -43,6 +43,7 @@ def search(request):
             dept = response.json()[0]['nom']
             # query data base
             ads = MusicianAnnouncement.objects.filter(county_name=dept)\
+                                              .exclude(is_active=False)\
                                               .order_by('created_at').values('id',
                                                                              'title',
                                                                              'town',
@@ -50,9 +51,9 @@ def search(request):
                                                                              'created_at')
             results = []
             for a in ads:
+                a['created_at'] = a['created_at'].strftime("%d %B %Y")
+                a['tag'] = 'annonces'
                 results.append(a)
-            tag = {'tag': 'annonces'}
-            results.append(tag)
 
         if item == 'Musiciens':
             # query data : users who live in the same county, and witch have some data
@@ -69,8 +70,8 @@ def search(request):
                     avatar = m.userprofile.avatar.url
                 except ValueError:
                     avatar = 'static/core/img/0.jpg'
-                dic = {"name" : m.userprofile.username, 'avatar': avatar,
-                       "userprofile_pk" : m.userprofile.pk, 'town': m.userprofile.town,
+                dic = {"name": m.userprofile.username, 'avatar': avatar,
+                       "pk" : m.userprofile.pk, 'town': m.userprofile.town,
                        "county_name": m.userprofile.county_name,
                         "instrument" : dict_instru, "tag": "musicians"}
                 results.append(dic)
