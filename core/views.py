@@ -37,7 +37,20 @@ def search(request):
         item = request.POST.get('item')
         cp = request.POST.get('cp')
         results = []
-        if item == 'Annonces':
+        if item == 'Annonces' and cp == '':
+            # return all announcements
+            ads = MusicianAnnouncement.objects.exclude(is_active=False) \
+                                      .order_by('created_at').values('id',
+                                               'title',
+                                               'town',
+                                               'county_name',
+                                               'created_at')
+            for a in ads:
+                a['created_at'] = a['created_at'].strftime("%d %B %Y")
+                a['tag'] = 'annonces'
+                results.append(a)
+
+        if item == 'Annonces' and cp != '':
             url = 'https://geo.api.gouv.fr/departements?code={}&fields=nom'.format(cp)
             response = requests.get(url)
             dept = response.json()[0]['nom']
@@ -49,7 +62,7 @@ def search(request):
                                                                              'town',
                                                                              'county_name',
                                                                              'created_at')
-            results = []
+
             for a in ads:
                 a['created_at'] = a['created_at'].strftime("%d %B %Y")
                 a['tag'] = 'annonces'

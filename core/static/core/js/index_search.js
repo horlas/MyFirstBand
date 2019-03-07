@@ -12,7 +12,6 @@
          // grab data to send
          var item = $('#item').val();
          var cp = $('#id_cp').val();
-
          // ajax call to grab the data
          $.post(
 
@@ -20,17 +19,15 @@
                {'item': item, 'cp': cp},
                function(response){
                         $('#content').empty();
-                        //console.log(response);
                         var array = sliceArray(response);
-                        console.log(array);
+
                         $.each(array, function(index, row){
                                // var sub_array = row;
                                 var cont_card = document.createElement("div");
                                 $(cont_card).addClass('row');
                                 $.each(row, function(index, value){
-                                //console.log(value);
                                 if (value.tag =='annonces'){
-                                        console.log(value.title);
+
                                                 var card = createCardAds(value);
                                                 }
                                 if ((value.tag == 'groupes') || (value.tag == 'musicians')) {
@@ -68,7 +65,6 @@ function sliceArray(response){
 
 // function to create card for announcement
 function createCardAds(value){
-    console.log('dddddddddddd');
 
     var col_card = document.createElement("div");
     $(col_card).addClass('col s3 m4');
@@ -156,7 +152,6 @@ function createCard(value){
     // create bio
     var bio = document.createElement('p');
     var short_bio = $.trim(value.bio).substring(0, 100);
-    //console.log(short_bio);
     $(bio).text(short_bio+' ...');
     $(card_content).append(bio);
     // create row and divider
@@ -174,7 +169,6 @@ function createCard(value){
     }
     else if (value.tag == 'musicians'){
         $.each(value.instrument, function(index, instru){
-        //console.log(instru);
         var instrument = document.createElement('p');
         $(instrument).text(instru);
         $(card_content).append(instrument);
@@ -203,7 +197,6 @@ function createCard(value){
 function createImg(avatar){
     var img = document.createElement('img');
     if (avatar == 'static/core/img/0_band.jpg'){
-        //console.log('YYYYYYY')
         $(img).attr({
         src: "{% static 'core/img/0_band.jpg' %}",
         alt: "Avatar",

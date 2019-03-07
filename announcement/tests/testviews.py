@@ -278,14 +278,11 @@ class AnnouncementDetailTest(MyTestCase):
         self.assertContains(response, 'Répondre')
 
 
-
 class AnswerAnnouncementTest(MyTestCase):
 
     def setUp(self):
         super(AnswerAnnouncementTest, self).setUp()
         self.url = reverse('announcement:post_answer')
-
-
 
     def test_view_post_invalid_1(self):
         ''' User connected can not response to his own announcement'''
@@ -475,6 +472,7 @@ class AnswerMessageTest(MyTestCase):
         message = MusicianAnswerAnnouncement.objects.count()
         self.assertEqual(message, 2)
 
+
 class AnnouncementMessageTest(MyTestCase):
     ''' test the view witch display messages. To test this view we must create some message'''
 
@@ -502,7 +500,7 @@ class AnnouncementMessageTest(MyTestCase):
                                                                        recipient=self.test_user2)
 
     def test_list_message(self):
-        ''' test context data, this views return two context "aswered_ads_list" ans "respose_to_published_ads"'''
+        ''' test context data, this views return two context "aswered_ads_list" ans "response_to_published_ads"'''
 
         url = reverse('announcement:announcement_messages')
         response = self.client.get(url)
@@ -545,8 +543,9 @@ class AnnouncementMessageTest(MyTestCase):
                                "author_userprofile_id": 21, "author": "Super Tatie"}])
 
     def test_return_ajax_fail(self):
-        ''' in the impossible case where the view will return a 'fail'''
-        # kwargs = {''}
+        ''' in the impossible case where the view will return a 'fail
+        we mock this without get the XMLHttpRequest '''
+
         url = reverse('announcement:message_to_message')
         get_data = {'parent_message': self.first_message.id}
         request = self.factory.get(url, get_data)

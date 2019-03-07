@@ -6,8 +6,9 @@ from authentication.models import User
 from band.models import Band
 from musicians.models import UserProfile, Instrument
 from announcement.models import MusicianAnnouncement
-
-from core.views import accueil
+from django.core.files.uploadedfile import SimpleUploadedFile
+import os
+from core.views import accueil, search
 
 
 
@@ -30,7 +31,19 @@ class MyTestCase(TestCase):
         self.userprofile.birth_year = 1948
         self.userprofile.town = 'Montpellier'
         self.userprofile.county_name = 'Herault'
+        self.userprofile.code = 34070
         self.userprofile.gender = 'F'
+
+        # In Python 3.5+, you must use the bytes object instead of str. Replace "file_content" with b"file_content"
+        # test_img = SimpleUploadedFile('test.png', b'file_content', content_type='/test_img/test.png')
+        # self.userprofile.avatar = os.path.join(BASE_DIR, "/user_avatar/0.jpg")
+        fileDir = os.path.dirname(os.path.realpath('__file__'))
+        filename = os.path.join(fileDir, 'core/static/core/img/0.jpg')
+        test_img = SimpleUploadedFile('test.png', content=open(filename, 'rb').read(),
+                                      content_type='core/static/core/img/0.jpg')
+        self.userprofile.avatar = test_img
+
+
         self.userprofile.save()
 
         # her instruments
@@ -44,7 +57,7 @@ class MyTestCase(TestCase):
                          'britannique, originaire de Londres, en Angleterre.'
 
         self.band_test.type = 'Groupe de Compos'
-        self.band_test.muscical_genre = 'Rock'
+        self.band_test.musical_genre = 'Rap'
         self.band_test.town = 'Londres'
         self.band_test.county_name ='Angleterre'
         self.band_test.owner = self.test_user
@@ -100,6 +113,7 @@ class AccueilTest(MyTestCase):
         # card_band = self.session.get(self.url).xpath('//section[@id="bands"]//div[@class="card"]')
         # self.assertEqual(len(card_band), 6)
 
+
 class TestPrivacyPolicy(MyTestCase):
     def test_privacy_policy(self):
         url = reverse('core:privacy')
@@ -107,7 +121,93 @@ class TestPrivacyPolicy(MyTestCase):
         self.assertEqual(response.status_code, 200)
 
 
+class TestSearchView(MyTestCase):
 
+    def setUp(self):
+        super(TestSearchView, self).setUp()
+        self.url = reverse('core:search')
+        # specially for ajax view
+        self.kwargs = {'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
+        # create some context:
+        self.a1 = MusicianAnnouncement.objects.create(title="Coucou", content="Coucou Toi!", author=self.test_user, town="Sete", county_name="Gard")
+        self.a2 = MusicianAnnouncement.objects.create(title="title2", content="content", author=self.test_user, town="Sete", county_name="Gard")
+        self.a3 = MusicianAnnouncement.objects.create(title="title3", content="content", author=self.test_user, town="Sete", county_name="Gard")
+
+        first_created_at = self.a1.created_at.strftime("%d %B %Y")
+        second_created_at = self.a2.created_at.strftime("%d %B %Y")
+        third_created_at = self.a3.created_at.strftime("%d %B %Y")
+
+        self.layout_response = [
+            {"tag": "annonces", "title": self.a1.title, "created_at": first_created_at, "county_name": self.a1.county_name, "id": self.a1.id,
+             "town": self.a1.town },
+            {"tag": "annonces", "title": self.a2.title, "created_at": second_created_at,  "county_name": self.a2.county_name, "id": self.a2.id,
+             "town": self.a2.town},
+            {"tag": "annonces", "title": self.a3.title, "created_at": third_created_at, "county_name": self.a3.county_name,
+            "id": self.a3.id, "town": self.a3.town}]
+
+
+    def test_annonces_without_cp(self):
+        ''' case test query 'Annonces' without cp, the view return all announcements '''
+        data = {'item': 'Annonces', 'cp': ''}
+        request = self.factory.post(self.url, data, **self.kwargs)
+        response = search(request)
+        self.assertEqual(response.status_code, 200)
+        response_content = str(response.content, encoding='utf8')
+        self.assertJSONEqual(response_content, self.layout_response)
+
+    def test_annonces(self):
+        ''' case test query 'Annonces' with cp, the view return all announcements of county code '''
+        data = {'item': 'Annonces', 'cp': '30'}
+        request = self.factory.post(self.url, data, **self.kwargs)
+        response = search(request)
+        self.assertEqual(response.status_code, 200)
+        response_content = str(response.content, encoding='utf8')
+        self.assertJSONEqual(response_content, self.layout_response)
+
+    def test_musicians(self):
+        ''' test case with 'Musiciens' and cp code'''
+        data = {'item': 'Musiciens', 'cp': '34'}
+        request = self.factory.post(self.url, data, **self.kwargs)
+        response = search(request)
+        self.assertEqual(response.status_code, 200)
+        response_content = str(response.content, encoding='utf8')
+        # print(response_content)
+        layout_response = [{"town": "Montpellier",
+                            "instrument": {str(self.instrument.id): "Contrebassiste"},
+                            "pk": self.test_user.pk, "tag": "musicians",
+                            "avatar":  self.userprofile.avatar.url,
+                            "name": "Super Tatie", "county_name": "Herault"}]
+        self.assertJSONEqual(response_content, layout_response)
+
+        # without avatar image
+
+    def test_band(self):
+        ''' test case with 'Groupes' without cp code without avatar image'''
+        data = {'item': 'Groupes', 'cp': ''}
+        request = self.factory.post(self.url, data, **self.kwargs)
+        response = search(request)
+        self.assertEqual(response.status_code, 200)
+        response_content = str(response.content, encoding='utf8')
+        layout_response = [{"bio": self.band_test.bio,
+                            "type": "Groupe de Compos",
+                            "name": self.band_test.name,
+                            "tag": "groupes",
+                            "avatar": "static/core/img/0_band.jpg",
+                            "slug": self.band_test.slug,
+                            "musical_genre": self.band_test.musical_genre,
+                            "town": "Londres",
+                            "county_name": "Angleterre"}]
+        self.assertJSONEqual(response_content, layout_response)
+
+    def test_view_fail(self):
+        ''' in the impossible case where the view will return a 'fail
+        we mock this without get the XMLHttpRequest '''
+        data = {'item': 'Groupes', 'cp': ''}
+        request = self.factory.post(self.url, data)
+        response = search(request)
+        self.assertEqual(response.status_code, 200)
+        response_content = str(response.content, encoding='utf8')
+        self.assertEqual(response_content, '"fail"')
 
 
 class SidenavBarTest(MyTestCase):
@@ -124,7 +224,6 @@ class SidenavBarTest(MyTestCase):
         assert 'core/sidenav.html' in list_template
 
 
-
 class MusicianProfileTest(MyTestCase):
     '''Test public profile of a musician'''
 
@@ -135,7 +234,6 @@ class MusicianProfileTest(MyTestCase):
         self.assertEqual(response.status_code, 200)
         # test template used
         self.assertTemplateUsed(response, 'core/profile_public_musician.html')
-
 
         # test if test user elements are present
         self.assertContains(response, 'Super Tatie')

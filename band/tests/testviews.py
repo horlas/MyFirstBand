@@ -129,9 +129,8 @@ class BandCreateTest(MyTestCase):
         list_template = [t.name for t in response.templates]
         assert 'band/create_band.html' in list_template
         assert 'core/sidenav_connected.html' in list_template
-
         self.assertContains(response, ' <form action=\'/band/add/\' method="post" enctype="multipart/form-data" >')
-        self.assertContains(response, '<input id="first" type="button" class="btn custom-btn custom-text " value="trouver">')
+        self.assertContains(response, '<input id="send" type="button" class="btn custom-btn custom-text" value ="MAJ">')
 
     def test_post_bandadd_form(self):
         ''' Test the post datas and correct redirection'''

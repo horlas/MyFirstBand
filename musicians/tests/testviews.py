@@ -9,7 +9,10 @@ from musicians.forms import ProfileForm, AvatarForm, LocalForm, InstruCreateForm
 from musicians.views import profile, UpdateAvatarView
 from core.utils import get_age
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.contrib.sessions.middleware import SessionMiddleware
+from django.contrib.messages.storage.fallback import FallbackStorage
 import requests
+import os
 
 
 class MyTestCase(TestCase):
@@ -38,7 +41,6 @@ class MyTestCase(TestCase):
         self.instrument = Instrument.objects.create(instrument='Pianiste',
                                                     level='Debutant',
                                                     musician=self.test_user)
-
 
         self.factory = RequestFactory()
 
@@ -107,6 +109,7 @@ class ProfileViewTest(MyTestCase):
         # test if the edit icon link is present
         self.assertContains(response, "/musicians/update_profile/" )
 
+
 class UpdateProfilViewTest(MyTestCase):
     ''' Test get forms '''
 
@@ -156,15 +159,6 @@ class UpdateProfilViewTest(MyTestCase):
         self.assertIsInstance(response.context['del_instru_form'], InstruDeleteForm)
 
         # Now let's test each form post
-
-    def test_avatar_form_bis(self):
-        test_img = SimpleUploadedFile('test.png', b'file_content', content_type='/test_img/test.png')
-        img = {'avatar': test_img}
-        request = self.factory.post(reverse('musicians:update_avatar'), img)
-        request.user = self.test_user
-        response = UpdateAvatarView.as_view()(request)
-        self.assertEqual(response.status_code, 200)
-
     def test_avatar_form_post(self):
         # test if the user is logged
         self.assertEqual(self.login, True)
@@ -174,27 +168,34 @@ class UpdateProfilViewTest(MyTestCase):
             self.assertEqual(i.avatar.name, '')
         url = reverse("musicians:update_avatar")
 
-        # In Python 3.5+, you must use the bytes object instead of str. Replace "file_content" with b"file_content"
-        test_img = SimpleUploadedFile('test.png', b'file_content', content_type='/test_img/test.png')
-
+        # we load image before
+        fileDir = os.path.dirname(os.path.realpath('__file__'))
+        filename = os.path.join(fileDir, 'core/static/core/img/0.jpg')
+        test_img = SimpleUploadedFile('0.jpg', content=open(filename, 'rb').read(), content_type='core/static/core/img/0.jpg')
         img = {'avatar' : test_img}
         #  post the form with test img
-        response = self.client.post(url, img, follow=True)
+        request = self.factory.post(url, img)
+        request.user = self.test_user
 
-        # Todo : the post form doesn't redirect to the update_profil page
+        # adding session
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        request.session.save()
 
-        self.assertEqual(response.status_code, 200)
-        # print(response['location'])
+        # adding messages
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
 
-        # self.assertRegex(response.redirect_chain, r'/users/profile/$')
-        # self.assertRedirects(
-        #     response,
-        #     expected_url=reverse("musicians:update_profile", kwargs={'pk': self.test_user.pk} ),
-        #      status_code=302,
-        #      target_status_code=200
-        # )
-        # image_src = response.context.get('image_src')
-        # print(image_src)
+        # test the view
+        response = UpdateAvatarView.as_view()(request)
+        self.assertEqual(response.status_code, 302)
+        redirect_url = '/musicians/update_profile/{}'.format(self.test_user.pk)
+        self.assertEqual(response['location'], redirect_url)
+        # test the success message
+        for m in messages:
+
+             message = str(m)
+        self.assertEqual(message, ' Votre image a été  mise à jour!')
 
     def test_post_profile_form(self):
         # test if the user is logged
@@ -278,7 +279,6 @@ class UpdateProfilViewTest(MyTestCase):
         self.assertContains(response, "Votre Instrument a été ajouté ! ")
         self.assertContains(response, 'Flutiste : Débutant')
         self.assertContains(response, 'Pianiste : Debutant')
-
 
     def test_post_del_instru_form(self):
         self.assertEqual(self.login, True)
