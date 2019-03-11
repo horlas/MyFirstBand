@@ -14,7 +14,7 @@
       </div>
    </div>
    <!--avatar form-->
-   <a href="#" onclick="$('#avatar').show();">
+   <a id='trigger_avatar' href="#" onclick="$('#avatar').show();">
       <h6 class=""> Mise à jour Avatar </h6>
    </a>
    <div class="divider"></div>
@@ -35,7 +35,7 @@
       </form>
    </section>
    <!--profile form-->
-   <a href="#" onclick="$('#profil').show();">
+   <a id="trigger_profil" href="#" onclick="$('#profil').show();">
       <h6 class=""> Mise à jour Profil </h6>
    </a>
    <div class="divider"></div>
@@ -59,7 +59,7 @@
       </form>
    </section>
    <!--instru form-->
-   <a href="#" onclick="$('#instrument').show();">
+   <a id="trigger-instru" href="#" onclick="$('#instrument').show();">
       <h6 class=""> Ajout/Suppression  d'un Instrument </h6>
    </a>
    <div class="divider"></div>
@@ -103,8 +103,9 @@
          <form action='{% url "musicians:add_instru" %}' method="post"  >
             {% csrf_token %}
             <div class="row valign-wrapper">
-               <div class="col s6">
+               <div id = "form_instru" class="col s6">
                   {{ instru_form.as_p }}
+
                </div>
                <div class="col s6 center-align ">
                   <button class="btn-floating btn-small waves-effect waves-light custom-btn tooltipped " data-tooltip="Ajouter" type="submit" >
@@ -117,7 +118,7 @@
       </div>
    </section>
    <!--local form-->
-   <a href="#" onclick="$('#localisation').show();">
+   <a id="trigger-local" href="#" onclick="$('#localisation').show();">
       <h6 class=""> Mise à jour de la Localisation </h6>
    </a>
    <div class="divider"></div>
@@ -126,7 +127,7 @@
    {# display list and level of instrument #}
    <div class="row">
       <div class="col s6">
-         <span>{{user.userprofile.town}}, {{user.userprofile.county_name}}</span>
+         <span>{{user.userprofile.town}} {{user.userprofile.county_name}}</span>
       </div>
    </div>
    <div class="row">
@@ -134,7 +135,7 @@
          {% csrf_token %}
          <div  id="cp" >
             <div class="col s7">
-               {{ local_form.code |add_label_class:"Code postal" }}
+               {{ local_form.code |add_label_class:"custom-label" }}
                {% render_field local_form.code|append_attr:"class:validate" %}
             </div>
             <div class="col s3">

@@ -31,7 +31,7 @@ def privacy(request):
 
 @csrf_exempt
 def search(request):
-    ''' ajax return of messages witch depends of a parent_id'''
+    ''' ajax return of datas witch depends of an user input'''
 
     if request.is_ajax():
         item = request.POST.get('item')
@@ -88,7 +88,6 @@ def search(request):
                        "county_name": m.userprofile.county_name,
                         "instrument" : dict_instru, "tag": "musicians"}
                 results.append(dic)
-
 
         if item == 'Groupes':
             # query data : band

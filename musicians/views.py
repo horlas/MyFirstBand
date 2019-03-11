@@ -95,11 +95,9 @@ class UpdateDataView(FormView, SuccessMessageMixin):
             return redirect(reverse_lazy('musicians:update_profile', kwargs={'pk': self.request.user.id}))
 
         else:
-            print("oy")
-            profile_form = self.form_class(instance=request.user.userprofile)
 
-            return render(request, self.template_name,
-                self.get_context_data(profile_form=profile_form))
+            profile_form = self.form_class(instance=request.user.userprofile)
+            return render(request, self.template_name, self.get_context_data(profile_form=profile_form))
 
 
 # Todo : errors forms are  not  displayed

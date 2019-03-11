@@ -41,6 +41,7 @@ class UserProfile(models.Model):
 
     # Here we instantiate a Fieltracker to track any fields specially avatar field
     tracker = FieldTracker()
+    # todo : pythonclassmates article on FielTracker
 
     # creating the profile when creating the user
     @receiver(post_save, sender=User)
