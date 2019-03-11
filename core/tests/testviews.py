@@ -218,7 +218,7 @@ class SidenavBarTest(MyTestCase):
         # Test if the logo is loaded by checking the size
 
         r = self.client.get(reverse(accueil))
-        self.assertContains(r, 'logo_brand3.png')
+        self.assertContains(r, 'logo_small.png')
         list_template = [t.name for t in r.templates]
         assert 'core/index.html' in list_template
         assert 'core/sidenav.html' in list_template
