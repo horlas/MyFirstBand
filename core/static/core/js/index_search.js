@@ -19,13 +19,21 @@
                {'item': item, 'cp': cp},
                function(response){
                         $('#content').empty();
-                        var array = sliceArray(response);
+                        //var array = sliceArray(response);
+                        var search_text = document.createElement("h5");
+                        $(search_text).text("Votre recherche");
+                        var divider = document.createElement("div");
+                        $(divider).addClass("divider");
+                        $('#content').append(search_text);
+                        $('#content').append(divider);
 
-                        $.each(array, function(index, row){
-                               // var sub_array = row;
-                                var cont_card = document.createElement("div");
-                                $(cont_card).addClass('row');
-                                $.each(row, function(index, value){
+
+                        var cont_card = document.createElement("div");
+                        $(cont_card).addClass("grid");
+                        $('#content').append(cont_card);
+
+
+                        $.each(response, function(index, value){
                                 if (value.tag =='annonces'){
 
                                                 var card = createCardAds(value);
@@ -36,31 +44,8 @@
                                         }
                                  $(cont_card).append(card);
                                     });
-                                $('#content').append(cont_card);
                                 });
-               });
-
-         };
-
-
-//function slice in package of three reponse array
-function sliceArray(response){
-    var new_array = [];
-    $.each(response, function(index, value){
-        var a = [];
-        if (response.length >= 3) {
-            for ( i = 0; i <3 ; i++ ){
-                a.push(response.pop())};
-            new_array.push(a);
-
-        if (response.length < 3){
-            new_array.push(response);
-            };
-            };
-            });
-
-    return new_array;
-};
+               }
 
 
 // function to create card for announcement

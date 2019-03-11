@@ -91,6 +91,32 @@ body {
     flex: 1 0 auto;
   }
 
+.grid {
+  width: 90%;
+  max-width: 1240px;
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-gap: 20px;
+}
+
+
+
+@media only screen and (max-width: 850px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 /*.tooltipped {*/
     /*background-color: black;*/
