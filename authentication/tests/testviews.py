@@ -169,7 +169,6 @@ class PasswordResetViewTest(MyTestCase):
         # check the satus code
         self.assertEqual(response.status_code, 200)
         # check the presence of input line
-        print(response.content)
         self.assertContains(response, '<input type="email" name="email" required maxlength="254" id="id_email" class="validate">',
                             html=True)
 

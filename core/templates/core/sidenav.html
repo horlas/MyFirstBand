@@ -14,9 +14,8 @@
             </div>
          </div>
       </div>
-
    </nav>
-   <ul id="nav-mobile" class="sidenav sidenav-fixed" style="">
+   <ul id="nav-mobile" class="sidenav sidenav-fixed">
       <li class="logo active">
          <a href="{% url 'home' %}" class="brand-logo ">
          <img  alt="logo" style ="margin: 20px" width="50px" height="50px"  class='responsive-img' src="{% static 'core/img/logo_small.png' %}">
@@ -32,7 +31,7 @@
          <div class="divider"></div>
       </li>
       <li class="active">
-         <a id='login' class="sidenav-close custom-text"  href="{% url 'authentication:login' %}?next={{ request.get_full_path|urlencode }}">
+         <a id='login' class="waves-effect custom-text custom-text"  href="{% url 'authentication:login' %}?next={{ request.get_full_path|urlencode }}">
          <i class=" material-icons  tooltipped " data-tooltip="Se connecter" >loop </i>
          Se connecter
          </a>
@@ -44,7 +43,7 @@
          <div class="divider"></div>
       </li>
       <li class="active">
-         <a id='sign-in-link' class="sidenav-close custom-text"  href="{% url 'authentication:signup' %}?next={{ request.path|urlencode }}">
+         <a id='sign-in-link' class="waves-effect custom-text custom-text"  href="{% url 'authentication:signup' %}?next={{ request.path|urlencode }}">
          <i id='sign-in'  class=" material-icons  tooltipped " data-tooltip="Créer un compte" >account_box </i>
          Créer un compte</a>
       </li>

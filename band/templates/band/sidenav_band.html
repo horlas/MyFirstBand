@@ -1,115 +1,113 @@
 {% load static %}
 {% block content %}
-<div class="container">
-    <a href="#" data-target="nav-mobile" class="top-nav sidenav-trigger show-on-large">
-        <i class="material-icons">menu</i></a>
-</div>
-
-<ul id="nav-mobile" class="sidenav sidenav-fixed" style="transform: translateX(0px);">
-
-    <li class="logo">
-        <a href="{% url 'core:accueil' %}" class="brand-logo">
-          <img id="logo" alt="logo" style = 'margin: 20px' class='responsive-img' src="{% static 'core/img/logo_brand3.png' %}">
-      </a>
-    </li>
-
-    <div class="row"></div>
-    <div class="row"></div>
-    <div class="row"></div>
-
-    <li><div class="user-view">
-    <a href="{% url 'band:band_detail' object.slug%}" class="tooltipped" data-tooltip="Info groupe" >
-
-            <div class="background">
-                <img src="{% static 'core/img/bg_sidenav_band.jpg' %}">
+<header>
+   <nav class="nav-wrapper">
+      <div class="container">
+         <div class="row">
+            <div class="col s12 m10 offset-m1">
+               <a class="sidenav-trigger full hide-on-large-only" href="#" data-target="nav-mobile">
+               <i class="material-icons">menu</i>
+               </a>
+               <a href="{% url 'home' %}" class="brand-logo"> My First Band</a>
+               <img  alt="logo"  width="50px" height="50px"  class='right responsive-img hide-on-large-only' src="{% static 'core/img/logo_small.png' %}">
             </div>
-      {% if object.avatar %}
-        <img alt="Avatar" class="circle responsive-img" src="{{ object.avatar.url }}" />
-            {% else %}
-        <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0_band.jpg' %}" />
-      {% endif %}
-     <br>
-      <h5 class="custom-text " style = "text-transform: uppercase">{{object.name}}</h5>
-        </a>
-    </div></li>
+         </div>
+      </div>
+   </nav>
+   <ul id="nav-mobile" class="sidenav sidenav-fixed" >
+      <li class="logo active">
+         <a href="{% url 'home' %}" class="brand-logo ">
+         <img  alt="logo" style ="margin: 20px" width="50px" height="50px"  class='responsive-img' src="{% static 'core/img/logo_small.png' %}">
+         </a>
+      </li>
+      <div class="row"></div>
+      <div class="divider"></div>
+      <li>
+         <div class="user-view">
+            <a href="{% url 'band:band_detail' object.slug%}" class="tooltipped" data-tooltip="Info groupe" >
+               <div class="background">
+                  <img src="{% static 'core/img/bg_sidenav_band.jpg' %}">
+               </div>
+               {% if object.avatar %}
+               <img alt="Avatar" class="circle responsive-img" src="{{ object.avatar.url }}" />
+               {% else %}
+               <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0_band.jpg' %}" />
+               {% endif %}
+               <br>
+               <h5 class="custom-text " style = "text-transform: uppercase">{{object.name}}</h5>
+            </a>
+         </div>
+      </li>
+      <li>
+         <a id='announcement' class="waves-effect custom-text" href="">
+         <i class="material-icons custom-icons">announcement</i>
+         Les annonces du groupe</a>
+      </li>
 
-    <li>
-        <a id='announcement' class="waves-effect custom-text" href="">
-            <i class="material-icons custom-icons">announcement</i>
-            Les annonces du groupe</a>
-    </li>
+         <div class="divider"></div>
 
+      <li>
+         <a id='history' class="waves-effect custom-text" href="">
+         <i class="material-icons custom-icons">access_time</i>
+         Historique</a>
+      </li>
 
-    <li><div class="divider"></div></li>
+         <div class="divider"></div>
 
-        <li>
-        <a id='history' class="waves-effect custom-text" href="">
-            <i class="material-icons custom-icons">access_time</i>
-            Historique</a>
-    </li>
+      <li>
+         <a id='calendar' class="waves-effect custom-text" href="">
+         <i class="material-icons custom-icons">folder_special</i>
+         Calendrier</a>
+      </li>
 
-     <li><div class="divider"></div></li>
+         <div class="divider"></div>
 
+      <li>
+         <a id='setlist' class="waves-effect custom-text" href="">
+         <i class="material-icons custom-icons">library_music</i>
+         Setlist</a>
+      </li>
 
-        <li>
-        <a id='calendar' class="waves-effect custom-text" href="">
-            <i class="material-icons custom-icons">folder_special</i>
-            Calendrier</a>
-    </li>
+         <div class="divider"></div>
 
-     <li><div class="divider"></div></li>
+      <li>
+         <a id='edit-compte' class="waves-effect custom-text" href="{% url 'band:edit_band' band.slug %}">
+         <i class="material-icons custom-icons">edit</i>
+         Editer les informations </a>
+      </li>
 
-       <li>
-        <a id='setlist' class="waves-effect custom-text" href="">
-            <i class="material-icons custom-icons">library_music</i>
-            Setlist</a>
-    </li>
+         <div class="divider"></div>
 
-     <li><div class="divider"></div></li>
+      <li>
+         <a id='edit-compte' class="waves-effect custom-text" href="{% url 'band:manage_band' band.slug %}">
+         <i class="material-icons custom-icons">group_add</i>
+         Gérer le groupe </a>
+      </li>
 
-        <li>
-        <a id='edit-compte' class="waves-effect custom-text" href="{% url 'band:edit_band' band.slug %}">
-            <i class="material-icons custom-icons">edit</i>
-            Editer les informations </a>
-    </li>
+         <div class="divider"></div>
 
-     <li><div class="divider"></div></li>
+      <li>
+         <a id='' class="waves-effect custom-text" href="{% url 'musicians:profile' user.pk  %}">
+         <i class="material-icons custom-icons">my_location</i>
+         Compte musicien</a>
+      </li>
 
-        <li>
-        <a id='edit-compte' class="waves-effect custom-text" href="{% url 'band:manage_band' band.slug %}">
-            <i class="material-icons custom-icons">group_add</i>
-            Gérer le groupe </a>
-    </li>
+         <div class="divider"></div>
 
-     <li><div class="divider"></div></li>
+      <li>
+         <a id='logout' class="waves-effect custom-text" href="{% url 'authentication:logout' %}">
+         <i class="material-icons custom-icons">eject</i>
+         Se deconnecter</a>
+      </li>
+   </ul>
+</header>
 
-        <li>
-        <a id='' class="waves-effect custom-text" href="{% url 'musicians:profile' user.pk  %}">
-            <i class="material-icons custom-icons">my_location</i>
-            Compte musicien</a>
-    </li>
+{% endblock %}
+{% block script %}
+<script>
+   $(document).ready(function(){
+      $('.sidenav').sidenav();
+    });
 
-     <li><div class="divider"></div></li>
-
-    <li>
-        <a id='logout' class="waves-effect custom-text" href="{% url 'authentication:logout' %}">
-            <i class="material-icons custom-icons">eject</i>
-            Se deconnecter</a>
-    </li>
-  </ul>
-
-
-  <!--<a href="#" data-target="slide-out" class="sidenav-trigger show-on-large">-->
-      <!--<i class="material-icons">menu</i></a>-->
-
-
-
-
-<!--<script>-->
- <!--$(document).ready(function(){-->
-    <!--$('.sidenav').sidenav();-->
-  <!--});-->
-
-<!--</script>-->
-
+</script>
 {% endblock %}
