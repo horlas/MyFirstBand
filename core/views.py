@@ -40,7 +40,7 @@ def search(request):
         if item == 'Annonces' and cp == '':
             # return all announcements
             ads = MusicianAnnouncement.objects.exclude(is_active=False) \
-                                      .order_by('created_at').values('id',
+                                      .order_by('-created_at').values('id',
                                                'title',
                                                'town',
                                                'county_name',
@@ -51,13 +51,10 @@ def search(request):
                 results.append(a)
 
         if item == 'Annonces' and cp != '':
-            url = 'https://geo.api.gouv.fr/departements?code={}&fields=nom'.format(cp)
-            response = requests.get(url)
-            dept = response.json()[0]['nom']
             # query data base
-            ads = MusicianAnnouncement.objects.filter(county_name=dept)\
+            ads = MusicianAnnouncement.objects.filter(code__startswith=cp)\
                                               .exclude(is_active=False)\
-                                              .order_by('created_at').values('id',
+                                              .order_by('-created_at').values('id',
                                                                              'title',
                                                                              'town',
                                                                              'county_name',

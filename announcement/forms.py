@@ -8,3 +8,6 @@ class MusicianAnnouncementForm(ModelForm):
         model = MusicianAnnouncement
         exclude = ['author', 'created_at', 'is_active']
 
+        widgets = {
+            'town': Select()
+            }

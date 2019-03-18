@@ -28,6 +28,7 @@ class MyTestCase(TestCase):
                                 'À gacher son bel avenir'\
                                 'La groupie du pianiste'
         self.userprofile.birth_year = 1948
+        self.userprofile.code = 34070
         self.userprofile.town = 'Montpellier'
         self.userprofile.county_name = 'Hérault'
         self.userprofile.gender = 'F'
@@ -39,9 +40,19 @@ class MyTestCase(TestCase):
                                                     musician=self.test_user)
 
         # we need to create some announcement
-        self.a1 = MusicianAnnouncement.objects.create(title='title1', content='Coucou Toi!', author=self.test_user)
-        self.a2 = MusicianAnnouncement.objects.create(title='title2', content='content', author=self.test_user)
-        self.a3 = MusicianAnnouncement.objects.create(title='title3', content='content', author=self.test_user)
+        self.a1 = MusicianAnnouncement.objects.create(title='title1', content='Coucou Toi!', author=self.test_user,
+                                                      code= self.test_user.userprofile.code,
+                                                      county_name = self.test_user.userprofile.county_name,
+                                                      town = self.test_user.userprofile.town)
+        self.a2 = MusicianAnnouncement.objects.create(title='title2', content='content', author=self.test_user,
+                                                      code=self.test_user.userprofile.code,
+                                                      county_name=self.test_user.userprofile.county_name,
+                                                      town=self.test_user.userprofile.town)
+
+        self.a3 = MusicianAnnouncement.objects.create(title='title3', content='content', author=self.test_user,
+                                                      code=self.test_user.userprofile.code,
+                                                      county_name=self.test_user.userprofile.county_name,
+                                                      town=self.test_user.userprofile.town)
 
         # log user
         self.login = self.client.login(username=self.email, password=self.password)
@@ -54,6 +65,12 @@ class MyTestCase(TestCase):
         self.password2 = 'aqwz7418'
         self.test_user2 = User.objects.create_user(self.email2, self.password2)
 
+        # add localisation for announcement
+
+        self.userprofile.code = 31000
+        self.userprofile.town = 'Toulouse'
+        self.userprofile.county_name = 'Haute-Garonne'
+        self.userprofile.save()
 
 class AnnouncementCreateTest(MyTestCase):
     ''' Test create new ads and valid the form to do this'''
@@ -62,8 +79,8 @@ class AnnouncementCreateTest(MyTestCase):
         super(AnnouncementCreateTest, self).setUp()
         self.url = reverse('announcement:create_announcement')
         self.response = self.client.get(self.url)
-        self.data =  {'content': 'blablabla',
-              'title': 'Contrebassiste cherche groupe'}
+        self.data = {'content': 'blablabla',
+                     'title': 'Contrebassiste cherche groupe'}
 
     def test_view_create_announcement(self):
         ''' test the response and the contains'''
@@ -79,8 +96,6 @@ class AnnouncementCreateTest(MyTestCase):
         ''' test the initial data , the form is prepopulated'''
 
         self.assertContains(self.response, 'Contrebassiste cherche groupe')
-        self.assertContains(self.response, 'Montpellier')
-        self.assertContains(self.response, 'Hérault')
 
     def test_valid_form(self):
         ''' test the valid form'''
@@ -92,6 +107,9 @@ class AnnouncementCreateTest(MyTestCase):
         self.data['title'] = ""
         form = MusicianAnnouncementForm(self.data)
         self.assertEqual(form.errors['title'][0], 'This field is required.')
+        self.data['content'] = ""
+        form = MusicianAnnouncementForm(self.data)
+        self.assertEqual(form.errors['content'][0], 'This field is required.')
 
     def test_post_announcement(self):
         ''' with Factory request test the create ok a new ads'''
@@ -129,6 +147,54 @@ class AnnouncementCreateTest(MyTestCase):
         a = MusicianAnnouncement.objects.get(content='blablabla')
         self.assertEqual(a.author, self.test_user)
 
+        # test if the localisation is the author localisation
+        self.assertEqual(a.code, self.test_user.userprofile.code)
+        self.assertEqual(a.county_name, self.test_user.userprofile.county_name)
+        self.assertEqual(a.town, self.test_user.userprofile.town)
+
+    def test_post_announcement_with_change_localisation(self):
+        # add localisation data
+        self.data['code'] = 21000
+        self.data['county_name'] = "Cote d'or"
+        self.data['town'] = 'Dijon'
+
+        # count before musician announcement
+        before = MusicianAnnouncement.objects.count()
+        request = self.factory.post(self.url, self.data)
+        request.user = self.test_user
+
+        # adding session
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        request.session.save()
+
+        # adding messages
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
+        # test the view
+        response = views.AnnouncementCreateView.as_view()(request)
+
+        # test the success message
+        for m in messages:
+            message = str(m)
+        self.assertEqual(message, ' Félicitations ! Votre annonce a été créée ! ')
+
+        # test the redirection
+        self.assertEqual(response.status_code, 302)
+
+        # test the announcement is well created
+        after = MusicianAnnouncement.objects.count()
+        self.assertEqual(after, before + 1)
+
+        # test if the request user is really the author
+        a = MusicianAnnouncement.objects.get(content='blablabla')
+        self.assertEqual(a.author, self.test_user)
+
+        # test if the localisation is the author localisation
+        self.assertEqual(a.code, "21000")
+        self.assertEqual(a.county_name, "Cote d'or")
+        self.assertEqual(a.town, 'Dijon')
 
 
 class AnnouncementListTest(MyTestCase):
@@ -492,7 +558,11 @@ class AnnouncementMessageTest(MyTestCase):
         # create an other ads witch is posted by test_user2
         self.a6 = MusicianAnnouncement.objects.create(title='bibi cherche bobo',
                                                       content="je fais de la musique",
-                                                      author=self.test_user2)
+                                                      author=self.test_user2,
+                                                      code= self.test_user2.userprofile.code,
+                                                      county_name = self.test_user2.userprofile.county_name,
+                                                      town = self.test_user2.userprofile.town
+                                                      )
         # create response to this announcement : tata reply to paul
         self.third_message = MusicianAnswerAnnouncement.objects.create(content='coucou bobo',
                                                                        author=self.test_user,
@@ -538,9 +608,9 @@ class AnnouncementMessageTest(MyTestCase):
         create_at_third = self.third_message.created_at.strftime("%d %B %Y")
         self.assertJSONEqual(response_content,
                              [{"created_at": create_at_first,  "content": "Je suis interess\u00e9 par bibi",
-                               "author_userprofile_id": 22, "author": ""},
+                               "author_userprofile_id": self.test_user2.userprofile.pk, "author": ""},
                               {"created_at": create_at_third, "content": "coucou bobo",
-                               "author_userprofile_id": 21, "author": "Super Tatie"}])
+                               "author_userprofile_id":self.test_user.userprofile.pk, "author": "Super Tatie"}])
 
     def test_return_ajax_fail(self):
         ''' in the impossible case where the view will return a 'fail

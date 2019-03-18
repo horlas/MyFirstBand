@@ -118,7 +118,6 @@ class UpdateLocalView(FormView, SuccessMessageMixin):
             messages.success(self.request, (" Votre localité a été mise à jour!"))
             return redirect(reverse_lazy('musicians:update_profile', kwargs={'pk': self.request.user.id}))
 
-
         else:
 
             local_form = self.form_class(instance=request.user.userprofile)

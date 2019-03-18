@@ -9,6 +9,7 @@ class MusicianAnnouncement(models.Model):
 
     title = models.CharField("Titre de l'annonce", max_length=80,)
     content = models.TextField("Texte de l'annonce", max_length=500)
+    code = models.CharField("code postal", max_length=5, blank=True)
     county_name = models.CharField("Nom du département", max_length=60, blank=True)
     town = models.CharField("Ville", max_length=60, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

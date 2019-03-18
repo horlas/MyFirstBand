@@ -1,5 +1,4 @@
   $("#send").click(function () {
-        console.log('yes');
 
       var $code = $('#id_code').val();
 
@@ -67,6 +66,7 @@ function createURL(code) {
   });
 
 // script to display list of instrument in order to delete just one
+// used for update_musician_profile
 
 $("#delete").click(function() {
     $('#trigger_button').hide();

@@ -129,21 +129,23 @@ class TestSearchView(MyTestCase):
         # specially for ajax view
         self.kwargs = {'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
         # create some context:
-        self.a1 = MusicianAnnouncement.objects.create(title="Coucou", content="Coucou Toi!", author=self.test_user, town="Sete", county_name="Gard")
-        self.a2 = MusicianAnnouncement.objects.create(title="title2", content="content", author=self.test_user, town="Sete", county_name="Gard")
-        self.a3 = MusicianAnnouncement.objects.create(title="title3", content="content", author=self.test_user, town="Sete", county_name="Gard")
+        self.a1 = MusicianAnnouncement.objects.create(title="Coucou", content="Coucou Toi!", author=self.test_user,code='30600', town="Nimes", county_name="Gard")
+        self.a2 = MusicianAnnouncement.objects.create(title="title2", content="content", author=self.test_user,code='30600', town="Nimes", county_name="Gard")
+        self.a3 = MusicianAnnouncement.objects.create(title="title3", content="content", author=self.test_user, code="30600", town="Nimes", county_name="Gard")
 
         first_created_at = self.a1.created_at.strftime("%d %B %Y")
         second_created_at = self.a2.created_at.strftime("%d %B %Y")
         third_created_at = self.a3.created_at.strftime("%d %B %Y")
 
+        # be careful order is reversed
         self.layout_response = [
-            {"tag": "annonces", "title": self.a1.title, "created_at": first_created_at, "county_name": self.a1.county_name, "id": self.a1.id,
-             "town": self.a1.town },
-            {"tag": "annonces", "title": self.a2.title, "created_at": second_created_at,  "county_name": self.a2.county_name, "id": self.a2.id,
-             "town": self.a2.town},
-            {"tag": "annonces", "title": self.a3.title, "created_at": third_created_at, "county_name": self.a3.county_name,
-            "id": self.a3.id, "town": self.a3.town}]
+            {"tag": "annonces", "title": self.a3.title, "created_at": third_created_at,
+             "county_name": self.a3.county_name,"id": self.a3.id, "town": self.a3.town},
+            {"tag": "annonces", "title": self.a2.title, "created_at": second_created_at, "county_name": self.a2.county_name,
+             "id": self.a2.id,"town": self.a2.town},
+            {"tag": "annonces", "title": self.a1.title, "created_at": first_created_at,"county_name": self.a1.county_name,
+             "id": self.a1.id,"town": self.a1.town}
+            ]
 
 
     def test_annonces_without_cp(self):

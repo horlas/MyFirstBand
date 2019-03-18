@@ -11,7 +11,7 @@ class MusicianAnnouncementAdmin(admin.ModelAdmin):
             'fields': ('title',)
         }),
 
-        (_("Corps de l'annonce"), {'fields':('content','author', 'county_name', 'town', 'is_active' )}),
+        (_("Corps de l'annonce"), {'fields':('content','author','code', 'county_name', 'town', 'is_active' )}),
     )
 
 @admin.register(MusicianAnswerAnnouncement)

@@ -36,12 +36,15 @@ class AnnouncementCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView
         initial = super(AnnouncementCreateView, self).get_initial()
         initial['title'] = '{} cherche groupe'.format(
             Instrument.objects.filter(musician=self.request.user).first())
-        initial['town'] = self.request.user.userprofile.town
-        initial['county_name'] = self.request.user.userprofile.county_name
         return initial
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        # by default we get request user localisation datas
+        if not form.instance.code:
+            form.instance.code = self.request.user.userprofile.code
+            form.instance.county_name = self.request.user.userprofile.county_name
+            form.instance.town = self.request.user.userprofile.town
         messages.success(self.request, (" Félicitations ! Votre annonce a été créée ! "))
         return super().form_valid(form)
 
@@ -73,7 +76,6 @@ def online_announcement(request, *args, **kwargs):
     announcement.save()
     messages.success(request, "L'annonce a été mise en ligne")
     return redirect(reverse_lazy('announcement:announcement_list'))
-# todo: display only is active tag announcement
 
 
 class AnnouncementUpdateView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
