@@ -221,15 +221,15 @@ class UpdateProfilViewTest(MyTestCase):
         # test with bad values
         self.fake_data_profile_form['gender']= ""
         form = ProfileForm(self.fake_data_profile_form)
-        self.assertEqual(form.errors['gender'][0], 'This field is required.')
+        self.assertEqual(form.errors['gender'][0], 'Ce champ est obligatoire.')
 
         self.fake_data_profile_form['birth_year'] = "19"
         form = ProfileForm(self.fake_data_profile_form)
-        self.assertEqual(form.errors['birth_year'][0], 'Ensure this value is greater than or equal to 1918.')
+        self.assertEqual(form.errors['birth_year'][0], 'Assurez-vous que cette valeur est supérieure ou égale à 1918.')
 
         self.fake_data_profile_form['birth_year'] = "2028"
         form = ProfileForm(self.fake_data_profile_form)
-        self.assertEqual(form.errors['birth_year'][0], 'Ensure this value is less than or equal to 2019.')
+        self.assertEqual(form.errors['birth_year'][0], 'Assurez-vous que cette valeur est inférieure ou égale à 2019.')
 
     def test_geoapi(self):
         ''' We use GeoApi in JS script, we test 200 code'''

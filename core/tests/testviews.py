@@ -147,7 +147,6 @@ class TestSearchView(MyTestCase):
              "id": self.a1.id,"town": self.a1.town}
             ]
 
-
     def test_annonces_without_cp(self):
         ''' case test query 'Annonces' without cp, the view return all announcements '''
         data = {'item': 'Annonces', 'cp': ''}

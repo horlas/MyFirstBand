@@ -83,9 +83,8 @@ class BandUpdateView(LoginRequiredMixin, UpdateView):
         return redirect('band:band_detail', self.object.slug )
 
 
-# ManageBandView must have forms : change owner, add and delete members and maybe delete group ...
-
 class ManageBandView(LoginRequiredMixin, DetailView):
+    ''' ManageBandView must have forms : change owner, add and delete members and delete group ...'''
     template_name = 'band/manage_band.html'
     model = Band
 

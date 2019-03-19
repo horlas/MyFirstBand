@@ -22,7 +22,7 @@ class MusicianAnswerAnnouncement(models.Model):
     content = models.TextField("Reponse", max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     parent_id = models.ForeignKey("self", on_delete=models.CASCADE, null=True)
-    author = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='answer_author')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='answer_author')
     recipient = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='recipient_user', null=True)
     musician_announcement = models.ForeignKey(MusicianAnnouncement, on_delete=models.CASCADE)
 

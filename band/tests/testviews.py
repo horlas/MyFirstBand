@@ -153,7 +153,7 @@ class BandCreateTest(MyTestCase):
         ''' test with a name witch already exist and return error'''
         data = {'name': 'Pink Floyd'}
         form = ProfileBandForm(data)
-        self.assertEqual(form.errors['name'][0], 'Band with this Nom du Groupe already exists.')
+        self.assertEqual(form.errors['name'][0], 'Un objet Band avec ce champ Nom du Groupe existe déjà.')
 
     def test_post_band_add_invalid_form(self):
         ''' Test with a band's name witch already exist did not redirect '''
@@ -248,14 +248,14 @@ class BandUpdateTest(MyTestCase):
         ''' test with a name witch already exist and return error'''
         data = {'name': 'Pink Floyd'}
         form = ProfileBandForm(data)
-        self.assertEqual(form.errors['name'][0], 'Band with this Nom du Groupe already exists.')
+        self.assertEqual(form.errors['name'][0], 'Un objet Band avec ce champ Nom du Groupe existe déjà.')
 
     def test_band_add_form_invalid2(self):
         ''' test with a name witch already exist and return error'''
         # todo :  we must see why we can not upload a file
         data = {'avatar': self.test_img}
         form = ProfileBandForm(data)
-        self.assertEqual(form.errors['name'][0], 'This field is required.')
+        self.assertEqual(form.errors['name'][0], 'Ce champ est obligatoire.')
 
 class ManageBandTest(MyTestCase):
 

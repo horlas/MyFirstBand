@@ -34,7 +34,12 @@
                {% else %}
                <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" />
                {% endif %}
+
+               {% if not request.user.userprofile.username %}
+               <span class="custom-text name">  </span>
+               {% else %}
                <span class="custom-text name"> {{request.user.userprofile.username}} </span>
+               {% endif %}
                <span class="custom-text e-mail">{{request.user.email}}</span>
             </a>
          </div>

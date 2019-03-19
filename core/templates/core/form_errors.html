@@ -1,4 +1,14 @@
           {% if form.errors %}
+
+                      {% for error in non_field_errors %}
+                 <script>
+                    M.toast({html: "{{ error|escape }}"  });
+                </script>
+
+            {% endfor %}
+
+
+
             {% for field in form %}
                 {% for error in field.errors %}
 
@@ -10,11 +20,6 @@
             {% endfor %}
 
 
-            {% for error in non_field_errors %}
-                 <script>
-                    M.toast({html: "{{ error|escape }}"  });
-                </script>
 
-            {% endfor %}
         {% endif %}
 

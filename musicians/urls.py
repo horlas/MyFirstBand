@@ -16,3 +16,5 @@ urlpatterns = [
 
 
 ]
+
+# path('edit/<slug:slug>', BandUpdateView.as_view(), name='edit_band'),

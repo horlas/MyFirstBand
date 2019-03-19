@@ -102,7 +102,6 @@ class Band(models.Model):
                             max_length=80,
                             default='En cours de création',
                             unique=True,
-
                             )
 
     bio = models.TextField("Description du groupe",

@@ -80,13 +80,14 @@ class UpdateAvatarView(FormView, SuccessMessageMixin):
 
 
 class UpdateDataView(FormView, SuccessMessageMixin):
+    ''' this view posts data to the userprofile , username, bio, gender, age '''
 
     form_class = ProfileForm
     template_name = 'musicians/update_profile.html'
 
     @method_decorator(login_required)
     @transaction.atomic
-    def post(self , request , *args , **kwargs):
+    def post(self, request, *args, **kwargs):
         profile_form = self.form_class(request.POST,
                                        instance=request.user.userprofile)
         if profile_form.is_valid():
@@ -95,12 +96,9 @@ class UpdateDataView(FormView, SuccessMessageMixin):
             return redirect(reverse_lazy('musicians:update_profile', kwargs={'pk': self.request.user.id}))
 
         else:
-
             profile_form = self.form_class(instance=request.user.userprofile)
             return render(request, self.template_name, self.get_context_data(profile_form=profile_form))
 
-
-# Todo : errors forms are  not  displayed
 
 class UpdateLocalView(FormView, SuccessMessageMixin):
 

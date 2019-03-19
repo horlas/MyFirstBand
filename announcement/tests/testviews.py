@@ -22,17 +22,17 @@ class MyTestCase(TestCase):
         self.test_user = User.objects.create_user(self.email, self.password)
 
         # his profil to test get info
-        self.userprofile = UserProfile.objects.get(user=self.test_user)
-        self.userprofile.username = 'Super Tatie'
-        self.userprofile.bio = 'Elle passe ses nuits sans dormir'\
+        self.test_user.userprofile = UserProfile.objects.get(user=self.test_user)
+        self.test_user.userprofile.username = 'Super Tatie'
+        self.test_user.userprofile.bio = 'Elle passe ses nuits sans dormir'\
                                 'À gacher son bel avenir'\
                                 'La groupie du pianiste'
-        self.userprofile.birth_year = 1948
-        self.userprofile.code = 34070
-        self.userprofile.town = 'Montpellier'
-        self.userprofile.county_name = 'Hérault'
-        self.userprofile.gender = 'F'
-        self.userprofile.save()
+        self.test_user.userprofile.birth_year = 1948
+        self.test_user.userprofile.code = 34070
+        self.test_user.userprofile.town = 'Montpellier'
+        self.test_user.userprofile.county_name = 'Hérault'
+        self.test_user.userprofile.gender = 'F'
+        self.test_user.userprofile.save()
 
         # her instruments
         self.instrument = Instrument.objects.create(instrument='Contrebassiste',
@@ -66,11 +66,11 @@ class MyTestCase(TestCase):
         self.test_user2 = User.objects.create_user(self.email2, self.password2)
 
         # add localisation for announcement
-
-        self.userprofile.code = 31000
-        self.userprofile.town = 'Toulouse'
-        self.userprofile.county_name = 'Haute-Garonne'
-        self.userprofile.save()
+        self.test_user2.userprofile.username = 'Paul'
+        self.test_user2.userprofile.code = 31000
+        self.test_user2.userprofile.town = 'Toulouse'
+        self.test_user2.userprofile.county_name = 'Haute-Garonne'
+        self.test_user2.userprofile.save()
 
 class AnnouncementCreateTest(MyTestCase):
     ''' Test create new ads and valid the form to do this'''
@@ -106,10 +106,10 @@ class AnnouncementCreateTest(MyTestCase):
         ''' test blank field'''
         self.data['title'] = ""
         form = MusicianAnnouncementForm(self.data)
-        self.assertEqual(form.errors['title'][0], 'This field is required.')
+        self.assertEqual(form.errors['title'][0], 'Ce champ est obligatoire.')
         self.data['content'] = ""
         form = MusicianAnnouncementForm(self.data)
-        self.assertEqual(form.errors['content'][0], 'This field is required.')
+        self.assertEqual(form.errors['content'][0], 'Ce champ est obligatoire.')
 
     def test_post_announcement(self):
         ''' with Factory request test the create ok a new ads'''
@@ -148,7 +148,7 @@ class AnnouncementCreateTest(MyTestCase):
         self.assertEqual(a.author, self.test_user)
 
         # test if the localisation is the author localisation
-        self.assertEqual(a.code, self.test_user.userprofile.code)
+        self.assertEqual(a.code, str(self.test_user.userprofile.code))
         self.assertEqual(a.county_name, self.test_user.userprofile.county_name)
         self.assertEqual(a.town, self.test_user.userprofile.town)
 
@@ -213,7 +213,7 @@ class AnnouncementListTest(MyTestCase):
 
         assert 'announcement/announcement_list.html' in list_template
         assert 'core/sidenav_connected.html' in list_template
-        # print(self.response.content)
+
         # button to create announcement
         self.assertContains(self.response, 'Creer une annonce')
         # list of announcement
@@ -221,7 +221,6 @@ class AnnouncementListTest(MyTestCase):
         self.assertContains(self.response, 'title1')
         self.assertContains(self.response, 'title2')
         self.assertContains(self.response, 'title3')
-        # print(self.response.context['list of announcements'])
 
 
 class AnnouncementManagementTest(MyTestCase):
@@ -435,7 +434,6 @@ class AnswerAnnouncementTest(MyTestCase):
 
         # test the view
         response = views.AnswerAnnouncement.as_view()(request)
-        # print(response.templates)
         # test the success message
         for m in messages:
             message = str(m)
@@ -608,7 +606,7 @@ class AnnouncementMessageTest(MyTestCase):
         create_at_third = self.third_message.created_at.strftime("%d %B %Y")
         self.assertJSONEqual(response_content,
                              [{"created_at": create_at_first,  "content": "Je suis interess\u00e9 par bibi",
-                               "author_userprofile_id": self.test_user2.userprofile.pk, "author": ""},
+                               "author_userprofile_id": self.test_user2.userprofile.pk, "author": "Paul"},
                               {"created_at": create_at_third, "content": "coucou bobo",
                                "author_userprofile_id":self.test_user.userprofile.pk, "author": "Super Tatie"}])
 

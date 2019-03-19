@@ -40,10 +40,10 @@
    </a>
    <div class="divider"></div>
    <div class="row"></div>
-   <section hidden id="profil">
+   <section hidden  id="profil">
       <form action='{% url "musicians:update_data" %}' method="post"  >
          {% csrf_token %}
-         {% include 'core/form_errors.html' with form=profile_form %}
+         {% include 'core/form_errors.html' with profile_form=form %}
          {{ profile_form.username|add_label_class:"custom-label"  }}
          {{ profile_form.username }}
          {{ profile_form.bio|add_label_class:"custom-label"  }}
@@ -152,7 +152,8 @@
          </div>
       </form>
    </div>
-   <!-- Modal Structure in case of a bad input cp -->
+   </section>
+      <!-- Modal Structure in case of a bad input cp -->
    <div id="bad_cp" class="modal">
       <div class="modal-content">
          <h4>Mauvais code postal</h4>
@@ -161,6 +162,7 @@
       <div class="modal-footer">
          <a href="#!" class="modal-close waves-effect waves-green btn-flat">OK</a>
       </div>
+   </div>
    </div>
 </main>
 {% endblock %}

@@ -78,7 +78,7 @@ class SignupFormTest(TestCase):
 
         form = SignupForm({})
         self.assertFalse(form.is_valid())
-        self.assertEqual(form.errors['email'][0], 'This field is required.')
+        self.assertEqual(form.errors['email'][0], 'Ce champ est obligatoire.')
 
 
 class LoginViewTest(MyTestCase):
@@ -145,7 +145,7 @@ class LogoutViewTest(MyTestCase):
                                                                               'password' : '12345'}, follow=True)
         self.assertRedirects(
             response,
-            expected_url=reverse('core:accueil'),
+            expected_url=reverse('home'),
             status_code=302,
             target_status_code=200
         )
