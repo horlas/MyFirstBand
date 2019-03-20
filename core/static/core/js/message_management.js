@@ -1,6 +1,6 @@
 // function witch get object
    // function witch display received messages
-    function displayMessages(content, author, author_useprofile_id, id, ads, target, zone_message, signal, author_first_response){
+    function displayMessages(content, author, author_useprofile_id, id, ads, date_message, target, zone_message, signal, author_first_response){
         $(target).empty();
         $(zone_message).show();
 
@@ -8,7 +8,7 @@
        // add first message
         var $mes = $('<div class="message">message</div>').html(content);
         var $mes_zone = $(target).append($mes);
-        var $link_author = createLinkAuthor(author, author_useprofile_id);
+        var $link_author = createLinkAuthor(author, author_useprofile_id, date_message);
         var $mes_zone = $(target).append($link_author);
 
         // add response to this message
@@ -57,10 +57,12 @@
    // function to create link to author profile
 
    function createLinkAuthor(author, author_userprofile_id, date_message){
-        var $link_author = $('<a href="" class="custom-text-link-login">author</a>').text(author+' le '+ date_message);
+        var $date = $('<p></p>').text(' le '+ date_message);
+        var $link_author = $('<a href="" class="custom-text-link-login">author</a>').text(author);
         var $url = '/core/musician_public/'+author_userprofile_id;
         $link_author.attr("href", $url);
-        return $link_author;
+        $date.prepend($link_author);
+        return $date;
         }
 
 

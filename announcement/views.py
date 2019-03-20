@@ -1,21 +1,18 @@
-from django.shortcuts import render
-from django.shortcuts import render, redirect, get_object_or_404
+import locale
+import datetime
+from django.shortcuts import  redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView, FormView, CreateView
+from django.views.generic import FormView, CreateView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-from django.db import transaction
 from django.contrib import messages
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import UpdateView, DeleteView
+from django.views.generic.edit import UpdateView
 from django.utils import timezone
-from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
-# from django.views.generic import CreateView
 from announcement.forms import MusicianAnnouncementForm
 from announcement.models import MusicianAnnouncement, MusicianAnswerAnnouncement
 from musicians.models import Instrument
@@ -212,15 +209,14 @@ class AnnouncementMessage(LoginRequiredMixin, SuccessMessageMixin, ListView):
 def message_to_message(request):
     ''' ajax return of messages witch depends of a parent_id'''
 
+    locale.setlocale(locale.LC_ALL, '')
     if request.is_ajax():
         q = request.POST.get('parent_message')
         messages = MusicianAnswerAnnouncement.objects.filter(parent_id=q).order_by('created_at')
         results = []
         for m in messages:
-            date= m.created_at.strftime("%d %B %Y")
-
-            # todo : display date of message
-            dic = {"content": m.content, "author": m.author.userprofile.username, "created_at": date, "author_userprofile_id" : m.author.userprofile.pk }
+            date = m.created_at.strftime("%d %B %Y")
+            dic = {"content": m.content, "author": m.author.userprofile.username, "created_at": date, "author_userprofile_id" : m.author.userprofile.pk}
             results.append(dic)
     else:
         results ='fail'

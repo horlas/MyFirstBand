@@ -23,6 +23,7 @@
                "{{ item.author.userprofile.pk }}",
                "{{ item.id }}",
                "{{ item.musician_announcement.id }}",
+               "{{ item.created_at }}",
                "#message_list",
                "#message_area",
                1,
@@ -70,11 +71,11 @@
                "{{ item.author.userprofile.pk }}",
                "{{ item.id }}",
                "{{ item.musician_announcement.id }}",
+               "{{ item.created_at }}",
                "#message_published_ads_list",
                "#message_received_area",
                2);'>
             Message de {{ item.author.userprofile.username }}
-            {{ item.id }}
             </a>
             {% endfor %}
             {% endfor %}
