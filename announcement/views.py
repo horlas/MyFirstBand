@@ -101,7 +101,7 @@ class AnnouncementDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # return elements for to display profile author link
+        # return elements to display profile author link
         author = User.objects.get(id=self.object.author.id)
         context['author'] = author
         return context
@@ -214,11 +214,11 @@ def message_to_message(request):
 
     if request.is_ajax():
         q = request.POST.get('parent_message')
-        print(q)
         messages = MusicianAnswerAnnouncement.objects.filter(parent_id=q).order_by('created_at')
         results = []
         for m in messages:
             date= m.created_at.strftime("%d %B %Y")
+
             # todo : display date of message
             dic = {"content": m.content, "author": m.author.userprofile.username, "created_at": date, "author_userprofile_id" : m.author.userprofile.pk }
             results.append(dic)
