@@ -1,21 +1,20 @@
 .nav-custom {
-
-    height: 100px;
-    line-height: 100px;
+    height: 200px;
+    line-height: 200px;
 
 }
 
 .bg-test {
-    background-color: #fdb44b;
+    background-color: white;
 }
 
 .material-icons {
-    color: #fdca5a !important;
+    color: white !important;
 }
 
 
 .custom-text {
-     color: #fdca5a !important;
+     color: white !important;
 }
 
 .custom-text-link {
@@ -50,9 +49,10 @@
 
 #nav-mobile {
     color : #fdca5a;
+    background : #12005e;
 }
 
-
+#fdca5a;
 
 #delete {
    margin-left: 40px;
@@ -66,9 +66,24 @@
     vertical-align : middle
 }
 
-#nav-mobile {
-    background : #33313b;
+nav {
+    background : #4a148c;
+
+    height : 100px;
 }
+
+.logo {
+    margin-top : 10px;
+}
+
+
+
+a {
+   font-family: 'Concert One', cursive;
+}
+
+
+
 
 header, main, footer {
       padding-left: 300px;
