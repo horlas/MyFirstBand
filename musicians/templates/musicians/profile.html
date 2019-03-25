@@ -1,107 +1,85 @@
 {% extends 'core/base.html' %}
 {% load static %}
-
+{% block navbar %}
+{% include "core/navbar.html" with title_navbar=user.userprofile.username %}
+{% endblock %}
 {% block content %}
 <main>
-<div class="container" >
-    <div class="row"></div>
-    <div class="row">
-      <div class="col s12  ">
-
-          <div class="row valign-wrapper">
-            <div class="col s4">
-             {% if user.userprofile.avatar %}
-             <img alt="Avatar" class="circle responsive-img" src="{{ user.userprofile.avatar.url }}" />
+   <div class="container" >
+      <div class="row"></div>
+      <div class="row">
+         <div class="col s12 m4 l4">
+            <h5 class="flow-text"> Avatar</h5>
+         </div>
+         <div class="col s6 m4 l4">
+            {% if user.userprofile.avatar %}
+            <img alt="Avatar" class="circle responsive-img" src="{{ user.userprofile.avatar.url }}" />
             {% else %}
             <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" />
             {% endif %}
-            </div>
-
-            <div class="col s8">
-              <h4 class="black-text">
-                {{user.userprofile.username}}
-              </h4>
-                <div class="divider"></div>
-            </div>
-          </div>
-
-   <div class="row"></div>
-            <div class="col s10 offset-s2">
-             <div>
-                <h5>Instrument</h5>
-                <div class="divider"></div>
-                <ul>
-                {% for i in user.instrument_set.all %}
-                <li>{{i.instrument}} </li>
-                 {% endfor %}
-                </ul>
-            </div>
-
-<div class="row"></div>
-            <div>
-
-                <h5>Biographie</h5>
-                <div class="divider"></div>
-                <div class="row"></div>
-            </div>
-                <div>
-
-                <span>{{user.userprofile.bio}}</span>
-                </div>
-<div class="row"></div>
-
-            <span > {{age}}  </span></br>
-            <span>{{user.userprofile.town}} {{user.userprofile.county_name}}</span>
-
-              <div>
-                <h5>Membre de : </h5>
-                <div class="divider"></div>
-                {% if bands  %}
-
-<ul class="collection">
- {% for band in bands %}
-
-    <li class="collection-item avatar">
-       {% if band.avatar %}
-      <img src="{{ band.avatar.url }}" alt="" class="circle">
-        {% else %}
-       <img src="{% static 'core/img/0_band.jpg' %}" alt="" class="circle">
-        {% endif %}
-      <span class="title">{{ band.name }}</span>
-        {% if not band.type %}
-        <p> En cours de création <br>
-        {% else %}
-        <p> {{ band.type }} {{ band.musical_genre }} <br>
-        {% endif %}
-        {% if not band.town %}
-        <p> Localité inconnue <br>
-        {% else %}
-         {{ band.town }} , {{ band.county_name }}
-        {% endif %}
-      </p>
-      <a href='{% url "band:band_detail" band.slug  %}' class="secondary-content"><i class="material-icons">grade</i></a>
-    </li>
-    {% endfor %}
-      </ul>
-       {% else %}
-        {# if no band #}
-       <div class="divider"></div>
-   {% endif %}
-            </div>
+         </div>
       </div>
-    </div>
-  </div>
+      <div class="row"></div>
+      <div class="row">
+         <div class="col s12 m4 l4">
+            <h5 class="flow-text" >Instrument</h5>
+         </div>
+         <div class="col s12 m4 l8">
+            <ul>
+               {% for i in user.instrument_set.all %}
+               <li>{{i.instrument}} </li>
+               {% endfor %}
+            </ul>
+         </div>
       </div>
-    </div>
-</div>
-
+      <div class="row"></div>
+      <div class="row ">
+         <div class="col s12 m4 l4">
+            <h5 class="flow-text">Biographie</h5>
+         </div>
+         <div class="col s12 m4 l8">
+            <p >{{user.userprofile.bio}}</p>
+            <p> {{age}}  </p>
+            <p>{{user.userprofile.town}} {{user.userprofile.county_name}}</p>
+         </div>
+      </div>
+      <div class="row"></div>
+      <div class="row ">
+         <div class="col s12 m4 l4">
+            <h5 class="flow-text">Groupe </h5>
+         </div>
+         {#% if bands  %#}
+         <div class="col s12 m8 l8">
+            <ul class="collection">
+               {% for band in bands %}
+               <li class="collection-item avatar">
+                  {% if band.avatar %}
+                  <img src="{{ band.avatar.url }}" alt="" class="circle">
+                  {% else %}
+                  <img src="{% static 'core/img/0_band.jpg' %}" alt="" class="circle">
+                  {% endif %}
+                  <span class="title">{{ band.name }}</span>
+                  {% if not band.type %}
+                  <p> En cours de création <br>
+                     {% else %}
+                  <p> {{ band.type }} {{ band.musical_genre }} <br>
+                     {% endif %}
+                     {% if not band.town %}
+                     Localité inconnue <br>
+                     {% else %}
+                     {{ band.town }} , {{ band.county_name }}<br>
+                     {% endif %}
+                     <a href='{% url "band:band_detail" band.slug  %}' class="waves-effect waves-light btn-small custom-btn ">Espace groupe</a>
+                  </p>
+               </li>
+               {% endfor %}
+            </ul>
+            {#% else %#}
+            {# if no band #}
+            {#% endif %#}
+         </div>
+      </div>
+   </div>
 </main>
-
-
-
-<script>
-
-</script>
-
+<script></script>
 {% endblock %}
-

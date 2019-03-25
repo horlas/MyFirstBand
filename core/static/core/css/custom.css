@@ -4,12 +4,17 @@
 
 }
 
+a {
+color : #12005e;
+}
+
+
 .bg-test {
     background-color: white;
 }
 
 .material-icons {
-    color: white !important;
+    color: pink !important;
 }
 
 
@@ -30,7 +35,7 @@
 
 
 .custom-btn {
-    background : #2f1b40 !important;
+    background : #311b92 !important;
 }
 
 .custom-btn-pink {
@@ -44,22 +49,12 @@
 
 
 .custom-label {
-    color : #2f1b40 !important;
+    color :#000063!important;
 }
 
 #nav-mobile {
     color : #fdca5a;
     background : #12005e;
-}
-
-#fdca5a;
-
-#delete {
-   margin-left: 40px;
-}
-
-#add {
-    margin-left : 40px;
 }
 
 .middle  {
@@ -73,17 +68,19 @@ nav {
 }
 
 .logo {
-    margin-top : 10px;
+   margin-top : 20px;
 }
 
 
 
-a {
-   font-family: 'Concert One', cursive;
+h1, h2, h3, h4, h5, h6{
+   font-family: 'Old Standard TT', serif;
 }
 
 
-
+footer {
+    background-color : #7c43bd!important;
+}
 
 header, main, footer {
       padding-left: 300px;
@@ -131,23 +128,3 @@ body {
     grid-template-columns: 1fr;
   }
 }
-
-
-/*.tooltipped {*/
-    /*background-color: black;*/
-/*}*/
-
-/*.material-tooltip > .backdrop {
-  /*  background-color: black;
-   /* opacity: 100%;
-/*}
-
-/*.tooltipped{
-  /*  opacity: 100;
-/*}*/
-
-a {
-    color : #2f1b40;
-}
-
-/**/

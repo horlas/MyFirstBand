@@ -1,168 +1,249 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
+{% block navbar %}
+{% include "core/navbar.html" with title_navbar="Paramétrage de mon compte" %}
+{% endblock %}
 {% block content %}
 <main>
    <div class="container " xmlns="http://www.w3.org/1999/html">
-   <div class="row"></div>
-   <div class="row"></div>
-   {% include 'core/display_messages.html' %}
-   <div class="row">
-      <div>
-         <a href='{% url "musicians:profile" user.pk%}' class="waves-effect waves-light btn custom-btn custom-text" >
-         <i class="material-icons left">equalizer</i> Retour au profil </a>
+      <div class="row"></div>
+      <div class="row"></div>
+      {% include 'core/display_messages.html' %}
+      <div class="row">
+         <div>
+            <a href='{% url "musicians:profile" user.pk%}' class="waves-effect waves-light btn-small custom-btn custom-text" >
+            <i class="material-icons left">equalizer</i> Retour au profil </a>
+         </div>
       </div>
-   </div>
-   <!--avatar form-->
-   <a id='trigger_avatar' href="#" onclick="$('#avatar').show();">
-      <h6 class=""> Mise à jour Avatar </h6>
-   </a>
-   <div class="divider"></div>
-   <div class="row"></div>
-   <section hidden id="avatar">
-      <form action='{% url "musicians:update_avatar" %}' method="post" enctype="multipart/form-data" >
-         {% csrf_token %}
-         {% if user.userprofile.avatar %}
-         <img alt="Avatar" class="circle responsive-img" src="{{ user.userprofile.avatar.url }}" />
-         {% else %}
-         <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" />
-         {% endif %}
-         {{ avatar_form.as_p }}
-         <button id='submit_avatar' class=" waves-effect waves-light btn custom-btn custom-text" type="submit" >
-         <i class="material-icons left">save</i>Enregistrer</button>
-         <a href='{% url "musicians:update_profile" request.user.pk %}'  class="waves-effect waves-light btn custom-btn custom-text" type="button" >
-         <i class="material-icons left">cancel</i>Cancel</a>
-      </form>
-   </section>
-   <!--profile form-->
-   <a id="trigger_profil" href="#" onclick="$('#profil').show();">
-      <h6 class=""> Mise à jour Profil </h6>
-   </a>
-   <div class="divider"></div>
-   <div class="row"></div>
-   <section hidden  id="profil">
-      <form action='{% url "musicians:update_data" %}' method="post"  >
-         {% csrf_token %}
-         {% include 'core/form_errors.html' with profile_form=form %}
-         {{ profile_form.username|add_label_class:"custom-label"  }}
-         {{ profile_form.username }}
-         {{ profile_form.bio|add_label_class:"custom-label"  }}
-         {{ profile_form.bio|add_class:"materialize-textarea" }}
-         {{ profile_form.birth_year|add_label_class:"custom-label"  }}
-         {{ profile_form.birth_year }}
-         {{ profile_form.gender|add_label_class:"custom-label"  }}
-         {{ profile_form.gender }}
-         <button id='submit_profile' class=" waves-effect waves-light btn custom-btn custom-text" type="submit" >
-         <i class="material-icons left">save</i>Enregistrer</button>
-         <a href='{% url "musicians:update_profile" request.user.pk %}'  class="waves-effect waves-light btn custom-btn custom-text" type="button" >
-         <i class="material-icons left">cancel</i>Cancel</a>
-      </form>
-   </section>
-   <!--instru form-->
-   <a id="trigger-instru" href="#" onclick="$('#instrument').show();">
-      <h6 class=""> Ajout/Suppression  d'un Instrument </h6>
-   </a>
-   <div class="divider"></div>
-   <div class="row"></div>
-   <section hidden id="instrument">
-      {# display list and level of instrument #}
-      <ul>
+      <!--avatar form-->
+      <a id='trigger_avatar' href="#" onclick="$('#avatar').show();">
+         <h6 class=""> Mise à jour Avatar </h6>
+      </a>
+      <div class="divider"></div>
+      <div class="row"></div>
+      <section hidden id="avatar">
+
+         <form action='{% url "musicians:update_avatar" %}' method="post" enctype="multipart/form-data" >
+            {% csrf_token %}
+            {% if user.userprofile.avatar %}
+            <img alt="Avatar" class="circle responsive-img" src="{{ user.userprofile.avatar.url }}" />
+            {% else %}
+            <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" />
+            {% endif %}
+            {{ avatar_form.as_p }}
+
+                                      <!-- responsive buttons show on medium and large device -->
+               <div class="row hide-on-small-only">
+
+                     <button id='submit_avatar' class="waves-effect waves-light btn-small custom-btn" >
+                     <i class="material-icons left">save</i> Enregistrer </button>
+                     <a href='{% url "musicians:update_profile" request.user.pk %}'  class="waves-effect waves-light btn-small custom-btn ">
+                     <i class="material-icons left">cancel</i>Cancel</a>
+
+               </div>
+               <!-- responsive buttons show on small device -->
+                <div class="row hide-on-med-and-up">
+
+                         <button  id='submit_avatar' class=" waves-effect waves-light btn-small custom-btn custom-text" type="submit" >
+                     <i class="material-icons center">save</i> </button>
+                     <a href='{% url "musicians:update_profile" request.user.pk %}'  class="waves-effect waves-light btn-small custom-btn ">
+                     <i class="material-icons center">cancel</i></a>
+                  </div>
+
+         </form>
+
+      </section>
+      <!--profile form-->
+      <a id="trigger_profil" href="#" onclick="$('#profil').show();">
+         <h6 class=""> Mise à jour Profil </h6>
+      </a>
+      <div class="divider"></div>
+      <div class="row"></div>
+      <section hidden  id="profil">
+         <form action='{% url "musicians:update_data" %}' method="post"  >
+            {% csrf_token %}
+            {% include 'core/form_errors.html' with profile_form=form %}
+            {{ profile_form.username|add_label_class:"custom-label"  }}
+            {{ profile_form.username }}
+            {{ profile_form.bio|add_label_class:"custom-label"  }}
+            {{ profile_form.bio|add_class:"materialize-textarea" }}
+            {{ profile_form.birth_year|add_label_class:"custom-label"  }}
+            {{ profile_form.birth_year }}
+            {{ profile_form.gender|add_label_class:"custom-label"  }}
+            {{ profile_form.gender }}
+
+                           <!-- responsive buttons show on medium and large device -->
+               <div class="row hide-on-small-only">
+
+                     <button id='submit_profile' class="waves-effect waves-light btn-small custom-btn" >
+                     <i class="material-icons left">save</i> Enregistrer </button>
+                     <a href='{% url "musicians:update_profile" request.user.pk %}'  class="waves-effect waves-light btn-small custom-btn ">
+                     <i class="material-icons left">cancel</i>Cancel</a>
+
+               </div>
+               <!-- responsive buttons show on small device -->
+                <div class="row hide-on-med-and-up">
+
+                         <button  id='submit_profile' class=" waves-effect waves-light btn-small custom-btn custom-text" type="submit" >
+                     <i class="material-icons center">save</i> </button>
+                     <a href='{% url "musicians:update_profile" request.user.pk %}'  class="waves-effect waves-light btn-small custom-btn ">
+                     <i class="material-icons center">cancel</i></a>
+                  </div>
+
+
+         </form>
+      </section>
+      <!--instru form-->
+      <a id="trigger-instru" href="#" onclick="$('#instrument').show();">
+         <h6 class=""> Ajout/Suppression  d'un Instrument </h6>
+      </a>
+      <div class="divider"></div>
+      <div class="row"></div>
+      <section hidden id="instrument">
+         {# display list and level of instrument #}
          {% for i in user.instrument_set.all %}
-         <li>{{i.instrument}} : {{i.level}}</li>
+         <p>{{i.instrument}} : {{i.level}}</p>
          {% endfor %}
-      </ul>
-      <div id='trigger_button' class="row valign-wrapper">
-         {% if user.instrument_set.all.count < 3 %}
-         {# to display add possibility only for three instruments #}
-         <button id="add" class="waves-effect waves-light btn custom-btn custom-text">
-         <i class="material-icons left">add</i>Ajouter</button>
-         {% endif %}
-         {% if user.instrument_set.all %}
-         <button id = "delete" class="waves-effect waves-light btn custom-btn custom-text">
-         <i class="material-icons left">delete</i>Supprimer</button>
-         {% endif %}
-      </div>
-      <div  style="display: none" id="form_delete">
-         {# display possibility of delete #}
-         <form action='{% url "musicians:del_instru" %}' method="post">
-            {% csrf_token %}
-            <div class="row valign-wrapper">
-               <div class="col s6">
-                  {{ del_instru_form.as_p }}
+         <!-- responsive buttons show on medium and large device -->
+         <div class="row hide-on-small-only">
+            {% if user.instrument_set.all.count < 3 %}
+            {# to display add possibility only for three instruments #}
+            <button class="waves-effect waves-light btn-small custom-btn custom-text hidden_onclick add">
+            <i class="material-icons left">add</i>Ajouter</button>
+            {% endif %}
+            {% if user.instrument_set.all %}
+            <button  class="waves-effect waves-light btn-small custom-btn custom-text hidden_onclick delete">
+            <i class="material-icons left">delete</i>Supprimer</button>
+            {% endif %}
+         </div>
+         <!-- responsive buttons show on small device -->
+         <div class="row hide-on-med-and-up">
+            {% if user.instrument_set.all.count < 3 %}
+            {# to display add possibility only for three instruments #}
+            <button  class="waves-effect waves-light btn-small custom-btn custom-text hidden_onclick add">
+            <i class="material-icons center">add</i></button>
+            {% endif %}
+            {% if user.instrument_set.all %}
+            <button  class="waves-effect waves-light btn-small custom-btn custom-text hidden_onclick delete">
+            <i class="material-icons center">delete</i></button>
+            {% endif %}
+         </div>
+         <div  style="display: none" id="form_delete">
+            {# display possibility of delete #}
+            <form action='{% url "musicians:del_instru" %}' method="post">
+               {% csrf_token %}
+               <div class="row ">
+                  <div class="col s12 m8 l8">
+                     {{ del_instru_form.as_p }}
+                  </div>
                </div>
-               <div class="col s6 center-align ">
-                  <button  class="btn-floating btn-small waves-effect waves-light custom-btn tooltipped" data-tooltip="Supprimer">
-                  <i class="material-icons">delete</i>  </button>
-                  <a href='{% url "musicians:update_profile" request.user.pk %}'  class="btn-floating btn-small waves-effect waves-light custom-btn tooltipped" data-tooltip="Abandonner" type="button" >
-                  <i class="material-icons left">cancel</i></a>
+               <!-- responsive buttons show on medium and large device -->
+               <div class="row">
+                  <div class="col s12 hide-on-small-only">
+                     <button  class="waves-effect waves-light btn-small custom-btn" >
+                     <i class="material-icons left">delete</i> Supprimer </button>
+                     <a href='{% url "musicians:update_profile" request.user.pk %}'  class="waves-effect waves-light btn-small custom-btn ">
+                     <i class="material-icons left">cancel</i>Cancel</a>
+                  </div>
                </div>
-            </div>
-         </form>
-      </div>
-      <div style="display: none"  id="form_add">
-         <form action='{% url "musicians:add_instru" %}' method="post"  >
-            {% csrf_token %}
-            <div class="row valign-wrapper">
-               <div id = "form_instru" class="col s6">
-                  {{ instru_form.as_p }}
-
+               <!-- responsive buttons show on small device -->
+               <div class="row">
+                  <div class="col s12 hide-on-med-and-up">
+                     <button  class="waves-effect waves-light btn-small custom-btn " >
+                     <i class="material-icons center">delete</i> </button>
+                     <a href='{% url "musicians:update_profile" request.user.pk %}'  class="waves-effect waves-light btn-small custom-btn ">
+                     <i class="material-icons center">cancel</i></a>
+                  </div>
                </div>
-               <div class="col s6 center-align ">
-                  <button class="btn-floating btn-small waves-effect waves-light custom-btn tooltipped " data-tooltip="Ajouter" type="submit" >
-                  <i class="material-icons">add</i></button>
-                  <a href='{% url "musicians:update_profile" request.user.pk %}'  class="btn-floating btn-small waves-effect waves-light custom-btn tooltipped" data-tooltip="Abandonner" type="button" >
-                  <i class="material-icons left">cancel</i></a>
+            </form>
+         </div>
+         <div style="display: none"  id="form_add">
+            <form action='{% url "musicians:add_instru" %}' method="post"  >
+               {% csrf_token %}
+               <div class="row">
+                  <div id = "form_instru" class="col s12 m8 l8">
+                     {{ instru_form.as_p }}
+                  </div>
                </div>
-            </div>
-         </form>
-      </div>
-   </section>
-   <!--local form-->
-   <a id="trigger-local" href="#" onclick="$('#localisation').show();">
-      <h6 class=""> Mise à jour de la Localisation </h6>
-   </a>
-   <div class="divider"></div>
-   <div class="row"></div>
-   <section hidden id="localisation">
-
-   <div class="row">
-      <div class="col s6">
-         <span>{{user.userprofile.town}} {{user.userprofile.county_name}}</span>
-      </div>
-   </div>
-   <div class="row">
-      <form action='{% url "musicians:update_location" %}' method="post"  >
-         {% csrf_token %}
-         <div  id="cp" >
-            <div class="col s7">
-               {{ local_form.code |add_label_class:"custom-label" }}
-               {% render_field local_form.code|append_attr:"class:validate" %}
-            </div>
-            <div class="col s3">
-               <input id="send" type="button" class="btn custom-btn custom-text" value ='MAJ'>
+               <!-- responsive buttons show on medium and large device -->
+               <div class="row">
+                  <div class="col s12 hide-on-small-only">
+                     <button  class="waves-effect waves-light btn-small custom-btn" >
+                     <i class="material-icons left">add</i> Ajouter</button>
+                     <a href='{% url "musicians:update_profile" request.user.pk %}'  class="waves-effect waves-light btn-small custom-btn ">
+                     <i class="material-icons left">cancel</i>Cancel</a>
+                  </div>
+               </div>
+               <!-- responsive buttons show on small device -->
+               <div class="row">
+                  <div class="col s12 hide-on-med-and-up">
+                     <button  class="waves-effect waves-light btn-small custom-btn " >
+                     <i class="material-icons center">add</i> </button>
+                     <a href='{% url "musicians:update_profile" request.user.pk %}'  class="waves-effect waves-light btn-small custom-btn ">
+                     <i class="material-icons center">cancel</i></a>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </section>
+      <!--local form-->
+      <a id="trigger-local" href="#" onclick="$('#localisation').show();">
+         <h6 class=""> Mise à jour de la Localisation </h6>
+      </a>
+      <div class="divider"></div>
+      <div class="row"></div>
+      <section hidden id="localisation">
+         <div class="row">
+            <div class="col s6">
+               <span>{{user.userprofile.town}} {{user.userprofile.county_name}}</span>
             </div>
          </div>
-         <div  style="display: none" id="town" >
-            <div class="col s7">
-               {{ local_form.town }}
-               {{ local_form.county_name}}
-               <button id='submit_local' class=" waves-effect waves-light btn custom-btn custom-text" type="submit" >
-               <i class="material-icons left">save</i>Enregistrer</button>
-            </div>
+         <div class="row">
+            <form action='{% url "musicians:update_location" %}' method="post"  >
+               {% csrf_token %}
+               <div  id="cp" >
+                  <div class="col s12">
+                     {{ local_form.code |add_label_class:"custom-label" }}
+                     {% render_field local_form.code|append_attr:"class:validate" %}
+                  </div>
+                  <div class="col s12">
+                     <input id="send" type="button" class="btn custom-btn custom-text" value ='MAJ'>
+                  </div>
+               </div>
+               <div  style="display: none" id="town" >
+                  <div class="col s7">
+                     {{ local_form.town }}
+                     {{ local_form.county_name}}
+                  </div>
+                     <!-- responsive buttons show on medium and large device -->
+               <div class="row">
+                  <div class="col s12 hide-on-small-only">
+                     <button id='submit_local' class=" waves-effect waves-light btn custom-btn custom-text" type="submit" >
+                     <i class="material-icons left">save</i>Enregistrer</button>
+                  </div>
+               </div>
+                  <!-- responsive buttons show on small device -->
+               <div class="row">
+                  <div class="col s12 hide-on-med-and-up">
+                     <button id='submit_local' class=" waves-effect waves-light btn custom-btn custom-text" type="submit" >
+                     <i class="material-icons center">save</i></button>
+                  </div>
+               </div>
+                  </div>
+            </form>
          </div>
-      </form>
-   </div>
-   </section>
+      </section>
       <!-- Modal Structure in case of a bad input cp -->
-   <div id="bad_cp" class="modal">
-      <div class="modal-content">
-         <h4>Mauvais code postal</h4>
-         <p>Veuillez le resaisir</p>
+      <div id="bad_cp" class="modal">
+         <div class="modal-content">
+            <h4>Mauvais code postal</h4>
+            <p>Veuillez le resaisir</p>
+         </div>
+         <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">OK</a>
+         </div>
       </div>
-      <div class="modal-footer">
-         <a href="#!" class="modal-close waves-effect waves-green btn-flat">OK</a>
-      </div>
-   </div>
    </div>
 </main>
 {% endblock %}

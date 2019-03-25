@@ -17,6 +17,7 @@
       <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
        <!-- Import custom font -->
        <link href="https://fonts.googleapis.com/css?family=Concert+One" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Old+Standard+TT" rel="stylesheet">
       <!--jQuery-->
       <!--<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>-->
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -45,7 +46,8 @@
    </head>
    <body class="bg-test">
       <!-- to manage sidenav bar -->
-
+<header>
+      {% block navbar %}{% endblock %}
          {% block sidebar %}
          <!-- si il n'y a pas connection -->
          {% if not user.is_authenticated  %}
@@ -56,16 +58,22 @@
          {% include "core/sidenav_connected.html" %}
          {% endif %}
          {% endblock %}
-
+</header>
       {% block content %} {% endblock %}
       <footer class="page-footer">
-          <div class="footer-copyright">
+
             <div class="container">
-            © 2019 Copyright MyFirstBand
-            <a class="grey-text text-lighten-4 right" href="{% url 'core:privacy' %}">MyFirstBand Privacy Policy</a>
-            </div>
-          </div>
-        </footer>
+
+                <div class="row">
+                    <div class="col s12 m6 l6 center-align">
+            <span>© 2019 Copyright MyFirstBand</span>
+                </div>
+                 <div class="col s12 m6 l6 center-align">
+            <a class="grey-text text-lighten-4" href="{% url 'core:privacy' %}">MyFirstBand Privacy Policy</a>
+                 </div>
+                </div>
+                </div>
+       </footer>
 
       {% block script %} {% endblock %}
 

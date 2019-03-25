@@ -1,6 +1,9 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
+{% block navbar %}
+{% include "core/navbar.html" with title_navbar='Mes groupes' %}
+{% endblock %}
 {% block content %}
 <main>
    <div class="row"></div>
@@ -8,7 +11,6 @@
    {% include 'core/display_messages.html' %}
    <div class="row">
       <div class="col s10 offset-s1">
-         <h3 class="header">Mes groupes</h3>
          {% if object_list|length > 0  %}
          <ul class="collection">
             {% for band in object_list %}
@@ -30,7 +32,7 @@
                   {{ band.town }} , {{ band.county_name }}
                   {% endif %}
                </p>
-               <a href='{% url "band:band_detail" band.slug  %}' class="secondary-content"><i class="material-icons">grade</i></a>
+               <a href='{% url "band:band_detail" band.slug  %}' class="secondary-content btn custom-btn">Espace groupe</a>
             </li>
             {% endfor %}
          </ul>

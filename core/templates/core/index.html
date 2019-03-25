@@ -1,6 +1,9 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
+{% block navbar %}
+{% include "core/navbar.html" with title_navbar='My First Band' %}
+{% endblock %}
 {% block content %}
 <main>
    <div class="container">

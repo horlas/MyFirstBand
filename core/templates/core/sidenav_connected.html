@@ -1,8 +1,8 @@
 {% load static %}
 {% block sidebar %}
 <header>
-   {% include "core/navbar.html" %}
-   <div class="row"></div>
+
+   <!--<div class="row"></div>-->
    <ul id="nav-mobile" class="sidenav sidenav-fixed">
       <!--<li class="logo active">-->
          <!--<a href="{% url 'home' %}" class="brand-logo">-->
@@ -28,39 +28,35 @@
                {% else %}
                <span class="custom-text name"> {{request.user.userprofile.username}} </span>
                {% endif %}
-               <span class="custom-text e-mail">{{request.user.email}}</span>
+               <span class="custom-text">Profil</span>
+               <!--<span class="custom-text e-mail">{{request.user.email}}</span>-->
             </a>
          </div>
+      </li>
+
+          <li>
+         <a id='edit-compte' class="waves-effect custom-text active" href="{% url 'musicians:update_profile' request.user.pk  %}">
+         <i class="material-icons custom-icons">edit</i>
+         Editer mon compte</a>
+      </li>
+            <li>
+         <a id='group' class="waves-effect custom-text active" href='{% url "band:list_bands" %}'>
+         <i class="material-icons custom-icons">group_work</i>
+         Mes groupes</a>
+      </li>
+
+            <li>
+         <a id='announcement' class="waves-effect custom-text active" href="{% url 'announcement:announcement_list' %}">
+         <i class="material-icons custom-icons">announcement</i>
+         Mes annonces</a>
       </li>
       <li>
          <a id='message' class="waves-effect custom-text active" href="{% url 'announcement:announcement_messages' %}">
          <i class="material-icons custom-icons">message</i>
          Mes messages</a>
       </li>
-      <li>
-         <div class="divider"></div>
-      </li>
-      <li>
-         <a id='announcement' class="waves-effect custom-text active" href="{% url 'announcement:announcement_list' %}">
-         <i class="material-icons custom-icons">announcement</i>
-         Mes annonces</a>
-      </li>
-      <li>
-         <div class="divider"></div>
-      </li>
-      <li>
-         <a id='group' class="waves-effect custom-text active" href='{% url "band:list_bands" %}'>
-         <i class="material-icons custom-icons">group_work</i>
-         Mes groupes</a>
-      </li>
-      <li>
-         <div class="divider"></div>
-      </li>
-      <li>
-         <a id='edit-compte' class="waves-effect custom-text active" href="{% url 'musicians:update_profile' request.user.pk  %}">
-         <i class="material-icons custom-icons">edit</i>
-         Editer mon compte</a>
-      </li>
+
+
       <li>
          <div class="divider"></div>
       </li>

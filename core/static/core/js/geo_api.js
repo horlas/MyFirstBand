@@ -68,14 +68,14 @@ function createURL(code) {
 // script to display list of instrument in order to delete just one
 // used for update_musician_profile
 
-$("#delete").click(function() {
-    $('#trigger_button').hide();
+$(".delete").click(function() {
+    $('.hidden_onclick').hide();
     $('#form_delete').show();
 
 
     })
 
-$("#add").click(function() {
-    $('#trigger_button').hide();
+$(".add").click(function() {
+    $('.hidden_onclick').hide();
     $('#form_add').show();
     })
