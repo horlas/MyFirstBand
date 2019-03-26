@@ -12,22 +12,25 @@ import requests
 
 
 def accueil(request):
+    return render(request, 'core/index.html')
+
+
+def invite_search(request):
     context = {}
-    last_user = User.objects.exclude(userprofile__username='')\
-                            .exclude(userprofile__avatar="").order_by('-id')[:6]
-    # Todo : when user sign up , we don't need to display an empty profil
+    last_user = User.objects.exclude(userprofile__username='') \
+                    .exclude(userprofile__avatar="").order_by('-id')[:6]
     context['last_users'] = last_user
 
     last_band = Band.objects.all().order_by('-id')[:6]
     context['last_bands'] = last_band
     last_announcement = MusicianAnnouncement.objects.all().order_by('-created_at')[:6]
     context['last_announcement'] = last_announcement
-
-    return render(request, 'core/index.html', context)
+    return render(request, 'core/search.html', context)
 
 
 def privacy(request):
     return render(request, 'core/privacy_policy.html')
+
 
 @csrf_exempt
 def search(request):

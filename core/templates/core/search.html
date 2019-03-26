@@ -1,0 +1,113 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block navbar %}
+{% include "core/navbar.html" with title_navbar='Chercher sur My First Band !' %}
+{% endblock %}
+{% block content %}
+<main>
+   <div class="container">
+
+      <section id='search' class="">
+         <div class="row"></div>
+         <div class="row ">
+            <div class="input-field col s12 m3 l3 ">
+               <select id="item">
+                  <option value="" disabled selected>Choisis</option>
+                  <option value="Annonces">Annonces</option>
+                  <option value="Musiciens">Musiciens</option>
+                  <option value="Groupes">Groupes</option>
+               </select>
+            </div>
+            <div class="col m1 l1 hide-on-small-only"></div>
+
+            <div class="input-field col s12 m3 l4">
+               <input id="id_cp" type="number" min="1" max="99" step="1" class="validate" onchange="if(this.value.length == 1)this.value='0'+this.value;" />
+               <label for="id_cp" class="custom-label">Code département</label>
+               <span class="helper-text" data-error="wrong" data-success="right">2 chiffres</span>
+            </div>
+            <div class="input-field col s12 m3 l4 center-align">
+               <button id='submit_search' class=" waves-effect waves-light  btn-small custom-btn custom-text" onclick="displayResults()" >
+               <i class="material-icons left">send</i>Envoyer</button>
+            </div>
+         </div>
+      </section>
+
+      <section id="content">
+         <section id='musicians'>
+
+            <h5> Nouveaux musiciens </h5>
+            <div class="divider"></div>
+            <div class="grid">
+               {% for member in last_users %}
+                     <div class="card-panel center-align custom-bg">
+
+                        {% if member.userprofile.avatar %}
+                     <img alt='Avatar' class="circle responsive-img" src="{{ member.userprofile.avatar.url }}">
+                     {% else %}
+                     <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0.jpg' %}" >
+                     {% endif %}
+                        <h5>{{ member.userprofile.username }}</h5>
+                        {% for i in member.instrument_set.all %}
+                         <p>{{i.instrument}} </p>
+                        {% endfor %}
+                      <p>{{ member.userprofile.town }} {{ member.userprofile.county_name }}</p>
+
+                     <div class="card-action">
+                        <a href='{% url "core:musician_profile" member.userprofile.pk %}' class="yellow-text"> Profil </a>
+                     </div>
+
+ </div>
+              {% endfor %}
+            </div>
+         </section>
+
+         <section id="bands">
+            <h5> Nouveaux groupes </h5>
+            <div class="divider"></div>
+            <div class="grid">
+               {% for band in last_bands %}
+              <div class="card-panel center-align custom-bg ">
+                     {% if band.avatar %}
+                     <img class="circle responsive-img" src="{{ band.avatar.url }}">
+                     {% else %}
+                     <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0_band.jpg' %}" >
+                     {% endif %}
+                     <h5>{{ band.name }}</h5>
+                        <p>{{ band.type }} {{ band.musical_genre }}</p>
+                     <p>{{ band.town }} {{ band.county_name }}</p>
+                        <p>{{ band.bio|truncatewords_html:20 }}
+                        <a href='{% url "core:band_profile" band.slug  %}' class="yellow-text">   Lire plus</a>
+                        </p>
+               </div>
+
+
+
+
+               {% endfor %}
+               </div>
+         </section>
+         <section id='announcement' class="section">
+            <h5> Nouvelles annonces </h5>
+            <div class="divider"></div>
+            <div class="grid">
+               {% for a in last_announcement %}
+               <div class ="center-align custom-bg">
+                  <div class="card-content">
+                     <h5>{{ a.title }}</h5>
+                     <p>{{ a.town }} {{ a.county_name }} </p>
+                     <p> {{ a.created_at }}</p>
+                     <div class="card-action">
+                        <a href='{% url "announcement:detail_announcement" a.id %}' class="yellow-text"> Lien vers l'annonce</a>
+                     </div>
+                  </div>
+               </div>
+               {% endfor %}
+            </div>
+         </section>
+      </section>
+   </div>
+</main>
+{% endblock %}
+{% block script %}
+<script type="text/javascript" src="{% static 'core/js/index_search.js' %}"></script>
+{% endblock %}

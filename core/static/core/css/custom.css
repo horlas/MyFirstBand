@@ -5,7 +5,7 @@
 }
 
 a {
-color : #12005e;
+color : black;
 }
 
 
@@ -35,26 +35,26 @@ color : #12005e;
 
 
 .custom-btn {
-    background : #311b92 !important;
+    background : #263238 !important;
 }
 
-.custom-btn-pink {
+/*.custom-btn-pink {
     background : #a21a49 !important;
-}
+}*/
 
 .custom-bg {
-     background-color: #2f1b40 !important;
+     background-color:  #909091;
 
 }
 
 
 .custom-label {
-    color :#000063!important;
+    color : #4f5b62!important;
 }
 
 #nav-mobile {
     color : #fdca5a;
-    background : #12005e;
+    background : #263238;
 }
 
 .middle  {
@@ -62,7 +62,7 @@ color : #12005e;
 }
 
 nav {
-    background : #4a148c;
+    background : #20252a;
 
     height : 100px;
 }
@@ -74,12 +74,12 @@ nav {
 
 
 h1, h2, h3, h4, h5, h6{
-   font-family: 'Old Standard TT', serif;
+   font-family: 'Archivo', sans-serif;
 }
 
 
 footer {
-    background-color : #7c43bd!important;
+    background-color : #474d52!important;
 }
 
 header, main, footer {
@@ -104,16 +104,21 @@ body {
   }
 
 .grid {
-  width: 90%;
-  max-width: 1240px;
+
   margin: 0 auto;
 
   display: grid;
-
   grid-template-columns: 1fr 1fr 1fr;
+
+ grid-gap: 10px;
   grid-template-rows: auto;
-  grid-gap: 20px;
+
 }
+
+
+
+
+
 
 
 
