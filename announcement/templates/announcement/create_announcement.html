@@ -1,14 +1,24 @@
 {% extends 'core/base.html' %}
 {% load widget_tweaks %}
 {% load static %}
+{% block navbar %}
+{% include "core/navbar.html" with title_navbar='Créer une annonce' %}
+{% endblock %}
 {% block content %}
 {% include 'core/display_messages.html' %}
 <main>
    <div class="container " xmlns="http://www.w3.org/1999/html">
-      <div class="row"></div>
-      <div class="row"></div>
       <div class="divider"></div>
-      <h5 class="header">Annonce</h5>
+      <div class="row"></div>
+       {% if not request.user.userprofile.bio or not request.user.userprofile.username or request.user.instrument_set.all.count == 0 %}
+
+         <span class="flow-text"> En tant qu'auteur d'une annonce vous devez remplir
+
+            <a href="{% url 'musicians:update_profile' request.user.userprofile.pk  %}" class="message">votre profil</a> . <br>
+               Pour que les lecteurs puissent mieux vous identifier veuillez remplir au minimum un nom, un instrument et une courte biographie. </span>
+
+         {% else %}
+
       <div class="divider"></div>
       <div class="col s7 ">
          <div class="row"></div>
@@ -16,8 +26,8 @@
          <form action='{% url "announcement:create_announcement" %}' method="post"  >
             {% include 'announcement/form.html' %}
          </form>
+         {% endif %}
       </div>
    </div>
 </main>
 {% endblock %}
-}

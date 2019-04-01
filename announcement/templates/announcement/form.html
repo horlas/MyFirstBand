@@ -1,75 +1,70 @@
-
- {% load static %}
+{% load static %}
 {% block content %}
-
 {% load widget_tweaks %}
+{% csrf_token %}
 {% include 'core/form_errors.html' with form=form %}
-            {% csrf_token %}
-            {{ form.title|add_label_class:"custom-label"  }}
-            {{ form.title }}
-            {{ form.content|add_label_class:"custom-label"  }}
-            {{ form.content|add_class:"materialize-textarea" }}
-            <p> L'annonce sera postée par défaut avec vos coordonnées.
-
- <a id='trigger_change_local' href="" class="pink-text">Changer les coordonnées de l'annonce .</a>
-
+{{ form.title|add_label_class:"custom-label"  }}
+{{ form.title }}
+{{ form.content|add_label_class:"custom-label"  }}
+{{ form.content|add_class:"materialize-textarea" }}
+<p> L'annonce sera postée par défaut avec vos coordonnées.
+   <a id='trigger_change_local' href="" class="pink-text">Changer les coordonnées de l'annonce .</a>
 </p>
-            <div style="display:none" id="change_local"  class="col s7">
-               <div>
-                  {{ form.code|add_label_class:"custom-label"  }}
-
-                    {% render_field form.code|append_attr:"class:validate" %}
-
-               </div>
-             <div class="col s3">
-               <input id="send" type="button" class="btn custom-btn custom-text" value ='MAJ'>
-            </div>
-                 <div  style="display: none" id="town" >
-               <div>
-                  {{ form.town|add_label_class:"custom-label"  }}
-                  {{ form.town }}
-               </div>
-               <div>
-                  {{ form.county_name|add_label_class:"custom-label"  }}
-                  {{ form.county_name }}
-               </div>
-                 </div>
-            </div>
-
-            <div class="row"></div>
-            <div class="row"></div>
-            <div class="row">
-               <button id='ann_submit' class=" waves-effect waves-light btn custom-btn custom-text" type="submit" >
-               <i class="material-icons left">save</i>Enregistrer</button>
-               <a href='{% url "announcement:announcement_list" %}' class="waves-effect waves-light btn custom-btn custom-text" type="button" >
-               <i class="material-icons left">cancel</i>Cancel</a>
-            </div>
-
-    <!-- Modal Structure in case of a bad input cp -->
-   <div id="bad_cp" class="modal">
-      <div class="modal-content">
-         <h4>Mauvais code postal</h4>
-         <p>Veuillez le resaisir</p>
+<div style="display:none" id="change_local"  class="col s7">
+   <div>
+      {{ form.code|add_label_class:"custom-label"  }}
+      {% render_field form.code|append_attr:"class:validate" %}
+   </div>
+   <div class="col s3">
+      <input id="send" type="button" class="btn custom-btn custom-text" value ='MAJ'>
+   </div>
+   <div  style="display: none" id="town" >
+      <div>
+         {{ form.town|add_label_class:"custom-label"  }}
+         {{ form.town }}
       </div>
-      <div class="modal-footer">
-         <a href="#!" class="modal-close waves-effect waves-green btn-flat">OK</a>
+      <div>
+         {{ form.county_name|add_label_class:"custom-label"  }}
+         {{ form.county_name }}
       </div>
    </div>
-
-
-
-
-
+</div>
+<div class="row"></div>
+<div class="row"></div>
+<!-- responsive buttons show on medium and large device -->
+<div class="row hide-on-small-only">
+   <button id='ann_submit' class=" waves-effect waves-light btn custom-btn custom-text" type="submit" >
+   <i class="material-icons left">save</i>Enregistrer</button>
+   <a href='{% url "announcement:announcement_list" %}' class="waves-effect waves-light btn custom-btn custom-text" type="button" >
+   <i class="material-icons left">cancel</i>Cancel</a>
+</div>
+<!-- responsive buttons show on small device -->
+<div class="row hide-on-med-and-up">
+   <div class="col s3 offset-s1  "></div>
+   <button id='ann_submit' class=" waves-effect waves-light btn-small custom-btn " type="submit" >
+   <i class="material-icons center">save</i></button>
+   <a href='{% url "announcement:announcement_list" %}' class="waves-effect waves-light btn-small custom-btn " type="button" >
+   <i class="material-icons center">cancel</i></a>
+</div>
+<!-- Modal Structure in case of a bad input cp -->
+<div id="bad_cp" class="modal">
+   <div class="modal-content">
+      <h4>Mauvais code postal</h4>
+      <p>Veuillez le resaisir</p>
+   </div>
+   <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">OK</a>
+   </div>
+</div>
 {% endblock %}
-
 {% block script %}
 <script>
-$("#trigger_change_local").click(function(e) {
-    e.preventDefault();
-    $('#change_local').show();
-    });
-
+   $("#trigger_change_local").click(function(e) {
+       e.preventDefault();
+       $('#change_local').show();
+       });
+   
 </script>
- <!--import script to manage geo_api-->
+<!--import script to manage geo_api-->
 <script type="text/javascript" src="{% static 'core/js/geo_api.js' %}"></script>
 {% endblock %}

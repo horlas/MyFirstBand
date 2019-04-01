@@ -91,7 +91,7 @@ class ProfileViewTest(MyTestCase):
         self.assertContains(response, '/static/core/img/0.jpg')
 
         # test if e-mail is present
-        self.assertContains(response, request.user.email)
+        self.assertContains(response, request.user.userprofile.username)
 
         # test if bio is present
         self.assertContains(response, 'Allô Papa Tango Charlie'\

@@ -1,29 +1,40 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% block navbar %}
+{% include "core/navbar.html" with title_navbar="Annonce" %}
+{% endblock %}
 {% block content %}
 <main>
    <div class="container" >
       <div class="row"></div>
       <div class="row">
-         <div class="col s8">
-            <h4 >
-               {{ object.title }}
-            </h4>
+         <div class="col s12">
+            <h5> {{ object.title }} </h5>
             <p>Publiée  le {{ object.created_at }}</p>
             <blockquote >{{ object.content }}</blockquote>
-            <p class="margin medium-small "><a href='{% url "core:musician_profile" object.author.userprofile.pk  %}'  class="custom-text-link"><b> {{ object.author.userprofile.username }} </b></a></p>
-            <label style='float: right;'>
+           <a href='{% url "core:musician_profile" object.author.userprofile.pk  %}'  class="message"> {{ object.author.userprofile.username }} </a>
+            <div class="row"></div>
             {% if not user.is_authenticated  %}
-            <a id='link_login' class="waves-effect waves-light btn custom-btn custom-text" href="{% url 'authentication:login' %}?next={{ request.get_full_path|urlencode }}">
-            <i class="material-icons left">loop</i>Pour répondre se connecter</a>
+            <a id='link_login' class="waves-effect waves-light btn-small orange darken-2" href="{% url 'authentication:login' %}?next={{ request.get_full_path|urlencode }}">
+            <i class="material-icons left">loop</i>Veuillez vous connecter</a>
             {% else %}
-            <button id='answer' class="waves-effect waves-light btn custom-btn custom-text">
+             {% if not request.user.userprofile.bio or not request.user.userprofile.username or request.user.instrument_set.all.count == 0 %}
+
+               <span> Pour répondre à une annonce vous devez remplir
+
+            <a href="{% url 'musicians:update_profile' request.user.userprofile.pk  %}" class="message">votre profil</a> . <br>
+               Pour que les lecteurs puissent mieux vous identifier veuillez remplir au minimum un nom, un instrument et une courte biographie. </span>
+
+            {% else %}
+
+            <button id='answer' class="waves-effect waves-light btn-small custom-btn">
             <i class="material-icons left">question_answer</i>Répondre</button>
+            {% endif %}
             {% endif %}
             </label>
          </div>
 
-            <div class="col s8  ">
+            <div class="col s12 ">
            {% include 'core/display_messages.html' %}
             {% include 'announcement/answer.html' %}
             </div>

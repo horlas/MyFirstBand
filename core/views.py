@@ -32,6 +32,10 @@ def privacy(request):
     return render(request, 'core/privacy_policy.html')
 
 
+def about(request):
+    return render(request, 'core/about.html')
+
+
 @csrf_exempt
 def search(request):
     ''' ajax return of datas witch depends of an user input'''

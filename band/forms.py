@@ -17,7 +17,7 @@ class MemberCreateForm(Form):
     '''Dummy Form fot get option in Createview, this form is passed to ManageBandView'''
 
     band = CharField(max_length=80)
-    musician = CharField(max_length=80, label="Chercher le nom du membre à ajouter")
-    raison_invitation = CharField(max_length=64, label= "Raison pour laquelle le musicien rejoint le groupe" )
+    musician = CharField(max_length=80, label="pseudo du nouveau membre")
+    raison_invitation = CharField(max_length=64, label= "Raison de l'invitation" )
 
 

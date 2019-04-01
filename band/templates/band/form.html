@@ -1,92 +1,50 @@
 {% load widget_tweaks %}
 {% load static %}
-         {% include 'core/form_errors.html' with form=form %}
-
-   <!-- profile_band form-->
-
-         {{ form.name|add_label_class:"custom-label"  }}
-         {{ form.name }}
-      <div class="row"></div>
-      <div class="row"></div>
-      <div class="row"></div>
-         {{ form.bio|add_label_class:"custom-label"  }}
-         {{ form.bio|add_class:"materialize-textarea" }}
-      <div class="row"></div>
-            <div class="row"></div>
-      <div class="row"></div>
-
-      <!--avatar form-->
-        {% if object.avatar %}
-         <img alt="Avatar" class="circle responsive-img" src="{{ object.avatar.url }}" />
-         {% else %}
-         <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0_band.jpg' %}" />
-         {% endif %}
-
-         {{ form.avatar|add_label_class:"custom-label"  }}
-   <br>
-      <div class="row"></div>
-         {{ form.avatar }}
-
+{% include 'core/form_errors.html' with form=form %}
+<!--avatar form-->
+<h6>{{ form.avatar.label}}</h6>
+{% if object.avatar %}
+<img alt="Avatar" class="circle responsive-img" src="{{ object.avatar.url }}" />
+{% else %}
+<img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0_band.jpg' %}" />
+{% endif %}<br>
+{{ form.avatar }}
 <div class="row"></div>
-            <div class="row"></div>
-      <div class="row"></div>
-
-   {{ form.type|add_label_class:"custom-label"   }}
-   {{ form.type }}
-
+<!-- profile_band form-->
+<h6> {{ form.name.label  }}</h6>
+{{ form.name }}
 <div class="row"></div>
-            <div class="row"></div>
-      <div class="row"></div>
-
-   {{ form.musical_genre|add_label_class:"custom-label"   }}
-   {{ form.musical_genre }}
-
+<h6>    {{ form.bio.label }}</h6>
+{{ form.bio|add_class:"materialize-textarea" }}
 <div class="row"></div>
-      <div class="row"></div>
-      <div class="row"></div>
-
-
-
-
+<h6>{{ form.type.label}}</h6>
+{{ form.type }}
+<div class="row"></div>
+<h6> {{ form.musical_genre.label}}</h6>
+{{ form.musical_genre }}
+<div class="row"></div>
 <!--local form-->
-
-   <div class="row">
+<h6>Localisation :</h6>
+<div class="row">
+   {% csrf_token %}
+   <div  id="cp" >
       <div class="col s7">
-         <label class="custom-label">Localisation :</label>
-
+         <label for="cp" data-error="wrong" data-success="right" class="center-align custom-label"> {{ form.code.label }}</label>
+         {{ form.code|append_attr:"class:validate" }}
       </div>
-
+      <div class="col s3">
+         <input id="send" type="button" class="btn custom-btn custom-text" value ="MAJ">
+      </div>
    </div>
-   <div class="row">
-
-         {% csrf_token %}
-         <div  id="cp" >
-            <div class="col s7">
-               {{ form.code|add_label_class:"custom-label"  }}
-               {{ form.code|append_attr:"class:validate" }}
-            </div>
-            <div class="col s3">
-               <input id="send" type="button" class="btn custom-btn custom-text" value ="MAJ">
-            </div>
-         </div>
-         <div  style="display: none" id="town" >
-            <div class="col s7">
-               <div class="row"></div>
-               {{ form.town|add_label_class:"custom-label"  }}
-               {{ form.town }}
-               <div class="row"></div>
-               {{ form.county_name|add_label_class:"custom-label"  }}
-               {{ form.county_name}}
-            </div>
-
-         </div>
-
-
+   <div  style="display: none" id="town" >
+      <div class="col s7">
+         <div class="row"></div>
+         {{ form.town|add_label_class:"custom-label"  }}
+         {{ form.town }}
+         <div class="row"></div>
+         {{ form.county_name|add_label_class:"custom-label"  }}
+         {{ form.county_name }}
+      </div>
    </div>
+</div>
 
-
-
-
-      <div class="row"></div>
-            <div class="row"></div>
-      <div class="row"></div>

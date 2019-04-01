@@ -1,12 +1,16 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% block navbar %}
+{% include "core/navbar.html" with title_navbar='Edition du profil du groupe' %}
+{% endblock %}
 {% block content %}
+
 {% include 'core/display_messages.html' %}
 <main>
    <div class="container " xmlns="http://www.w3.org/1999/html">
       <div class="row"></div>
       <div class="row"></div>
-      <div class="col s7 ">
+      <div class="col s12 ">
          <form action='{% url "band:edit_band" band.slug %}' method="post" enctype="multipart/form-data" >
             {% csrf_token %}
             {% include 'band/form.html' %}

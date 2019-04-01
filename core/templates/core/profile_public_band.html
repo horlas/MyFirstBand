@@ -1,13 +1,15 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
+{% block navbar %}
+{% include "core/navbar.html" with title_navbar="Profil du groupe" %}
+{% endblock %}
 {% block content %}
 <main>
    <div class="container" >
 
-   <div class="row">
-   <div class="col s12  ">
-   <div class="row valign-wrapper">
+<div class="row"></div>
+   <div class="row ">
       <div class="col s4">
          {% if object.avatar %}
          <img alt="Avatar" class="circle responsive-img" src="{{ object.avatar.url }}" />
@@ -15,26 +17,28 @@
          <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0_band.jpg' %}" />
          {% endif %}
       </div>
-      <div class="col s8 black-text">
+      <div class="col s8 ">
          <h4 >
             {{ object.name }}
          </h4>
-         <p>Créer sur myFirstBand le {{ object.created_at }}</p>
-         <blockquote >{{ object.bio }}</blockquote>
       </div>
    </div>
-   <div class="row">
-   <div class='col s8 offset-s4'>
+ <div class="row ">
+    <div class="col s12">
+         <p>Créer sur myFirstBand le {{ object.created_at }}</p>
+         <blockquote >{{ object.bio }}</blockquote>
+
+
       <h6>Localisation : </h6>
       <span>{{object.town}} {{object.county_name}}</span>
       <div class="row"></div>
       <h6>Type et genre musical : </h6>
       <span>{{object.type}} {{object.musical_genre}}</span>
+
       <div class="row"></div>
-      <ul class="collection with-header">
-         <li class="collection-header">
-            <h6>Membres</h6>
-         </li>
+       <h6 class="">Membres</h6>
+      <ul class="collection ">
+
          {% for member in members %}
          <li class="collection-item avatar ">
             {% if member.musician.userprofile.avatar %}
@@ -42,16 +46,17 @@
             {% else %}
             <img src="{% static 'core/img/0.jpg' %}" alt="" class="circle">
             {% endif %}
-            <span class="title">{{ member.musician.userprofile.username }}</span>
-            <p> {{ member.date_joined }} </p>
-            <a href='{% url "core:musician_profile" member.musician.userprofile.pk  %}' class="secondary-content"><i class="material-icons">grade</i></a>
+            <a href='{% url "core:musician_profile" member.musician.userprofile.pk  %}' class="black-text"> {{ member.musician.userprofile.username }}</a>
+            <p class="">depuis le {{ member.date_joined }} </p>
+
          </li>
          {% endfor %}
       </ul>
+
    </div>
    </div>
    </div>
-   </div>
-   </div>
+
+
 </main>
 {% endblock %}

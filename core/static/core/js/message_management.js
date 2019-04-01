@@ -6,7 +6,7 @@
 
 
        // add first message
-        var $mes = $('<div class="message">message</div>').html(content);
+        var $mes = $('<div class="collection-item">message</div>').html(content);
         var $mes_zone = $(target).append($mes);
         var $link_author = createLinkAuthor(author, author_useprofile_id, date_message);
         var $mes_zone = $(target).append($link_author);
@@ -19,7 +19,7 @@
                    {'parent_message' : parent_id},
                    function(response){
                            $.each(response, function(index, value){
-                                   var $mes = $('<div class="message">message</div>').html(value.content);
+                                   var $mes = $('<div class="collection-item">message</div>').html(value.content);
                                    $(target).append($mes);
                                    var $link_author = createLinkAuthor(value.author, value.author_userprofile_id, value.created_at);
                                    $(target).append($link_author);
@@ -57,8 +57,8 @@
    // function to create link to author profile
 
    function createLinkAuthor(author, author_userprofile_id, date_message){
-        var $date = $('<p></p>').text(' le '+ date_message);
-        var $link_author = $('<a href="" class="custom-text-link-login">author</a>').text(author);
+        var $date = $('<p class="collection-item"></p>').text(' le '+ date_message);
+        var $link_author = $('<a href="" class="message">author</a>').text(author);
         var $url = '/core/musician_public/'+author_userprofile_id;
         $link_author.attr("href", $url);
         $date.prepend($link_author);

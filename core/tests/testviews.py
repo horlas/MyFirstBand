@@ -79,23 +79,13 @@ class AccueilTest(MyTestCase):
     ''' Test accueil view'''
     def test_accueil(self):
         # create some context:
-        MusicianAnnouncement.objects.create(title='Coucou', content='Coucou Toi!', author=self.test_user)
-        MusicianAnnouncement.objects.create(title='title2', content='content', author=self.test_user)
-        MusicianAnnouncement.objects.create(title='title3', content='content', author=self.test_user)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         list_template = [t.name for t in response.templates]
         assert 'core/sidenav.html' in list_template
         assert 'core/base.html' in list_template
         assert 'core/index.html' in list_template
-        # test return of context
-        self.assertEqual(len(response.context['last_announcement']), 3)
-        self.assertEqual(len(response.context['last_bands']), 1)
-        self.assertEqual(len(response.context['last_users']), 1)
         self.assertContains(response, 'Bienvenue sur My First Band')
-        self.assertContains(response, 'Pink Floyd')
-        self.assertContains(response, 'Super Tatie')
-        self.assertContains(response, 'Coucou')
         # this test does not pass with Travis CI
         # Test title website content using selenium driver
         # self.session.driver.get(self.url)
@@ -112,6 +102,36 @@ class AccueilTest(MyTestCase):
         # # display last entries of band
         # card_band = self.session.get(self.url).xpath('//section[@id="bands"]//div[@class="card"]')
         # self.assertEqual(len(card_band), 6)
+
+
+class SearchTest(MyTestCase):
+    ''' Test search view'''
+    def test_search(self):
+        # create some context:
+        MusicianAnnouncement.objects.create(title='Coucou', content='Coucou Toi!', author=self.test_user)
+        MusicianAnnouncement.objects.create(title='title2', content='content', author=self.test_user)
+        MusicianAnnouncement.objects.create(title='title3', content='content', author=self.test_user)
+        url = reverse('core:invite_search')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        list_template = [t.name for t in response.templates]
+        assert 'core/sidenav.html' in list_template
+        assert 'core/base.html' in list_template
+        assert 'core/search.html' in list_template
+        # test return of context
+        self.assertEqual(len(response.context['last_announcement']), 3)
+        self.assertEqual(len(response.context['last_bands']), 1)
+        self.assertEqual(len(response.context['last_users']), 1)
+        self.assertContains(response, 'Chercher sur My First Band !')
+        self.assertContains(response, 'Pink Floyd')
+        self.assertContains(response, 'Super Tatie')
+        self.assertContains(response, 'Coucou')
+
+
+
+
+
+
 
 
 class TestPrivacyPolicy(MyTestCase):
@@ -219,10 +239,11 @@ class SidenavBarTest(MyTestCase):
         # Test if the logo is loaded by checking the size
 
         r = self.client.get(reverse(accueil))
-        self.assertContains(r, 'logo_small.png')
+        self.assertContains(r, 'logov2.png')
         list_template = [t.name for t in r.templates]
         assert 'core/index.html' in list_template
         assert 'core/sidenav.html' in list_template
+        assert 'core/navbar.html' in list_template
 
 
 class MusicianProfileTest(MyTestCase):
@@ -244,9 +265,8 @@ class MusicianProfileTest(MyTestCase):
         self.assertContains(response, 'Contrebassiste')
         self.assertContains(response, 'Montpellier Herault')
         # test member of band
-
         self.assertContains(response, 'Pink Floyd')
-        self.assertContains(response,  '<a href=\'/core/band_public/pink-floyd\' class="secondary-content">')
+        self.assertContains(response,  '<a href=\'/core/band_public/pink-floyd\' class="black-text">Pink Floyd</a>')
 
 
 class BandProfileTest(MyTestCase):

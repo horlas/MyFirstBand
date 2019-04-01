@@ -4,43 +4,45 @@
 
 }
 
-a {
-color : black;
+#nav-mobile {
+    color : #fdca5a;
+    background : #263238;
 }
 
+a {
+    color : black;
+    font-weight: bold;}
+
+
+a.message {
+    color : #ef5350!important;
+    font-weight: bold;
+}
+
+
+.collection a {
+    color : black;
+    font-weight: bold;}
+
+
+.collection .secondary-content a {
+color :white ;
+}
 
 .bg-test {
     background-color: white;
 }
 
-.material-icons {
-    color: pink !important;
+header i .material-icons  {
+    color: white ;
 }
-
-
-.custom-text {
-     color: white !important;
-}
-
-.custom-text-link {
-    color :  #a21a49 ;
-    font-weight: bold;
-}
-
-.custom-text-link-login {
-    color :  indigo ;
-    font-weight: bold;
-}
-
 
 
 .custom-btn {
     background : #263238 !important;
-}
+    color: white !important;
 
-/*.custom-btn-pink {
-    background : #a21a49 !important;
-}*/
+}
 
 .custom-bg {
      background-color:  #909091;
@@ -52,10 +54,6 @@ color : black;
     color : #4f5b62!important;
 }
 
-#nav-mobile {
-    color : #fdca5a;
-    background : #263238;
-}
 
 .middle  {
     vertical-align : middle
@@ -73,8 +71,8 @@ nav {
 
 
 
-h1, h2, h3, h4, h5, h6{
-   font-family: 'Archivo', sans-serif;
+h1, h2, h3, h4, h5, h6, h7{
+   font-family: 'Old Standard TT', serif;
 }
 
 
@@ -116,12 +114,6 @@ body {
 }
 
 
-
-
-
-
-
-
 @media only screen and (max-width: 850px) {
   .grid {
     grid-template-columns: 1fr 1fr;
@@ -133,3 +125,5 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+

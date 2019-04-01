@@ -29,10 +29,11 @@
                   {% if not band.town %}
                <p> Localité inconnue <br>
                   {% else %}
-                  {{ band.town }} , {{ band.county_name }}
+                  {{ band.town }} , {{ band.county_name }}<br>
                   {% endif %}
                </p>
-               <a href='{% url "band:band_detail" band.slug  %}' class="secondary-content btn custom-btn">Espace groupe</a>
+               <a href='{% url "band:band_detail" band.slug  %}' class="secondary-content waves-effect waves-light btn-small custom-btn hide-on-small-only ">Espace groupe</a>
+               <a href='{% url "band:band_detail" band.slug  %}' class="waves-effect waves-light btn-small custom-btn hide-on-med-and-up">groupe</a>
             </li>
             {% endfor %}
          </ul>
@@ -44,7 +45,7 @@
    </div>
    <div class="row">
       <div class="col s10 offset-s1">
-         <a id='create_band' class="waves-effect waves-light btn custom-btn custom-text" href='{% url "band:add_band" %}' ><i class="material-icons left">add</i>Creer un groupe</a>
+         <a id='create_band' class="waves-effect waves-light btn custom-btn " href='{% url "band:add_band" %}' ><i class="material-icons left">add</i>Creer un groupe</a>
       </div>
    </div>
 </main>

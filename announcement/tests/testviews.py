@@ -215,7 +215,7 @@ class AnnouncementListTest(MyTestCase):
         assert 'core/sidenav_connected.html' in list_template
 
         # button to create announcement
-        self.assertContains(self.response, 'Creer une annonce')
+        self.assertContains(self.response, 'annonce')
         # list of announcement
         self.assertContains(self.response, 'Mes annonces en ligne')
         self.assertContains(self.response, 'title1')
@@ -335,7 +335,7 @@ class AnnouncementDetailTest(MyTestCase):
         list_template = [t.name for t in response.templates]
         assert 'announcement/announcement.html' in list_template
         assert 'announcement/answer.html' in list_template
-        self.assertContains(response, 'Pour répondre se connecter')
+        self.assertContains(response, 'Veuillez vous connecter')
         self.assertContains(response, 'Coucou Toi!')
         self.client.login(username=self.email, password=self.password)
         response = self.client.get(url)

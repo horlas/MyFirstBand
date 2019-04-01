@@ -1,16 +1,7 @@
 {% load static %}
 {% block sidebar %}
-<header>
-
-   <!--<div class="row"></div>-->
    <ul id="nav-mobile" class="sidenav sidenav-fixed">
-      <!--<li class="logo active">-->
-         <!--<a href="{% url 'home' %}" class="brand-logo">-->
-         <!--<img  alt="logo" style ="margin: 20px" width="50px" height="50px"  class='responsive-img ' src="{% static 'core/img/logo_small.png' %}">-->
-         <!--</a>-->
-      <!--</li>-->
-       <!--<div class="row"></div>-->
-      <!--<div class="divider"></div>-->
+
       <li>
          <div class="user-view">
             <a href="{% url 'musicians:profile' request.user.pk %}" class="tooltipped" data-tooltip="Mon compte" >
@@ -24,40 +15,39 @@
                {% endif %}
 
                {% if not request.user.userprofile.username %}
-               <span class="custom-text name">  </span>
+               <span class="white-text name">  </span>
                {% else %}
-               <span class="custom-text name"> {{request.user.userprofile.username}} </span>
+               <span class="white-text name"> {{request.user.userprofile.username}} </span>
                {% endif %}
-               <span class="custom-text">Profil</span>
-               <!--<span class="custom-text e-mail">{{request.user.email}}</span>-->
+               <span class="white-text">Profil</span>
             </a>
          </div>
       </li>
 
           <li>
-         <a id='edit-compte' class="waves-effect custom-text active" href="{% url 'musicians:update_profile' request.user.pk  %}">
-         <i class="material-icons custom-icons">edit</i>
+         <a id='edit-compte' class="waves-effect white-text active" href="{% url 'musicians:update_profile' request.user.pk  %}">
+         <i class="material-icons white-text">edit</i>
          Editer mon compte</a>
       </li>
             <li>
-         <a id='group' class="waves-effect custom-text active" href='{% url "band:list_bands" %}'>
-         <i class="material-icons custom-icons">group_work</i>
+         <a id='group' class="waves-effect white-text active" href='{% url "band:list_bands" %}'>
+         <i class="material-icons white-text">group_work</i>
          Mes groupes</a>
       </li>
 
             <li>
-         <a id='announcement' class="waves-effect custom-text active" href="{% url 'announcement:announcement_list' %}">
-         <i class="material-icons custom-icons">announcement</i>
+         <a id='announcement' class="waves-effect white-text active" href="{% url 'announcement:announcement_list' %}">
+         <i class="material-icons white-text">announcement</i>
          Mes annonces</a>
       </li>
       <li>
-         <a id='message' class="waves-effect custom-text active" href="{% url 'announcement:announcement_messages' %}">
-         <i class="material-icons custom-icons">message</i>
+         <a id='message' class="waves-effect white-text active" href="{% url 'announcement:announcement_messages' %}">
+         <i class="material-icons white-text ">message</i>
          Mes messages</a>
       </li>
       <li >
-         <a id='search' class="waves-effect custom-text custom-text"  href="{% url 'core:invite_search' %}">
-         <i class=" material-icons" >search</i>
+         <a id='search' class="waves-effect white-text active"  href="{% url 'core:invite_search' %}">
+         <i class="material-icons white-text" >search</i>
          Chercher
          </a>
       </li>
@@ -66,12 +56,17 @@
          <div class="divider"></div>
       </li>
       <li>
-         <a id='logout' class="waves-effect custom-text active" href="{% url 'authentication:logout' %}">
-         <i class="material-icons custom-icons">eject</i>
+         <a id='about' class="waves-effect white-text active" href="{% url 'core:about' %}">
+         <i class="material-icons white-text">insert_emoticon</i>
+         A propos</a>
+      </li>
+
+      <li>
+         <a id='logout' class="waves-effect white-text active" href="{% url 'authentication:logout' %}">
+         <i class="material-icons white-text">eject</i>
          Se deconnecter</a>
       </li>
    </ul>
-</header>
 {% endblock %}
 {% block script %}
 <script>

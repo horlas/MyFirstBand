@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block navbar %}
+{% include "core/navbar.html" with title_navbar='A propos de My First Band ' %}
+{% endblock %}
+{% block content %}
+<main>
+    <div class="container">
+        <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/about_me.jpg' %}"/>
+Hello chère visiteuse ou cher visiteur!
+Je m'appelle Aurélia et je suis la créatrice de My First Band.
+Je suis musicienne et développeuse web .
+        Je propose avec ce site une plateforme de rencontre entre musiciens simple et intuitive se concentrant
+        uniquement sur la rencontre et la formation de groupes
+
+        De part mon expérience de membre de groupe de musique, je
+
+    </div>
+</main>
+
+
+
+
+
+
+{% endblock %}

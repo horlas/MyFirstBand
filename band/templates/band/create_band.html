@@ -1,6 +1,8 @@
 {% extends 'core/base.html' %}
 {% load static %}
-
+{% block navbar %}
+{% include "core/navbar.html" with title_navbar="Création du groupe" %}
+{% endblock %}
 {% block content %}
 {% include 'core/display_messages.html' %}
 <main>
@@ -15,12 +17,12 @@
    {% csrf_token %}
 
    {% include 'band/form.html' %}
+<div class="col s10 offset-s1">
+     <button id='form_submit' class="waves-effect waves-light btn custom-btn " type="submit" >
+        <i class="material-icons left">add</i>Creer le groupe</button>
+      </div>
 
-   <div class="row">
-
-      <button id='form_submit' class="btn-floating btn-large waves-effect waves-light custom-btn " type="submit" >
-            <i class="material-icons">check</i></button>
-   </div>
+<div class="row"></div>
 
 </form>
          </div>

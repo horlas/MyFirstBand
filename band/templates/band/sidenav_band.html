@@ -1,106 +1,75 @@
 {% load static %}
 {% block content %}
-<header>
-   <nav class="nav-wrapper">
-      <div class="container">
-         <div class="row">
-            <div class="col s12 m10 offset-m1">
-               <a class="sidenav-trigger full hide-on-large-only" href="#" data-target="nav-mobile">
-               <i class="material-icons">menu</i>
-               </a>
-               <a href="{% url 'home' %}" class="brand-logo"> My First Band</a>
-               <img  alt="logo"  width="50px" height="50px"  class='right responsive-img hide-on-large-only' src="{% static 'core/img/logo_small.png' %}">
-            </div>
-         </div>
-      </div>
-   </nav>
+
    <ul id="nav-mobile" class="sidenav sidenav-fixed" >
-      <li class="logo active">
-         <a href="{% url 'home' %}" class="brand-logo ">
-         <img  alt="logo" style ="margin: 20px" width="50px" height="50px"  class='responsive-img' src="{% static 'core/img/logo_small.png' %}">
-         </a>
-      </li>
-      <div class="row"></div>
-      <div class="divider"></div>
       <li>
          <div class="user-view">
             <a href="{% url 'band:band_detail' object.slug%}" class="tooltipped" data-tooltip="Info groupe" >
                <div class="background">
-                  <img src="{% static 'core/img/bg_sidenav_band.jpg' %}">
+                  <img alt='background' src="{% static 'core/img/bg_sidenav_band.jpg' %}">
                </div>
                {% if object.avatar %}
                <img alt="Avatar" class="circle responsive-img" src="{{ object.avatar.url }}" />
                {% else %}
                <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/0_band.jpg' %}" />
                {% endif %}
-               <br>
-               <h5 class="custom-text " style = "text-transform: uppercase">{{object.name}}</h5>
+               <div class='row'></div>
+               <div class='row'></div>
+               {% if not object.name %}
+               <span class="white-text name"> Mettez à jour le profil groupe </span>
+               {% else %}
+               <span class="white-text">Profil {{object.name}} </span>
+               {% endif %}
             </a>
          </div>
       </li>
       <li>
-         <a id='announcement' class="waves-effect custom-text" href="">
-         <i class="material-icons custom-icons">announcement</i>
-         Les annonces du groupe</a>
-      </li>
-
-         <div class="divider"></div>
-
-      <li>
-         <a id='history' class="waves-effect custom-text" href="">
-         <i class="material-icons custom-icons">access_time</i>
-         Historique</a>
-      </li>
-
-         <div class="divider"></div>
-
-      <li>
-         <a id='calendar' class="waves-effect custom-text" href="">
-         <i class="material-icons custom-icons">folder_special</i>
-         Calendrier</a>
-      </li>
-
-         <div class="divider"></div>
-
-      <li>
-         <a id='setlist' class="waves-effect custom-text" href="">
-         <i class="material-icons custom-icons">library_music</i>
-         Setlist</a>
-      </li>
-
-         <div class="divider"></div>
-
-      <li>
-         <a id='edit-compte' class="waves-effect custom-text" href="{% url 'band:edit_band' band.slug %}">
-         <i class="material-icons custom-icons">edit</i>
+         <a id='edit-compte' class="waves-effect white-text" href="{% url 'band:edit_band' band.slug %}">
+         <i class="material-icons white-text">edit</i>
          Editer les informations </a>
       </li>
-
-         <div class="divider"></div>
-
       <li>
-         <a id='edit-compte' class="waves-effect custom-text" href="{% url 'band:manage_band' band.slug %}">
-         <i class="material-icons custom-icons">group_add</i>
+         <a id='gère-compte' class="waves-effect white-text" href="{% url 'band:manage_band' band.slug %}">
+         <i class="material-icons white-text">group_add</i>
          Gérer le groupe </a>
       </li>
-
-         <div class="divider"></div>
-
       <li>
-         <a id='' class="waves-effect custom-text" href="{% url 'musicians:profile' user.pk  %}">
-         <i class="material-icons custom-icons">my_location</i>
+         <a id='history' class="waves-effect white-text" href="">
+         <i class="material-icons white-text">access_time</i>
+         Historique</a>
+      </li>
+      <li>
+      <div class="divider"></div>
+      </li>
+      <li>
+         <a id='announcement' class="waves-effect white-text" href="">
+         <i class="material-icons white-text">announcement</i>
+         Les annonces du groupe</a>
+      </li>
+      <li>
+         <a id='setlist' class="waves-effect white-text" href="">
+         <i class="material-icons white-text">library_music</i>
+         Setlist</a>
+      </li>
+      <li>
+         <a id='calendar' class="waves-effect white-text" href="">
+         <i class="material-icons white-text">folder_special</i>
+         Calendrier</a>
+      </li>
+      <li>
+      <div class="divider"></div>
+      </li>
+      <li>
+         <a class="waves-effect white-text" href="{% url 'musicians:profile' user.pk  %}">
+         <i class="material-icons white-text">my_location</i>
          Compte musicien</a>
       </li>
-
-         <div class="divider"></div>
-
       <li>
-         <a id='logout' class="waves-effect custom-text" href="{% url 'authentication:logout' %}">
-         <i class="material-icons custom-icons">eject</i>
+         <a id='logout' class="waves-effect white-text" href="{% url 'authentication:logout' %}">
+         <i class="material-icons white-text">eject</i>
          Se deconnecter</a>
       </li>
    </ul>
-</header>
 
 {% endblock %}
 {% block script %}

@@ -257,6 +257,7 @@ class BandUpdateTest(MyTestCase):
         form = ProfileBandForm(data)
         self.assertEqual(form.errors['name'][0], 'Ce champ est obligatoire.')
 
+
 class ManageBandTest(MyTestCase):
 
     def setUp(self):
@@ -273,8 +274,6 @@ class ManageBandTest(MyTestCase):
         member2 = Membership(musician=self.test_user3,
                              band= self.band_test)
         member2.save()
-
-
         self.fake_data_updateband = {'name': 'Noname',
                                   'bio': 'Something great about the band',
 
@@ -299,7 +298,7 @@ class ManageBandTest(MyTestCase):
         # # check instance band datas
         # test if the members are correctly displayed
         self.assertContains(response,
-                            ' <span class="title">Jean-Pierre</span>',
+                            '<a href=\'/core/musician_public/105\' class="black-text"> Jean-Pierre</a>',
                             html=True)
 
         self.assertContains(response, '<span class ="title" > Super Tatie </span>', html=True)

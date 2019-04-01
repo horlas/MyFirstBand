@@ -1,24 +1,29 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
+{% block navbar %}
+{% include "core/navbar.html" with title_navbar="Messages" %}
+{% endblock %}
 {% block content %}
 <main>
+
+
    {% include 'core/display_messages.html' %}
    {% if answered_ads_list|length == 0 and response_to_published_ads|length == 0 %}
    <h5 class="center"> Vous n'avez pas de messages </h5>
    {% endif %}
-
+    <div class="row"></div>
    <!---ads that the logged-in user has responded to -->
 
    {% if answered_ads_list|length > 0 %}
-   <div class="row ">
-      <div id="answered_ads_list" class="col s4 z-depth-4">
-         <h5> Annonces auxquelles vous avez répondu </h5>
+   <div class="row " style="margin:10px;">
+      <div id="answered_ads_list" class="col s12 m5 l5 z-depth-4 custom-bg ">
+         <h5> Réponses aux annonces </h5>
          <div class="collection">
             {% regroup answered_ads_list by musician_announcement as announcement_list %}
             {% for announcement in announcement_list %}
             {% for item in announcement.list %}
-            <a href="#" class="collection-item custom-text-link-login " onclick='displayMessages("{{ item.content|linebreaksbr }}",
+            <a href="#" class="collection-item black-text " onclick='displayMessages("{{ item.content|linebreaksbr }}",
                "{{ item.author.userprofile.username }}",
                "{{ item.author.userprofile.pk }}",
                "{{ item.id }}",
@@ -29,44 +34,45 @@
                1,
                "{{ item.musician_announcement.author.userprofile.username }}");'>
                {{ announcement.grouper.title }}
-               <p class="purple-text text-lighten-3" style="color:pink lighten-4"> {{ announcement.grouper.author.userprofile.username }} </p>
+               <p class="red-text text-lighten-1"> {{ announcement.grouper.author.userprofile.username }} </p>
             </a>
             {% endfor %}
             {% endfor %}
          </div>
       </div>
       <div class="col s1"></div>
-      <div hidden id='message_area' class="col s6 z-depth-4">
+      <div hidden id='message_area' class="col s12 m6 l6 z-depth-4 custom-bg">
          <h5>  Vos Messages </h5>
-         <div id="message_list" >
+         <div id="message_list" class="collection">
 
 
          </div>
          <div class="row "></div>
-         <div class="row "></div>
-         <div class="row "></div>
+
+
          <div id="answer_area">
-            <label style='float: right;'>
-            <button id='answer'class="waves-effect waves-light btn custom-btn custom-text trigger_message" onclick="answerMessage();">
+
+            <button id='answer'class="waves-effect waves-light btn custom-btn trigger_message" onclick="answerMessage();">
             <i class="material-icons left">question_answer</i>Répondre</button>
-            </label>
+
          </div>
+             <div class="row "></div>
       </div>
    </div>
    {% endif %}
    <!---ads published by request_user witch have responses -->
    {% if response_to_published_ads|length > 0 %}
-   <div class="row ">
-      <div id="own_ads_list" class="col s4 z-depth-4">
+    <div class="row " style="margin:10px;">
+      <div id="own_ads_list" class="col s12 m5 l5 z-depth-4 custom-bg">
          <h5> Vos annonces </h5>
          <div class="collection">
             {% regroup response_to_published_ads by musician_announcement as announcement_list %}
             {% for announcement in announcement_list %}
-            <div class="collection-item  collection-header">
-               <h6>{{ announcement.grouper.title }}</h6>
+            <div class="collection-item collection-header">
+               <a>{{ announcement.grouper.title }}</a>
             </div>
             {% for item in announcement.list %}
-            <a href="#" class="collection-item custom-text-link-login " onclick='displayMessages("{{ item.content|linebreaksbr }}",
+            <a href="#" class="collection-item message " onclick='displayMessages("{{ item.content|linebreaksbr }}",
                "{{ item.author.userprofile.username }}",
                "{{ item.author.userprofile.pk }}",
                "{{ item.id }}",
@@ -82,33 +88,33 @@
          </div>
       </div>
       <div class="col s1"></div>
-      <div hidden id='message_received_area' class="col s6 z-depth-4">
+      <div hidden id='message_received_area' class="col s12 m6 l6 z-depth-4 custom-bg">
          <h5> Messages reçus </h5>
-         <div id="message_published_ads_list" >
+         <div id="message_published_ads_list" class="collection" >
 
          </div>
+
          <div class="row "></div>
-         <div class="row "></div>
-         <div class="row "></div>
+
          <div id="answer_published_ads_area">
-            <label style='float: right;'>
+
             <button  class="waves-effect waves-light btn custom-btn custom-text trigger_message" onclick="answerMessage();">
             <i class="material-icons left">question_answer</i>Répondre</button>
 
-            </label>
+             <div class="row "></div>
          </div>
       </div>
    </div>
    {% endif %}
 
     <section hidden id="response" >
-       <div class="row">
-         <div class=" col s6 z-depth-4 offset-s5">
+       <div class="row" style='margin:10px'>
+         <div class="col s12 z-depth-4">
             <h6 id="recipient"> Répondre à </h6>
              <form method="post" action='{% url "announcement:post_message" %}'>
                     {% csrf_token %}
                   <div class="row ">
-                     <div class="input-field col s12 card-panel">
+                     <div class="input-field  card-panel">
                         <i class="material-icons prefix">mode_edit</i>
                         <textarea id="message_text" name="message_text" class="materialize-textarea c" data-length="200"></textarea>
                          <div id="pass_info">
@@ -132,7 +138,6 @@
 </div>
          </div>
     </section>
-
 
 
 

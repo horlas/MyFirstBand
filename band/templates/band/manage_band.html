@@ -1,234 +1,190 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
-{% block content %}
-
-<main>
-
-<div class="container " xmlns="http://www.w3.org/1999/html">
-   <div class="row"></div>
-   <div class="row"></div>
-   {% include 'core/display_messages.html' %}
-<div class="row">
-
-</div>
-<div class="row valign-wrapper">
-
-
-    <div class="col s12">
-
-        <div>
-             <h5> Membres du groupe </h5>
-            <div class="divider"></div>
-            <div class="row"></div>
-            <ul class="collection with-header">
-                {% for member in members %}
-             <li class="collection-item avatar ">
-                {% if member.musician.userprofile.avatar %}
-                <img src="{{ member.musician.userprofile.avatar.url }}" alt="" class="circle">
-                {% else %}
-                <img src="{% static 'core/img/0.jpg' %}" alt="" class="circle">
-                {% endif %}
-               <span class="title">{{ member.musician.userprofile.username }}</span>
-                <p> {{ member.invite_reason }} <br>
-                    {{ member.date_joined }}
-                <a href="{% url 'core:musician_profile' member.musician.userprofile.user.pk %}" class="secondary-content"><i class="material-icons">grade</i></a>
-            </li>
-                {% endfor %}
-            </ul>
-
-   </div>
-        <!-- add Members -->
-    <div>
-       <h5> Ajouter des membres</h5>
-        <div class="divider"></div>
-        <form action='{% url "band:add_member" %}' method="post"  >
-        {% csrf_token %}
-        {% include 'core/form_errors.html' with form=member_form %}
-        {% render_field member_form.band type="hidden" value=object.name %}
-           <div class="input-field ">
-          <i class="material-icons prefix">textsms</i>
-          {% render_field member_form.musician class="autocomplete" %}
-          {{ member_form.musician |add_label_class:"custom-label"}}
-
-           </div>
-        <div class="input-field ">
-         {{ member_form.raison_invitation |add_label_class:"custom-label"}}
-         {{ member_form.raison_invitation }}
-        </div>
-
-
-           <div class="col 1 offset-s11" >
-         <button id = 'submit_profile' class="btn-floating btn-small waves-effect waves-light custom-btn" type="submit" >
-         <i class="material-icons">check</i></button>
-           </div>
-      </form>
-    </div>
-
-        <!-- Delete members -->
-        <div>
-            <h5> Supprimer des membres</h5>
-            <span > Le propriétaire du groupe ne peut pas etre supprimé. </span><br>
-            <span > Si vous désirez supprimé ce membre il faut d'abord changer le propriétaire.</span>
-            <div class="divider"></div>
-            <div class="row"></div>
-            <ul class="collection with-header">
-                {% for member in members %}
-             <li class="collection-item avatar" >
-                {% if member.musician.userprofile.avatar %}
-                <img src="{{ member.musician.userprofile.avatar.url }}" alt="" class="circle">
-                {% else %}
-                <img src="{% static 'core/img/0.jpg' %}" alt="" class="circle">
-                {% endif %}
-               <span class="title">{{ member.musician.userprofile.username }}</span>
-                <p> {{ member.invite_reason }} <br>
-                    {{ member.date_joined }}
-                    {{ member.id }}
-
-             <!-- Trigger of the delete modal except in case of the member is the owner, we can not delete owner  -->
-                {% if member.musician.userprofile.user != member.band.owner %}
-
-                 <a href="#" class="secondary-content" onclick='initModalMember("{{ member.id }}");'> <i class="material-icons">delete</i></a>
-                    {% endif %}
-                 <!-- Modal Structure witch call Deleteview -->
-                <div id="confirm_delete{{ member.id }}" class="modal">
-                    <div class="modal-content">
-                        <form method="post" action="{% url 'band:del_member' member.id %}">
-                        {% csrf_token %}
-                        <h4> Voulez vous supprimer {{ member.musician.userprofile.username }} du groupe ?</h4>
-                        <div class="modal-footer">
-                            <a href="#" class="modal-close waves-light btn red" >Non</a>
-                            <button class="waves-effect waves-light btn" type="submit">Oui</button>
-                        </div>
-                    </form>
-                </div>
-                </div>
-            </li>
-                {% endfor %}
-            </ul>
-        </div>
-
-        <!-- Change Owner -->
-
-        <div>
-            <h5> Changer le propriétaire du groupe </h5>
-            <div class="divider"></div>
-            <div class="row"></div>
-
-            <form action='{% url "band:change_owner" %}' method="post"  >
-            {% csrf_token %}
-             <div class="input-field col s12">
-            <select name="owner_name">
-             <option value="disabled selected">Chosissez un membre</option>
-               {% for member in members %}
-            <option value="{{ member.musician.userprofile.username }}">{{ member.musician.userprofile.username }}</option>
-                {% endfor %}
-            </select>
-            <label>Selectionnez un membre</label>
-            </div>
-                <input type="hidden" value='{{ band.id }}' name = 'band'>
-
-            <div class="col 1 offset-s11" >
-            <button id = 'submit_change_owner' class="btn-floating btn-small waves-effect waves-light custom-btn" type="submit" >
-            <i class="material-icons">check</i></button>
-            </div>
-         </form>
-        </div>
-
-
-        <!-- Delete Band -->
-     <div>
-            <h5> Supprimer le groupe </h5>
-            <div class="divider"></div>
-            <div class="row"></div>
-            <span > Seul le propriétaire du groupe peut supprimer le groupe </span><br>
-            <span > Le groupe ne doit plus contenir de membres. </span>
-        <div class="col 2 offset-s10" >
-         <a class="waves-effect waves-light btn custom-btn custom-text" onclick='initModalBand("{{ band.id }}");'><i class="material-icons">delete_forever</i>Supprimer</a>
-        </div>
-                 <!-- Modal Structure witch call Deleteview -->
-                <div id="confirm_delete_band{{ band.id }}" class="modal">
-                    <div class="modal-content">
-                        <form method="post" action="{% url 'band:del_band' band.id %}">
-                        {% csrf_token %}
-                        <h4> Voulez vous supprimer {{ band.name }} ? Vous perdrez toutes les données du groupe.</h4>
-                        <div class="modal-footer">
-                            <a href="#" class="modal-close waves-light btn red" >Non</a>
-                            <button class="waves-effect waves-light btn" type="submit">Oui</button>
-                        </div>
-                    </form>
-                </div>
-                </div>
-
-
-
-
-
-     </div>
-          </div>
-</div>
-</div>
-
-
-
-
-
-
+{% block navbar %}
+{% include "core/navbar.html" with title_navbar='Gestion du groupe' %}
 {% endblock %}
-
+{% block content %}
+<main>
+   <div class="container">
+      {% include 'core/display_messages.html' %}
+      <div class="row"></div>
+      <div class="row">
+         <div class="col s12">
+            <h5> Membres du groupe </h5>
+            <div class="divider"></div>
+            <div class="row"></div>
+            <ul class="collection ">
+               {% for member in members %}
+               <li class="collection-item avatar ">
+                  {% if member.musician.userprofile.avatar %}
+                  <img src="{{ member.musician.userprofile.avatar.url }}" alt="" class="circle">
+                  {% else %}
+                  <img src="{% static 'core/img/0.jpg' %}" alt="" class="circle">
+                  {% endif %}
+                  <a href='{% url "core:musician_profile" member.musician.userprofile.pk  %}' class="black-text"> {{ member.musician.userprofile.username }}</a>
+                  <p class="">{{ member.invite_reason }} <br>
+                     depuis le {{ member.date_joined }}
+                  </p>
+               </li>
+               {% endfor %}
+            </ul>
+         </div>
+         <!-- add Members -->
+         <div class="col s12">
+            <h5> Ajouter des membres</h5>
+            <form action='{% url "band:add_member" %}' method="post"  >
+               {% csrf_token %}
+               {% include 'core/form_errors.html' with form=member_form %}
+               {% render_field member_form.band type="hidden" value=object.name %}
+               <div class="input-field ">
+                  {% render_field member_form.musician class="autocomplete" %}
+                  {{ member_form.musician |add_label_class:"custom-label"}}
+               </div>
+               <div class="input-field ">
+                  {{ member_form.raison_invitation |add_label_class:"custom-label"}}
+                  {{ member_form.raison_invitation }}
+               </div>
+               <button id = 'submit_profile' class=" btn-small waves-effect waves-light custom-btn " type="submit" >
+               <i class="material-icons left ">check</i>enregistrer</button>
+            </form>
+         </div>
+         <!-- Delete members -->
+         <div class="col s12">
+            <h5> Supprimer des membres</h5>
+            <span> Le propriétaire du groupe ne peut pas etre supprimé. </span><br>
+            <span> Si vous désirez supprimé ce membre il faut d'abord changer le propriétaire.</span>
+            <div class="divider"></div>
+            <div class="row"></div>
+            <ul class="collection with-header">
+               {% for member in members %}
+               <li class="collection-item avatar" >
+                  {% if member.musician.userprofile.avatar %}
+                  <img src="{{ member.musician.userprofile.avatar.url }}" alt="" class="circle">
+                  {% else %}
+                  <img src="{% static 'core/img/0.jpg' %}" alt="" class="circle">
+                  {% endif %}
+                  <span class="title">{{ member.musician.userprofile.username }}</span>
+                  <p>{{ member.invite_reason }} <br>
+                     {{ member.date_joined }}
+                  </p>
+                     <!-- Trigger of the delete modal except in case of the member is the owner, we can not delete owner  -->
+                     {% if member.musician.userprofile.user != member.band.owner %}
+                     <a class="secondary-content" href="#" onclick='initModalMember("{{ member.id }}");'><i class="material-icons">delete</i></a>
+                     {% endif %}
+                     <!-- Modal Structure witch call Deleteview -->
+                  <div id="confirm_delete{{ member.id }}" class="modal">
+                     <div class="modal-content">
+                        <form method="post" action="{% url 'band:del_member' member.id %}">
+                           {% csrf_token %}
+                           <h4> Voulez vous supprimer {{ member.musician.userprofile.username }} du groupe ?</h4>
+                           <div class="modal-footer">
+                              <a href="#" class="modal-close waves-light btn red" >Non</a>
+                              <button class="waves-effect waves-light btn" type="submit">Oui</button>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+               </li>
+               {% endfor %}
+            </ul>
+         </div>
+         <!-- Change Owner -->
+         <div class="col s12">
+            <h5> Changer le propriétaire du groupe </h5>
+            <div class="row"></div>
+            <form action='{% url "band:change_owner" %}' method="post"  >
+               {% csrf_token %}
+               <div class="input-field col s12">
+                  <select name="owner_name">
+                     <option value="disabled selected">Chosissez un membre</option>
+                     {% for member in members %}
+                     <option value="{{ member.musician.userprofile.username }}">{{ member.musician.userprofile.username }}</option>
+                     {% endfor %}
+                  </select>
+                  <label>Selectionnez un membre</label>
+               </div>
+               <input type="hidden" value='{{ band.id }}' name = 'band'>
+               <button id = 'submit_change_owner' class=" btn-small waves-effect waves-light custom-btn " type="submit" >
+               <i class="material-icons left ">check</i>enregistrer</button>
+            </form>
+         </div>
+         <!-- Delete Band -->
+         <div class="col s12">
+            <h5> Supprimer le groupe </h5>
+            <div class="row"></div>
+            <span > Seul le propriétaire du groupe peut supprimer le groupe. <br> </span>
+            <span > Le groupe ne doit plus contenir de membres.<br> </span>
+            <div class="row"></div>
+            <a class=" btn-small waves-effect waves-light custom-btn " onclick='initModalBand("{{ band.id }}");'><i class="material-icons left ">delete_forever</i>Supprimer</a>
+            <!-- Modal Structure witch call Deleteview -->
+            <div id="confirm_delete_band{{ band.id }}" class="modal">
+               <div class="modal-content">
+                  <form method="post" action="{% url 'band:del_band' band.id %}">
+                     {% csrf_token %}
+                     <h4> Voulez vous supprimer {{ band.name }} ? Vous perdrez toutes les données du groupe.</h4>
+                     <div class="modal-footer">
+                        <a href="#" class="modal-close waves-light btn red" >Non</a>
+                        <button class="waves-effect waves-light btn" type="submit">Oui</button>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</main>
+{% endblock %}
 {% block script %}
+<script >
+   // function witch call the view autocomplete_username
+   // in order to fill name of MFB Member
+   $(function() {
+          $.ajax({
+              url: "{% url 'band:search' %}",
+              type: "GET",
+              dataType: "json",
 
- <script >
-
-     // function witch call the view autocomplete_username
-     // in order to fill name of MFB Member
-     $(function() {
-            $.ajax({
-                url: "{% url 'band:search' %}",
-                type: "GET",
-                dataType: "json",
-
-                success: function( response ){
-                    var userList = response;
-                    var dataUser = {};
-                    for (var i = 0; i < userList.length; i++) {
-                        dataUser[userList[i].value] = null; //countryArray[i].flag or null
-                    }
-                //console.log(dataUser);
-                $('#id_musician').autocomplete({
-                     data : dataUser,
-                     minLength: 2,
-                     });
-               }
-             });
-            });
+              success: function( response ){
+                  var userList = response;
+                  var dataUser = {};
+                  for (var i = 0; i < userList.length; i++) {
+                      dataUser[userList[i].value] = null; //countryArray[i].flag or null
+                  }
+              //console.log(dataUser);
+              $('#id_musician').autocomplete({
+                   data : dataUser,
+                   minLength: 2,
+                   });
+             }
+           });
+          });
 
 
 
-// Trigger a Modal witch contains confirmation for deletation of a member
-function initModalMember(member_id) {
-        var elem = document.getElementById('confirm_delete' + member_id);
-        var instance = M.Modal.init(elem);
-        instance.open();
-        }
+   // Trigger a Modal witch contains confirmation for deletation of a member
+   function initModalMember(member_id) {
+      var elem = document.getElementById('confirm_delete' + member_id);
+      var instance = M.Modal.init(elem);
+      instance.open();
+      }
 
 
-// Initialization select
-$(document).ready(function(){
-    $('select').formSelect();
-  });
+   // Initialization select
+   $(document).ready(function(){
+   $('select').formSelect();
+   });
 
-// Trigger a Modal witch contains confirmation for cancellation of a band
-function initModalBand(band_id) {
-        console.log(band_id);
-        var elem = document.getElementById('confirm_delete_band' + band_id);
-        var instance = M.Modal.init(elem);
-        instance.open();
-        }
+   // Trigger a Modal witch contains confirmation for cancellation of a band
+   function initModalBand(band_id) {
+      console.log(band_id);
+      var elem = document.getElementById('confirm_delete_band' + band_id);
+      var instance = M.Modal.init(elem);
+      instance.open();
+      }
 
 
 
 
 </script>
-
 {% endblock %}

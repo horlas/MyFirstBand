@@ -2,33 +2,61 @@
 {% load static %}
 {% load widget_tweaks %}
 {% block navbar %}
-{% include "core/navbar.html" with title_navbar='My First Band' %}
+{% include "core/navbar.html" with title_navbar='Bienvenue sur My First Band ' %}
 {% endblock %}
 {% block content %}
 <main>
    <div class="container">
-      <h4 id="title">Bienvenue sur My First Band {{user.userprofile.username}} ! </h4>
+      <!--<h4 id="title" class="center-align">-->
+      <!--Bienvenue sur My First Band {{user.userprofile.username}} !</h4>-->
+      <!--<div class="row center-align">-->
+      <!--<img  alt="logo"  width="60px" height="60px"  class='logo' src="{% static 'core/img/logov2.png' %}">-->
+      <!--</div>-->
       <div class="divider"></div>
+      <div class="row "></div>
+      <div class="row "></div>
       {% include 'core/display_messages.html' %}
-      <p class="flow-text">Musiciens ! Sur <strong>My First Band</strong> vous pouvez :</p>
-      <ul>
-         <li>Rencontrer les musiciens près de chez vous ! </li>
-         <li>Rejoindre des groupes de musique en deux clics !</li>
-         <li> Echanger des messages ! </li>
-      </ul>
-
-      <p class="flow-text">Groupes ! <strong> Un espace vous est dédié ! </strong> </p>
-      <p> Dans un esprit collaboratif, il vous accompagne dans la gestion de votre projet de groupe . </p>
-      <ul>
-         <li>Partage d'un calendrier </li>
-         <li>Suivre l'avancée de votre travail sur vos morceaux .</li>
-         <li> Présenter votre groupe aux autres musiciens .</li>
-         <li>Passer des annonces  ou trouver de nouveaux membres.
-         <li>Ecrire l'historique du groupe.</li>
-      </ul>
-      <p class="flow-text">    N'hesitez pas ! Inscrivez vous en deux clics !</p>
-
+      <div class="row">
+         <div class="col s12 m6 l6" >
+            <div class="card">
+               <div class="card-image">
+                  <img src="{% static 'core/img/index1.jpg' %}">
+                  <h6 class="card-title white-text"><strong>Réseau social</strong></h6>
+               </div>
+               <div class="card-content">
+                  <p> My First Band se concentre uniquement sur la rencontre de musiciens.
+                     Groupes : Rechercher vos prochains membres . <br>
+                     Musiciens : rejoignez  ou formez votre groupe!<br>
+                  </p>
+               </div>
+            </div>
+         </div>
+         <div class="col s12 m6 l6" >
+            <div class="card">
+               <div class="card-image">
+                  <img src="{% static 'core/img/index2.jpg' %}">
+                  <h6 class="card-title " style="" ><strong>Outil de gestion</strong></h6>
+               </div>
+               <div class="card-content">
+                  <p> My First Band offre un espace de gestion du groupe. Outil collaboratif,
+                     calendrier partagé . Suivi du travail sur les morceaux joués.
+                     Gestion et historique du groupe
+                  </p>
+               </div>
+               <!--<div class="card-action">-->
+               <!--<a href="#">This is a link</a>-->
+               <!--</div>-->
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col s12" >
+            <a  class="waves-effect waves-light btn col s12 orange darken-2" href="{% url 'core:invite_search' %}">
+            Découvrir My First Band
+            </a>
+         </div>
+      </div>
+   </div>
    </div>
 </main>
 {% endblock %}
-

@@ -3,11 +3,6 @@
 
 
    <ul id="nav-mobile" class="sidenav sidenav-fixed">
-         <!--<li class="logo active row">-->
-         <!--<a href="{% url 'home' %}" class="brand-logo">-->
-         <!--<img  alt="logo" style ="margin: 20px" width="50px" height="50px"  class='responsive-img' src="{% static 'core/img/logov2.png' %}">-->
-         <!--</a>-->
-      <!--</li>-->
       <li>
          <div class="row"></div>
       </li>
@@ -15,8 +10,8 @@
          <div class="row"></div>
       </li>
       <li class="active">
-         <a id='search' class="waves-effect custom-text custom-text"  href="{% url 'core:invite_search' %}">
-         <i class=" material-icons  tooltipped " data-tooltip="Chercher" >search</i>
+         <a id='search' class="waves-effect white-text "  href="{% url 'core:invite_search' %}">
+         <i class=" material-icons  tooltipped white-text " data-tooltip="Chercher" >search</i>
          Chercher
          </a>
       </li>
@@ -24,32 +19,31 @@
       <li>
          <div class="row"></div>
       </li>
-      <!--<li>-->
-         <!--<div class="divider"></div>-->
-      <!--</li>-->
+
       <li class="active">
-         <a id='login' class="waves-effect custom-text custom-text"  href="{% url 'authentication:login' %}?next={{ request.get_full_path|urlencode }}">
-         <i class=" material-icons  tooltipped " data-tooltip="Se connecter" >loop </i>
+         <a id='login' class="waves-effect white-text "  href="{% url 'authentication:login' %}?next={{ request.get_full_path|urlencode }}">
+         <i class=" material-icons  tooltipped white-text" data-tooltip="Se connecter" >loop </i>
          Se connecter
          </a>
       </li>
       <li>
          <div class="row"></div>
       </li>
-      <!--<li>-->
-         <!--<div class="divider"></div>-->
-      <!--</li>-->
+
       <li class="active">
-         <a id='sign-in-link' class="waves-effect custom-text custom-text"  href="{% url 'authentication:signup' %}?next={{ request.path|urlencode }}">
-         <i id='sign-in'  class=" material-icons  tooltipped " data-tooltip="Créer un compte" >account_box </i>
+         <a id='sign-in-link' class="waves-effect white-text "  href="{% url 'authentication:signup' %}?next={{ request.path|urlencode }}">
+         <i id='sign-in'  class=" material-icons  tooltipped white-text" data-tooltip="Créer un compte" >account_box </i>
          Créer un compte</a>
       </li>
-      <!--<li>-->
-         <!--<div class="row"></div>-->
-      <!--</li>-->
-      <!--<li>-->
-         <!--<div class="divider"></div>-->
-      <!--</li>-->
+      <li>
+         <div class="divider"></div>
+      </li>
+      <li>
+         <a id='about' class="waves-effect white-text active" href="{% url 'core:about' %}">
+         <i class="material-icons white-text">insert_emoticon</i>
+         A propos </a>
+      </li>
+
    </ul>
 
 <script>

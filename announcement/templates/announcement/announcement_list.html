@@ -1,6 +1,9 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
+{% block navbar %}
+{% include "core/navbar.html" with title_navbar="Mes annonces" %}
+{% endblock %}
 {% block content %}
 <main>
    <div class="row"></div>
@@ -8,9 +11,12 @@
 
        <div class="row">
       <div class="col s10 offset-s1">
-         <a id='create_ann' class="waves-effect waves-light btn custom-btn custom-text"
+
+         <a id='create_ann' class="waves-effect waves-light btn-small custom-btn custom-text"
             href='{% url "announcement:create_announcement" %}' >
-         <i class="material-icons left">add</i>Creer une annonce</a>
+         <i class="material-icons left">add</i>annonce</a>
+
+
       </div>
    </div>
     <div class="divider"></div>
@@ -32,15 +38,51 @@
          <li class="collection-item">
             <div>{{ a.title }} <br>
                {{ a.created_at }}
-                <a href="#"  class="secondary-content tooltipped" data-tooltip="Archiver" onclick='initModalArchive("{{ a.id }}");'><i class="material-icons">alarm_off</i></a>
-               <a href="{% url 'announcement:update_announcement' a.id  %}" class="secondary-content tooltipped" data-tooltip="Modifier"><i class="material-icons">edit</i></a>
+                <!-- responsive buttons show on large device -->
+               <div class="secondary-content hide-on-med-and-down">
+
+                     <a href="{% url 'announcement:update_announcement' a.id  %}"
+                        class=" waves-effect waves-light btn-small custom-btn " >
+                     <i class="material-icons left">edit</i> Modifier </a>
+
+                     <a href='#'  class=" waves-effect waves-light btn-small custom-btn "
+                     style="margin-left:5px" onclick='initModalArchive("{{ a.id }}");'>
+                     <i class="material-icons left">alarm_off</i>Archiver</a>
+
+               </div>
+
+            <!-- responsive buttons show on med device -->
+               <div class="hide-on-large-only hide-on-small-only " >
+
+                <a href="{% url 'announcement:update_announcement' a.id  %}" class=" waves-effect waves-light btn-small custom-btn " >
+               <i class="material-icons left">edit</i>Modifier</a>
+
+
+               <a href='#'  class="waves-effect waves-light btn-small custom-btn" onclick='initModalArchive("{{ a.id }}");'>
+               <i class="material-icons left">alarm_off</i>Archiver</a>
+
+                  </div>
+
+
+
+
+               <!-- responsive buttons show on small device -->
+               <div class="row" >
+                  <div class="col s12 hide-on-med-and-up">
+                <a href="{% url 'announcement:update_announcement' a.id  %}" class=" waves-effect waves-light btn-small custom-btn " >
+               <i class="material-icons center">edit</i></a>
+               <a href='#'  class="waves-effect waves-light btn-small custom-btn" onclick='initModalArchive("{{ a.id }}");'>
+               <i class="material-icons center">alarm_off</i></a>
+                  </div>
+               </div>
+
             </div>
             <!-- Modal Structure witch call archive_announcement view -->
             <div id="confirm_archive{{ a.id }}" class="modal">
                <div class="modal-content">
                   <form method="post" action="{% url 'announcement:archive' a.id %}">
                      {% csrf_token %}
-                     <h4> Voulez vous archiver l'annonce  {{ a.title }} ?</h4>
+                     <h6> Voulez vous archiver l'annonce  {{ a.title }} ?</h6>
                      <input type="hidden" name="signal" value="{{ a.id }} ">
                      <div class="modal-footer">
                         <a href="#" class="modal-close waves-light btn red" >Non</a>
@@ -70,15 +112,29 @@
             <div>
                {{ a.title }} <br>
                {{ a.created_at }}
-               <a href="#"  class="secondary-content tooltipped" data-tooltip="Mettre en ligne" onclick='initModalOnline("{{ a.id }}");'>
-                  <i class="material-icons">alarm_on</i></a>
+               <!-- responsive buttons show on med and large device -->
+               <div class="row hide-on-small-only" >
+
+               <a href="#"  class="secondary-content waves-effect waves-light btn-small custom-btn" onclick='initModalOnline("{{ a.id }}");'>
+                  <i class="material-icons left ">alarm_on</i>Mettre en ligne</a>
+               </div>
+               <!-- responsive buttons show on small device -->
+               <div class="row" >
+                  <div class="col s2 hide-on-med-and-up">
+
+               <a href='#'  class="waves-effect waves-light btn-small custom-btn tooltipped" data-tooltip="Mettre en ligne" onclick='initModalOnline("{{ a.id }}");'>
+               <i class="material-icons center">alarm_on</i></a>
+                  </div>
+               </div>
+
+
             </div>
             <!-- Modal Structure witch call archive_announcement view -->
             <div id="confirm_online{{ a.id }}" class="modal">
             <div class="modal-content">
             <form method="post" action="{% url 'announcement:online' a.id %}">
             {% csrf_token %}
-            <h4> Voulez vous ré activer l'annonce  {{ a.title }} ?</h4>
+            <h6 class=""> Voulez vous ré activer l'annonce  {{ a.title }} ?</h6>
             <input type="hidden" name="signal2" value="{{ a.id }} ">
             <div class="modal-footer">
             <a href="#" class="modal-close waves-light btn red" >Non</a>
