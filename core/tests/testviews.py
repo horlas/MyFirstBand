@@ -128,10 +128,35 @@ class SearchTest(MyTestCase):
         self.assertContains(response, 'Coucou')
 
 
+class AboutTest(MyTestCase):
+    ''' Test search view'''
+    def test_about(self):
+        # create some context:
+        MusicianAnnouncement.objects.create(title='Coucou', content='Coucou Toi!', author=self.test_user)
+        MusicianAnnouncement.objects.create(title='title2', content='content', author=self.test_user)
+        MusicianAnnouncement.objects.create(title='title3', content='content', author=self.test_user)
+        url = reverse('core:about')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        list_template = [t.name for t in response.templates]
+        assert 'core/sidenav.html' in list_template
+        assert 'core/base.html' in list_template
+        assert 'core/about.html' in list_template
 
-
-
-
+class CreditsTest(MyTestCase):
+    ''' Test search view'''
+    def test_credits(self):
+        # create some context:
+        MusicianAnnouncement.objects.create(title='Coucou', content='Coucou Toi!', author=self.test_user)
+        MusicianAnnouncement.objects.create(title='title2', content='content', author=self.test_user)
+        MusicianAnnouncement.objects.create(title='title3', content='content', author=self.test_user)
+        url = reverse('core:credits')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        list_template = [t.name for t in response.templates]
+        assert 'core/sidenav.html' in list_template
+        assert 'core/base.html' in list_template
+        assert 'core/credits.html' in list_template
 
 
 class TestPrivacyPolicy(MyTestCase):
