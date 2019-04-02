@@ -11,6 +11,6 @@ urlpatterns = [
     path('privacy', views.privacy, name='privacy'),
     path('ajax_call/search', views.search, name='search'),
     path('search', views.invite_search, name='invite_search'),
-    path('about', views.about, name='about')
-
+    path('about', views.about, name='about'),
+    path('credits', views.credits, name='credits')
 ]

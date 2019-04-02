@@ -6,22 +6,60 @@
 {% endblock %}
 {% block content %}
 <main>
-    <div class="container">
-        <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/about_me.jpg' %}"/>
-Hello chère visiteuse ou cher visiteur!
-Je m'appelle Aurélia et je suis la créatrice de My First Band.
-Je suis musicienne et développeuse web .
-        Je propose avec ce site une plateforme de rencontre entre musiciens simple et intuitive se concentrant
-        uniquement sur la rencontre et la formation de groupes
-
-        De part mon expérience de membre de groupe de musique, je
-
-    </div>
+   <div class="container">
+      <div class="row valign-wrapper">
+         <div class="col s4">
+            <img alt="Avatar" class="circle responsive-img" src="{% static 'core/img/about_me.jpg' %}"/>
+         </div>
+         <div class="col s8">
+            <h5>Hello chère visiteuse ou cher visiteur!</h5>
+         </div>
+      </div>
+      <ul>
+         <li>
+            Je m'appelle Aurélia et je suis la créatrice de My First Band.
+         </li>
+         <li>
+            <div class="row"></div>
+         </li>
+         <li>
+            Je suis musicienne et développeuse web.
+         </li>
+         <li>
+            <div class="row"></div>
+         </li>
+         <li>
+            Je propose avec <strong>My First Band</strong> une plateforme de rencontre entre musiciens simple et intuitive se concentrant
+            uniquement sur la rencontre et la formation de groupes.
+         </li>
+         <li>
+            D'autre part , je joue en groupe et je me suis toujours dit qu'il manquait un outil moderne et simple pour la gestion du travail en groupe.
+            Une application qui permettrait d'organiser son temps de répétition ou d'enrgistrement , la vie en tant que membre d'un groupe (calendrier partagé) ,
+            pouvoir suivre et mettre à jour les propositions; les notes prises et les avancées du travail.
+            De manière collaborative , suivre l'ensemble des morceaux de musiques travaillés et annoter les avancées.
+         </li>
+         <li>
+            <div class="row"></div>
+         </li>
+         <li>
+            Vous pouvez découvrir aujourd'hui la version beta du projet, qui ne couvre que 40% l'application finale.
+         </li>
+         <li>
+            Le projet, dans cette version,  est developpé grace au Framework python Django et utilise Materialize CSS pour l'interface graphique.
+         </li>
+         <li>
+            L'ensemble du code est hébergé avec
+            <a class="message" href="https://github.com/horlas/MyFirstBand"> <i class="material-icons">favorite</i> par Github</a>
+         </li>
+         <li>
+            Ce projet est aussi le projet final de mon parcours diplomant de développeur d'application python.
+            Pour plus d'information vous pouvez me contacter sur
+            <a class="message" href="https://www.linkedin.com/in/aurélia-gourbère/">
+               <!--<img class="" src="{% static 'core/img/icon/linkedin.svg' %}">-->linkedin
+            </a>
+            .
+         </li>
+      </ul>
+   </div>
 </main>
-
-
-
-
-
-
 {% endblock %}

@@ -36,6 +36,9 @@ def about(request):
     return render(request, 'core/about.html')
 
 
+def credits(request):
+    return render(request, 'core/credits.html')
+
 @csrf_exempt
 def search(request):
     ''' ajax return of datas witch depends of an user input'''

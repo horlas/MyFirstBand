@@ -1,0 +1,77 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block navbar %}
+{% include "core/navbar.html" with title_navbar='Credits' %}
+{% endblock %}
+{% block content %}
+<main>
+    <div class="container">
+        <h5>Hébergement</h5>
+        <p><strong>My First Band </strong> est hébergé avec<a class="message" href="#"> <i class="material-icons">favorite</i> par cedrix.org</a>
+        </p>
+        <h5>Photos</h5>
+        <ul>
+            <li>
+                L'ensemble des photos proviennent du site  <a class="message" href="https://unsplash.com/"> Unsplash</a>
+            </li>
+            <li>
+               <div class="row"></div>
+            </li>
+            <li>
+                Photo barre de navigation musicien : Photo by A. L.
+            </li>
+            <li>
+                Photo barre de navigation groupe : Rachel Lynette French
+            </li>
+            <li>
+                Photo par défaut du profil groupe : Bogomil Mihaylov
+            </li>
+            <li>
+                Photo par défaut du profil musicien : Star Trek Mister Spock jouant de la guitare
+            </li>
+            <li>
+            Photos page d'accueil :  Axi Aimee et James Barbosa
+            </li>
+        </ul>
+        <h5>Logo</h5>
+        <p> Aurélia Gourbère réalisé avec Inkscape</p>
+
+        <h5>Développement</h5>
+        <ul>
+            <li>
+               Python version 3.6
+            </li>
+            <li>
+                Django version 2.1.7
+            </li>
+            <li>
+               Materialize CSS 1.1.0
+            </li>
+            <li>
+               Jquery 3.3.1
+            </li>
+
+        </ul>
+
+        <h5>Remerciements</h5>
+        <ul>
+            <li>
+              Communauté des étudiants Python Openclassrooms
+            </li>
+            <li>
+                 <a class="message" href="https://simpleisbetterthancomplex.com/"> Vitor Freitas</a>
+            </li>
+            <li>
+               Stack Over Flow
+            </li>
+            <li>
+               JetBrain pour Pycharm version Community
+            </li>
+
+        </ul>
+
+<div class="row"></div>
+    </div>
+</main>
+{% endblock %}
